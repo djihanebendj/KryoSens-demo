@@ -1,0 +1,46 @@
+{
+  "name": "coldsense-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint --max-warnings=0 .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "gen:types": "openapi-typescript openapi.json -o src/lib/api/schema.d.ts",
+    "check:types": "openapi-typescript openapi.json -o src/lib/api/schema.d.ts --check"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "react-is": "19.2.9",
+    "recharts": "3.10.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "@tailwindcss/postcss": "4.1.18",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@types/node": "22.19.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.2.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.2",
+    "jsdom": "26.1.0",
+    "openapi-typescript": "7.13.0",
+    "tailwindcss": "4.1.18",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vitest": "4.1.12"
+  },
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=22.12 <23 || >=24",
+    "npm": ">=11.6"
+  }
+}

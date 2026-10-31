@@ -1,0 +1,29 @@
+{
+ "case_id": "case_fixtureRefusal0000000",
+ "confirmed": [],
+ "counts": {
+  "confirmed": 0,
+  "drafts_cancelled": 0,
+  "drafts_pending": 0,
+  "outcomes_unknown": 0,
+  "outcomes_verified": 0
+ },
+ "drafts": [],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:21.059177Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 8 trusted-confirmation finding store (technician-entered statements)",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_coldroom_24h_1min.csv",
+  "source_sha256": "565d8a57c413689ed493db7fee5a0aa628467a4218153f0eca6b3c711176f150",
+  "source_size_bytes": 49598,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "status": "AVAILABLE"
+}

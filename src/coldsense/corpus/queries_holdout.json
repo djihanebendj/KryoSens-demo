@@ -1,0 +1,13 @@
+{"note": "Held-out set written after the first evaluation run had led to three fixes (model filter, identity terms, stemmer) and before any run on these queries; run once, not tuned on.",
+ "queries": [
+  {"id": "h01", "category": "holdout-keyword", "query": "maximum defrost cycle duration of the EX-200", "relevant": [["ex200-service-manual", "4.2 Defrost interval"], ["ex200-sb12", "Change"]]},
+  {"id": "h02", "category": "holdout-keyword", "query": "TF-90 alarm delay", "relevant": [["tf90-controller", "Alarms"]]},
+  {"id": "h03", "category": "holdout-keyword", "query": "EX-200 supply voltage", "relevant": [["ex200-service-manual", "2 Specifications"]]},
+  {"id": "h04", "category": "holdout-keyword", "query": "door gasket inspection", "relevant": [["ex200-service-manual", "6 Maintenance"], ["ex200-troubleshooting", "2 High room temperature"]]},
+  {"id": "h05", "category": "holdout-keyword", "query": "what does E3 mean", "relevant": [["ex200-troubleshooting", "4 Error codes"]]},
+  {"id": "h06", "category": "holdout-keyword", "query": "EX-200 defrost type", "relevant": [["ex200-service-manual", "4.1 Defrost type"]]},
+  {"id": "h07", "category": "holdout-paraphrase", "query": "how long until the heater stops melting the ice", "relevant": [["ex200-service-manual", "4.2 Defrost interval"]]},
+  {"id": "h08", "category": "holdout-unanswerable", "query": "TF-90 refrigerant charge", "relevant": []},
+  {"id": "h09", "category": "holdout-unanswerable", "query": "which compressor oil type to use", "relevant": []},
+  {"id": "h10", "category": "holdout-unanswerable", "query": "EX-200 noise level in dB", "relevant": []}
+ ]}

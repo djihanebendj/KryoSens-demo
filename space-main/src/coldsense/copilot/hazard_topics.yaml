@@ -1,0 +1,83 @@
+# Hazard-gate topics (Phase 8, docs/COPILOT.md §5). Two lists of equipment/topic NOUNS.
+
+protective_device:
+  - high pressure switch
+  - low pressure switch
+  - pressure switch
+  - pressure cut-out
+  - pressure cutout
+  - pressure control
+  - hp switch
+  - lp switch
+  - hp cut-out
+  - lp cut-out
+  - hp cutout
+  - lp cutout
+  - pressostat
+  - pressostat haute pression
+  - pressostat basse pression
+  - pressostat HP
+  - pressostat BP
+  - pressostat de sécurité
+  - thermostat de sécurité
+  - disjoncteur
+  - fusible
+  - soupape de sécurité
+  - safety thermostat
+  - safety switch
+  - safety valve
+  - safety device
+  - safety control
+  - safety limit
+  - thermal overload
+  - overload protector
+  - motor protector
+  - overload relay
+  - interlock
+  - door interlock
+  - door switch
+  - relief valve
+  - pressure relief valve
+  - fusible plug
+  - fuse
+  - circuit breaker
+  - protection relay
+  - protective relay
+  - high limit
+  - limit switch
+  - limit thermostat
+  - flow switch
+  - rcd
+  - gfci
+  - earth leakage
+  - ground fault
+
+hazardous_work:
+  - circuit frigorifique
+  - charge en fluide frigorigène
+  - charge en fluide frigorifique
+  - récupération du fluide frigorigène
+  - récupération du fluide frigorifique
+  - brasage
+  - tableau électrique
+  - bornes sous tension
+  - haute tension
+  - alimentation secteur
+  - refrigerant circuit
+  - refrigerant charge
+  - refrigerant recovery
+  - refrigerant
+  - brazing
+  - soldering
+  - pressurised system
+  - pressurized system
+  - electrical panel
+  - live terminals
+  - live wiring
+  - high voltage
+  - mains supply
+  - service valve
+  - gauge manifold
+  - compressor terminals
+  - contactor
+  - capacitor

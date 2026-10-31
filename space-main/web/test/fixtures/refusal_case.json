@@ -1,0 +1,31 @@
+{
+ "case_id": "case_fixtureRefusal0000000",
+ "created_at": "2026-10-24T14:14:21.050867Z",
+ "declaration_status": "NOT_DECLARED",
+ "declared_evidence": null,
+ "evidence_basis": "BUNDLED_SAMPLE",
+ "evidence_class": "SIMULATED",
+ "expires_at": "2026-10-24T16:14:21.050867Z",
+ "filename": "SIMULATED_coldroom_24h_1min.csv",
+ "last_prediction_outcome": null,
+ "quality": {
+  "blocking_issues": 0,
+  "coverage_pct": 100.0,
+  "duration_hours": 24.0,
+  "end": "2026-10-21T00:00:00",
+  "rows_read": 1441,
+  "rows_usable": 1441,
+  "start": "2026-10-20T00:00:00",
+  "suitable_for_analysis": true,
+  "verdict": "USABLE",
+  "warnings": 0
+ },
+ "sha256": "565d8a57c413689ed493db7fee5a0aa628467a4218153f0eca6b3c711176f150",
+ "size_bytes": 49598,
+ "steps": {
+  "analysis": "NOT_RUN",
+  "prediction": "NOT_RUN",
+  "quality": "READY"
+ },
+ "validation_scope": "SIMULATED_ONLY"
+}

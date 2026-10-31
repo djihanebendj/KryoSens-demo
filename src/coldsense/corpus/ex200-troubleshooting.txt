@@ -1,0 +1,18 @@
+EX-200 TROUBLESHOOTING GUIDE
+
+SYNTHETIC TEST DOCUMENT. Fictional product and invented values, written for ColdSense retrieval tests.
+Not guidance for any real equipment.
+
+1 Compressor does not start
+Check the supply voltage at the terminal block. If the thermal overload has tripped, wait 15 minutes before
+resetting it. If the compressor still does not start, check the start relay.
+
+2 High room temperature with compressor running
+Check the condenser coil for dirt, the evaporator for ice, the evaporator fans and the door gasket.
+
+3 Evaporator icing
+Check the defrost heater. Its resistance should be between 40 and 60 ohm. Check that the defrost termination
+probe is fixed to the evaporator coil.
+
+4 Error codes
+E1 means a room probe fault. E2 means an evaporator probe fault. E3 means the high pressure switch has tripped.

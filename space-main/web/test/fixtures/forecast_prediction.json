@@ -1,0 +1,928 @@
+{
+ "assumptions": [
+  "no active cooling over the fitted segments and over the forecast horizon",
+  "room air behaves as one well-mixed node at the sensor (no stratification, no product lag)",
+  "no unrecorded internal loads (lights, people, defrost heaters, fans) that change over time",
+  "door openings and loading are absent or recorded as disturbances, not modelled",
+  "the ambient sensor measures the space the room exchanges heat with (NOT_VERIFIED from data)",
+  "over the horizon ambient stays at its last measured value unless future_ambient_c is given"
+ ],
+ "baselines": [
+  {
+   "applicable": true,
+   "crossing_minutes": null,
+   "crossing_status": "NOT_REACHABLE",
+   "method": "persistence",
+   "reason": null,
+   "selection_mae_c": 6.816666666666666,
+   "temp_at_horizon_c": 18.3,
+   "test_mae_c": 3.823529411764706
+  },
+  {
+   "applicable": true,
+   "crossing_minutes": 75.5555555555556,
+   "crossing_status": "CROSSING_PREDICTED",
+   "method": "recent_slope",
+   "reason": null,
+   "selection_mae_c": 1.4196969696969701,
+   "temp_at_horizon_c": 21.0,
+   "test_mae_c": 0.9210084033613442
+  }
+ ],
+ "case_id": "case_fixtureForecast000000",
+ "crossing": {
+  "minutes": 87.78409671541816,
+  "status": "CROSSING_PREDICTED",
+  "time": "2026-10-20T23:27:47.045802"
+ },
+ "crossing_interval": {
+  "lower_min": null,
+  "status": "INSUFFICIENT_CROSSING_DATA",
+  "upper_min": null
+ },
+ "data_verdict": "LIMITED",
+ "evidence_class": "SIMULATED",
+ "horizon_min": 120.0,
+ "initial_temperature": {
+  "measured_at": "2026-10-20T22:00:00",
+  "note": "usable reading at line 1322",
+  "provenance": "OBSERVED",
+  "value_c": 18.3
+ },
+ "interval": {
+  "conditional_on": [
+   "no active cooling from the origin (the question asked)",
+   "held at its last measured value, the same rule the held-out forecasts used",
+   "no unrecorded disturbance beyond those seen in held-out data"
+  ],
+  "horizon_min": 120.0,
+  "lower_c": null,
+  "nominal_coverage": 0.8,
+  "status": "INSUFFICIENT_CALIBRATION_DATA",
+  "upper_c": null
+ },
+ "limitations": [
+  "Answers one question: room-air temperature at the sensor if there is NO active cooling from the origin. It is not a forecast of normal thermostat cycling.",
+  "Parameters are EFFECTIVE values for this room and period; they are not measured physical properties and do not transfer to another room.",
+  "Checked on SIMULATED data only; no real-room accuracy is claimed. Outputs from real logs are EXPECTED, never REAL, until an outcome confirms them.",
+  "No calibrated prediction interval is given (Phase 5). Profile ranges are identifiability checks only.",
+  "Door openings, loading, defrost and internal loads are not modelled (no such inputs); they appear only as unexplained disturbances or as fit error."
+ ],
+ "model": {
+  "fallback_reason": "first_order_measured_ambient was used; more physically informative alternatives: first_order_varying_ambient NOT_APPLICABLE",
+  "forecast_kind": "PHYSICAL",
+  "name": "first_order_measured_ambient",
+  "selection_reason": "held-out MAE at 120 min over 6 common cases: first_order_measured_ambient 0.056 \u00b0C, first_order_fitted_equilibrium 0.057 \u00b0C, recent_slope 1.420 \u00b0C, persistence 6.817 \u00b0C. Selected: the simplest method applicable at the origin within 0.02 \u00b0C of the lowest (first_order_measured_ambient)",
+  "solution_method": "analytic: T(t) = E + (T0 - E) exp(-k t)",
+  "version": "1"
+ },
+ "operating_regime": "PASSIVE",
+ "outcome": "FORECAST",
+ "prediction_start": "2026-10-20T22:00:00",
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:20.846306Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 4 thermal engine + Phase 5 reliability assessment",
+  "method_version": "thermal-engine-1 / phase5-reliability-3",
+  "result_evidence_class": "SIMULATED",
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_ASSESSMENT"
+ },
+ "question": "NO_COOLING",
+ "recommendations": [
+  {
+   "acquisition_guidance": "defrost start/end from the controller or its event log; supply as an event log (kind, start, end, provenance)",
+   "missing_input": "defrost records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without defrost records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "door contact switch on each door (open/close timestamps); supply as an event log (kind, start, end, provenance)",
+   "missing_input": "door_open records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without door open records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "supply metadata: sensor id, column, location, height",
+   "missing_input": "sensor location metadata",
+   "necessity": "OPTIONAL_CONTEXT",
+   "priority": "LOW",
+   "rationale": "the analysed sensor's position is unknown, so what its readings represent cannot be stated",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "electrical power meter on the condensing unit",
+   "missing_input": "cooling_power",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "a binary compressor state gives no power: b stays an effective \u00b0C/min",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "a product-simulant probe and a loading log (mass, entry temperature, time)",
+   "missing_input": "product_temperature and product_load records",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "product thermal mass and loading are absorbed into the effective k and E; they cannot be modelled separately",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "RH sensors inside and in the adjacent space",
+   "missing_input": "relative_humidity",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "latent loads and coil frosting cannot be assessed",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "keep logging through more passive periods (compressor OFF cycles or recorded outages)",
+   "missing_input": "longer passive history",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "MEDIUM",
+   "rationale": "an interval at 80% needs 9 passive periods in each of calibration and evaluation (has 0 and 0); cases and windows inside one period do not count separately",
+   "retry_conditions": ">= 9 passive periods in each of calibration and evaluation"
+  },
+  {
+   "acquisition_guidance": "record more OFF cycles or outages",
+   "missing_input": "more independent passive periods",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "MEDIUM",
+   "rationale": "all held-out evidence comes from too few separate passive periods to separate period-to-period variation from noise",
+   "retry_conditions": ">= 2 periods in each half"
+  }
+ ],
+ "regime_evidence": [
+  "compressor recorded OFF at the origin, continuously for 360.0 min (361 reading(s), lines 962-1322)"
+ ],
+ "reliability": {
+  "gates_failed": [
+   "INTERVAL_CALIBRATED",
+   "INDEPENDENT_PERIODS"
+  ],
+  "method": "rule-based evidence gate (no score): status = most restrictive cap among failed rules",
+  "reason": "INTERVAL_CALIBRATED; INDEPENDENT_PERIODS",
+  "status": "MEDIUM",
+  "validation_scope": "SIMULATED_ONLY"
+ },
+ "request": {
+  "assess_reliability": true,
+  "direction": "UPWARD",
+  "horizon_min": 120.0,
+  "passive_since": null,
+  "question": "NO_COOLING",
+  "threshold_c": 20.0
+ },
+ "scenario": [
+  "no active cooling from 2026-10-20 22:00:00 for 120 min (ASSUMED scenario)",
+  "equilibrium 25.00 \u00b0C over the horizon (ASSUMED: ambient held at its last measured value 25.00 \u00b0C (OBSERVED at line 1322; steady over the last 60 min))"
+ ],
+ "threshold": {
+  "direction": "UPWARD",
+  "note": "set by the user",
+  "provenance": "ASSUMED",
+  "value_c": 20.0
+ },
+ "trajectory": [
+  {
+   "minutes": 0.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.3,
+   "ts": "2026-10-20T22:00:00"
+  },
+  {
+   "minutes": 1.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.32230040915637,
+   "ts": "2026-10-20T22:01:00"
+  },
+  {
+   "minutes": 2.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.344526593201017,
+   "ts": "2026-10-20T22:02:00"
+  },
+  {
+   "minutes": 3.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.366678799186232,
+   "ts": "2026-10-20T22:03:00"
+  },
+  {
+   "minutes": 4.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.38875727334202,
+   "ts": "2026-10-20T22:04:00"
+  },
+  {
+   "minutes": 5.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.410762261078816,
+   "ts": "2026-10-20T22:05:00"
+  },
+  {
+   "minutes": 6.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.43269400699024,
+   "ts": "2026-10-20T22:06:00"
+  },
+  {
+   "minutes": 7.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.45455275485579,
+   "ts": "2026-10-20T22:07:00"
+  },
+  {
+   "minutes": 8.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.47633874764357,
+   "ts": "2026-10-20T22:08:00"
+  },
+  {
+   "minutes": 9.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.49805222751299,
+   "ts": "2026-10-20T22:09:00"
+  },
+  {
+   "minutes": 10.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.519693435817437,
+   "ts": "2026-10-20T22:10:00"
+  },
+  {
+   "minutes": 11.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.541262613106987,
+   "ts": "2026-10-20T22:11:00"
+  },
+  {
+   "minutes": 12.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.562759999131053,
+   "ts": "2026-10-20T22:12:00"
+  },
+  {
+   "minutes": 13.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.584185832841072,
+   "ts": "2026-10-20T22:13:00"
+  },
+  {
+   "minutes": 14.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.60554035239314,
+   "ts": "2026-10-20T22:14:00"
+  },
+  {
+   "minutes": 15.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.626823795150685,
+   "ts": "2026-10-20T22:15:00"
+  },
+  {
+   "minutes": 16.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.64803639768707,
+   "ts": "2026-10-20T22:16:00"
+  },
+  {
+   "minutes": 17.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.669178395788254,
+   "ts": "2026-10-20T22:17:00"
+  },
+  {
+   "minutes": 18.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.690250024455402,
+   "ts": "2026-10-20T22:18:00"
+  },
+  {
+   "minutes": 19.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.7112515179075,
+   "ts": "2026-10-20T22:19:00"
+  },
+  {
+   "minutes": 20.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.73218310958394,
+   "ts": "2026-10-20T22:20:00"
+  },
+  {
+   "minutes": 21.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.753045032147146,
+   "ts": "2026-10-20T22:21:00"
+  },
+  {
+   "minutes": 22.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.773837517485134,
+   "ts": "2026-10-20T22:22:00"
+  },
+  {
+   "minutes": 23.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.79456079671411,
+   "ts": "2026-10-20T22:23:00"
+  },
+  {
+   "minutes": 24.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.81521510018101,
+   "ts": "2026-10-20T22:24:00"
+  },
+  {
+   "minutes": 25.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.8358006574661,
+   "ts": "2026-10-20T22:25:00"
+  },
+  {
+   "minutes": 26.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.856317697385492,
+   "ts": "2026-10-20T22:26:00"
+  },
+  {
+   "minutes": 27.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.876766447993706,
+   "ts": "2026-10-20T22:27:00"
+  },
+  {
+   "minutes": 28.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.897147136586206,
+   "ts": "2026-10-20T22:28:00"
+  },
+  {
+   "minutes": 29.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.917459989701914,
+   "ts": "2026-10-20T22:29:00"
+  },
+  {
+   "minutes": 30.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.93770523312574,
+   "ts": "2026-10-20T22:30:00"
+  },
+  {
+   "minutes": 31.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.957883091891084,
+   "ts": "2026-10-20T22:31:00"
+  },
+  {
+   "minutes": 32.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.977993790282344,
+   "ts": "2026-10-20T22:32:00"
+  },
+  {
+   "minutes": 33.0,
+   "provenance": "PREDICTED",
+   "temp_c": 18.998037551837406,
+   "ts": "2026-10-20T22:33:00"
+  },
+  {
+   "minutes": 34.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.01801459935012,
+   "ts": "2026-10-20T22:34:00"
+  },
+  {
+   "minutes": 35.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.037925154872795,
+   "ts": "2026-10-20T22:35:00"
+  },
+  {
+   "minutes": 36.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.05776943971865,
+   "ts": "2026-10-20T22:36:00"
+  },
+  {
+   "minutes": 37.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.077547674464284,
+   "ts": "2026-10-20T22:37:00"
+  },
+  {
+   "minutes": 38.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.097260078952125,
+   "ts": "2026-10-20T22:38:00"
+  },
+  {
+   "minutes": 39.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.116906872292873,
+   "ts": "2026-10-20T22:39:00"
+  },
+  {
+   "minutes": 40.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.13648827286793,
+   "ts": "2026-10-20T22:40:00"
+  },
+  {
+   "minutes": 41.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.156004498331843,
+   "ts": "2026-10-20T22:41:00"
+  },
+  {
+   "minutes": 42.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.175455765614707,
+   "ts": "2026-10-20T22:42:00"
+  },
+  {
+   "minutes": 43.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.19484229092458,
+   "ts": "2026-10-20T22:43:00"
+  },
+  {
+   "minutes": 44.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.2141642897499,
+   "ts": "2026-10-20T22:44:00"
+  },
+  {
+   "minutes": 45.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.233421976861855,
+   "ts": "2026-10-20T22:45:00"
+  },
+  {
+   "minutes": 46.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.252615566316795,
+   "ts": "2026-10-20T22:46:00"
+  },
+  {
+   "minutes": 47.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.2717452714586,
+   "ts": "2026-10-20T22:47:00"
+  },
+  {
+   "minutes": 48.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.290811304921043,
+   "ts": "2026-10-20T22:48:00"
+  },
+  {
+   "minutes": 49.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.309813878630177,
+   "ts": "2026-10-20T22:49:00"
+  },
+  {
+   "minutes": 50.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.32875320380666,
+   "ts": "2026-10-20T22:50:00"
+  },
+  {
+   "minutes": 51.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.34762949096813,
+   "ts": "2026-10-20T22:51:00"
+  },
+  {
+   "minutes": 52.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.366442949931535,
+   "ts": "2026-10-20T22:52:00"
+  },
+  {
+   "minutes": 53.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.385193789815457,
+   "ts": "2026-10-20T22:53:00"
+  },
+  {
+   "minutes": 54.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.403882219042448,
+   "ts": "2026-10-20T22:54:00"
+  },
+  {
+   "minutes": 55.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.42250844534134,
+   "ts": "2026-10-20T22:55:00"
+  },
+  {
+   "minutes": 56.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.44107267574956,
+   "ts": "2026-10-20T22:56:00"
+  },
+  {
+   "minutes": 57.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.459575116615426,
+   "ts": "2026-10-20T22:57:00"
+  },
+  {
+   "minutes": 58.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.478015973600442,
+   "ts": "2026-10-20T22:58:00"
+  },
+  {
+   "minutes": 59.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.496395451681583,
+   "ts": "2026-10-20T22:59:00"
+  },
+  {
+   "minutes": 60.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.514713755153576,
+   "ts": "2026-10-20T23:00:00"
+  },
+  {
+   "minutes": 61.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.53297108763117,
+   "ts": "2026-10-20T23:01:00"
+  },
+  {
+   "minutes": 62.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.551167652051397,
+   "ts": "2026-10-20T23:02:00"
+  },
+  {
+   "minutes": 63.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.56930365067583,
+   "ts": "2026-10-20T23:03:00"
+  },
+  {
+   "minutes": 64.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.587379285092837,
+   "ts": "2026-10-20T23:04:00"
+  },
+  {
+   "minutes": 65.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.605394756219802,
+   "ts": "2026-10-20T23:05:00"
+  },
+  {
+   "minutes": 66.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.623350264305383,
+   "ts": "2026-10-20T23:06:00"
+  },
+  {
+   "minutes": 67.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.641246008931724,
+   "ts": "2026-10-20T23:07:00"
+  },
+  {
+   "minutes": 68.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.65908218901667,
+   "ts": "2026-10-20T23:08:00"
+  },
+  {
+   "minutes": 69.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.67685900281599,
+   "ts": "2026-10-20T23:09:00"
+  },
+  {
+   "minutes": 70.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.694576647925583,
+   "ts": "2026-10-20T23:10:00"
+  },
+  {
+   "minutes": 71.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.712235321283643,
+   "ts": "2026-10-20T23:11:00"
+  },
+  {
+   "minutes": 72.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.729835219172895,
+   "ts": "2026-10-20T23:12:00"
+  },
+  {
+   "minutes": 73.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.747376537222735,
+   "ts": "2026-10-20T23:13:00"
+  },
+  {
+   "minutes": 74.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.76485947041143,
+   "ts": "2026-10-20T23:14:00"
+  },
+  {
+   "minutes": 75.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.782284213068284,
+   "ts": "2026-10-20T23:15:00"
+  },
+  {
+   "minutes": 76.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.79965095887578,
+   "ts": "2026-10-20T23:16:00"
+  },
+  {
+   "minutes": 77.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.81695990087175,
+   "ts": "2026-10-20T23:17:00"
+  },
+  {
+   "minutes": 78.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.834211231451516,
+   "ts": "2026-10-20T23:18:00"
+  },
+  {
+   "minutes": 79.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.851405142370023,
+   "ts": "2026-10-20T23:19:00"
+  },
+  {
+   "minutes": 80.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.868541824743986,
+   "ts": "2026-10-20T23:20:00"
+  },
+  {
+   "minutes": 81.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.885621469053984,
+   "ts": "2026-10-20T23:21:00"
+  },
+  {
+   "minutes": 82.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.90264426514662,
+   "ts": "2026-10-20T23:22:00"
+  },
+  {
+   "minutes": 83.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.919610402236586,
+   "ts": "2026-10-20T23:23:00"
+  },
+  {
+   "minutes": 84.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.93652006890881,
+   "ts": "2026-10-20T23:24:00"
+  },
+  {
+   "minutes": 85.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.95337345312051,
+   "ts": "2026-10-20T23:25:00"
+  },
+  {
+   "minutes": 86.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.970170742203315,
+   "ts": "2026-10-20T23:26:00"
+  },
+  {
+   "minutes": 87.0,
+   "provenance": "PREDICTED",
+   "temp_c": 19.986912122865338,
+   "ts": "2026-10-20T23:27:00"
+  },
+  {
+   "minutes": 88.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.00359778119324,
+   "ts": "2026-10-20T23:28:00"
+  },
+  {
+   "minutes": 89.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.020227902654312,
+   "ts": "2026-10-20T23:29:00"
+  },
+  {
+   "minutes": 90.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.03680267209853,
+   "ts": "2026-10-20T23:30:00"
+  },
+  {
+   "minutes": 91.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.05332227376062,
+   "ts": "2026-10-20T23:31:00"
+  },
+  {
+   "minutes": 92.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.06978689126209,
+   "ts": "2026-10-20T23:32:00"
+  },
+  {
+   "minutes": 93.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.086196707613276,
+   "ts": "2026-10-20T23:33:00"
+  },
+  {
+   "minutes": 94.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.102551905215385,
+   "ts": "2026-10-20T23:34:00"
+  },
+  {
+   "minutes": 95.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.118852665862516,
+   "ts": "2026-10-20T23:35:00"
+  },
+  {
+   "minutes": 96.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.13509917074368,
+   "ts": "2026-10-20T23:36:00"
+  },
+  {
+   "minutes": 97.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.15129160044481,
+   "ts": "2026-10-20T23:37:00"
+  },
+  {
+   "minutes": 98.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.16743013495078,
+   "ts": "2026-10-20T23:38:00"
+  },
+  {
+   "minutes": 99.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.183514953647396,
+   "ts": "2026-10-20T23:39:00"
+  },
+  {
+   "minutes": 100.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.199546235323396,
+   "ts": "2026-10-20T23:40:00"
+  },
+  {
+   "minutes": 101.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.21552415817243,
+   "ts": "2026-10-20T23:41:00"
+  },
+  {
+   "minutes": 102.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.231448899795044,
+   "ts": "2026-10-20T23:42:00"
+  },
+  {
+   "minutes": 103.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.24732063720066,
+   "ts": "2026-10-20T23:43:00"
+  },
+  {
+   "minutes": 104.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.263139546809533,
+   "ts": "2026-10-20T23:44:00"
+  },
+  {
+   "minutes": 105.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.278905804454723,
+   "ts": "2026-10-20T23:45:00"
+  },
+  {
+   "minutes": 106.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.29461958538404,
+   "ts": "2026-10-20T23:46:00"
+  },
+  {
+   "minutes": 107.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.310281064261996,
+   "ts": "2026-10-20T23:47:00"
+  },
+  {
+   "minutes": 108.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.325890415171745,
+   "ts": "2026-10-20T23:48:00"
+  },
+  {
+   "minutes": 109.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.341447811617027,
+   "ts": "2026-10-20T23:49:00"
+  },
+  {
+   "minutes": 110.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.356953426524075,
+   "ts": "2026-10-20T23:50:00"
+  },
+  {
+   "minutes": 111.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.372407432243566,
+   "ts": "2026-10-20T23:51:00"
+  },
+  {
+   "minutes": 112.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.387810000552513,
+   "ts": "2026-10-20T23:52:00"
+  },
+  {
+   "minutes": 113.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.403161302656184,
+   "ts": "2026-10-20T23:53:00"
+  },
+  {
+   "minutes": 114.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.418461509190006,
+   "ts": "2026-10-20T23:54:00"
+  },
+  {
+   "minutes": 115.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.433710790221454,
+   "ts": "2026-10-20T23:55:00"
+  },
+  {
+   "minutes": 116.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.44890931525196,
+   "ts": "2026-10-20T23:56:00"
+  },
+  {
+   "minutes": 117.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.46405725321877,
+   "ts": "2026-10-20T23:57:00"
+  },
+  {
+   "minutes": 118.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.47915477249684,
+   "ts": "2026-10-20T23:58:00"
+  },
+  {
+   "minutes": 119.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.49420204090071,
+   "ts": "2026-10-20T23:59:00"
+  },
+  {
+   "minutes": 120.0,
+   "provenance": "PREDICTED",
+   "temp_c": 20.50919922568636,
+   "ts": "2026-10-21T00:00:00"
+  }
+ ],
+ "validated_horizon_min": 120.0,
+ "warnings": [
+  "the forecast reaches 20.5 \u00b0C, outside the 1.9..18.3 \u00b0C seen in the fitted segments: extrapolated in temperature"
+ ]
+}

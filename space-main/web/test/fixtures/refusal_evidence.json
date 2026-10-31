@@ -1,0 +1,265 @@
+{
+ "case_id": "case_fixtureRefusal0000000",
+ "data_quality_limitations": [
+  "TIMEZONE_UNKNOWN: timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates.",
+  "Events describe the data; none is a diagnosis or a cause.",
+  "Segmentation parameters are provisional defaults checked on SIMULATED data only.",
+  "times are local clock time of unknown zone; a clock change would distort durations"
+ ],
+ "data_verdict": "USABLE",
+ "diagnosis_refusal_reason": null,
+ "diagnosis_status": "NO_FINDING",
+ "document_facts": {
+  "reason": "document facts come from Phase 7 retrieval over technical documents, which this application does not expose; no document is attached to a case",
+  "status": "NOT_AVAILABLE"
+ },
+ "findings": [],
+ "inference_label": "MODEL_INFERENCE",
+ "limitations": [
+  "events and facts are observations; every explanation is a hypothesis, never a diagnosis of cause",
+  "no probability, score or confidence is given; hypotheses are listed in a fixed order, not ranked",
+  "absence of a record is never evidence of absence; supplied records are taken as stated, not verified (SIMULATED in a simulated scenario, otherwise UNVALIDATED)",
+  "only sustained excursions beyond the limit you set are diagnosed; brief excursions are reported as facts",
+  "data evidence SIMULATED: statements hold only for these data; UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+  "next checks are ranked as a work priority (relevance, effort, evidence value), not by any confidence in an explanation",
+  "no sustained excursion in the usable data; 10 brief excursion(s)"
+ ],
+ "observed_fact_label": "OBSERVED_FACT",
+ "observed_facts": [
+  {
+   "end": "2026-10-21T00:00:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O001",
+   "kind": "VERDICT_USABLE",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE2_VALIDATION",
+   "source_ids": [],
+   "source_lines": [],
+   "start": "2026-10-20T00:00:00",
+   "statement": "validation verdict USABLE: 1441 usable of 1441 rows, coverage 100.0 %, 0 gap(s)"
+  },
+  {
+   "end": null,
+   "evidence": "SIMULATED",
+   "fact_id": "O002",
+   "kind": "TIMEZONE_UNKNOWN",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE2_VALIDATION",
+   "source_ids": [],
+   "source_lines": [],
+   "start": null,
+   "statement": "timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates."
+  },
+  {
+   "end": null,
+   "evidence": "SIMULATED",
+   "fact_id": "O003",
+   "kind": "COMPRESSOR_RECORD",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [],
+   "source_lines": [],
+   "start": null,
+   "statement": "compressor state: absent: no compressor_state column; no compressor events"
+  },
+  {
+   "end": "2026-10-20T01:59:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O004",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0007"
+   ],
+   "source_lines": [
+    121
+   ],
+   "start": "2026-10-20T01:59:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T04:01:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O005",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0014"
+   ],
+   "source_lines": [
+    243
+   ],
+   "start": "2026-10-20T04:01:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T06:03:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O006",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0022"
+   ],
+   "source_lines": [
+    365
+   ],
+   "start": "2026-10-20T06:03:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T11:09:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O007",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0038"
+   ],
+   "source_lines": [
+    671
+   ],
+   "start": "2026-10-20T11:09:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T12:09:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O008",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0045"
+   ],
+   "source_lines": [
+    731
+   ],
+   "start": "2026-10-20T12:09:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T13:10:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O009",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0053"
+   ],
+   "source_lines": [
+    792
+   ],
+   "start": "2026-10-20T13:10:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T14:11:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O010",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0057"
+   ],
+   "source_lines": [
+    853
+   ],
+   "start": "2026-10-20T14:11:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T18:14:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O011",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0073"
+   ],
+   "source_lines": [
+    1096
+   ],
+   "start": "2026-10-20T18:14:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T20:17:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O012",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0080"
+   ],
+   "source_lines": [
+    1219
+   ],
+   "start": "2026-10-20T20:17:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  },
+  {
+   "end": "2026-10-20T22:19:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O013",
+   "kind": "BRIEF_EXCURSION",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [
+    "E0090"
+   ],
+   "source_lines": [
+    1341
+   ],
+   "start": "2026-10-20T22:19:00",
+   "statement": "brief: 1 consecutive observation(s) above 5.0 \u00b0C for 0.0 min (peak 5.10 \u00b0C); the crossings happened between the bracketing observations (< 10.0 min)"
+  }
+ ],
+ "prediction": {
+  "outcome": "REFUSED",
+  "refusal_code": "MISSING_REQUIRED_INPUT",
+  "refusal_reason": "there is no evidence of any period without active cooling; the physical models need one",
+  "reliability_status": null,
+  "validation_scope": null
+ },
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:21.433621Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 3 event segmentation + Phase 6 diagnostics",
+  "method_version": "phase6-diagnostics-2",
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_coldroom_24h_1min.csv",
+  "source_sha256": "565d8a57c413689ed493db7fee5a0aa628467a4218153f0eca6b3c711176f150",
+  "source_size_bytes": 49598,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "recommendation_label": "SYSTEM_RECOMMENDATION",
+ "recommendations": [],
+ "rules_validation": "UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis"
+}

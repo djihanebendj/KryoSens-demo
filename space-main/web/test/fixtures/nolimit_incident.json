@@ -1,0 +1,29 @@
+{
+ "case_id": "case_fixtureNoLimit0000000",
+ "confirmed": [],
+ "counts": {
+  "confirmed": 0,
+  "drafts_cancelled": 0,
+  "drafts_pending": 0,
+  "outcomes_unknown": 0,
+  "outcomes_verified": 0
+ },
+ "drafts": [],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:24.770907Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 8 trusted-confirmation finding store (technician-entered statements)",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "status": "AVAILABLE"
+}

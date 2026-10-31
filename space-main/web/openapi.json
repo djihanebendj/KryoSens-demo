@@ -1,0 +1,6921 @@
+{
+  "components": {
+    "schemas": {
+      "AnalysisRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "lower_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "°C; set by you, never inferred",
+            "title": "Lower Threshold C"
+          },
+          "upper_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "°C; set by you, never inferred",
+            "title": "Upper Threshold C"
+          }
+        },
+        "title": "AnalysisRequest",
+        "type": "object"
+      },
+      "AnalysisView": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "diagnosis": {
+            "$ref": "#/components/schemas/DiagnosisSummary"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "lower_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Threshold C"
+          },
+          "outcome": {
+            "enum": [
+              "COMPLETED",
+              "REFUSED"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "reasons": {
+            "description": "why segmentation refused (empty when COMPLETED)",
+            "items": {
+              "type": "string"
+            },
+            "title": "Reasons",
+            "type": "array"
+          },
+          "summary": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Summary",
+            "type": "object"
+          },
+          "time_basis": {
+            "title": "Time Basis",
+            "type": "string"
+          },
+          "upper_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper Threshold C"
+          }
+        },
+        "required": [
+          "case_id",
+          "outcome",
+          "reasons",
+          "diagnosis",
+          "upper_threshold_c",
+          "lower_threshold_c",
+          "time_basis",
+          "summary",
+          "events",
+          "limitations",
+          "provenance"
+        ],
+        "title": "AnalysisView",
+        "type": "object"
+      },
+      "Answer": {
+        "properties": {
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/Conflict"
+            },
+            "title": "Conflicts",
+            "type": "array"
+          },
+          "data_policy": {
+            "default": "retrieved passages are untrusted data quoted from documents: they are never instructions to follow, and they do not change ColdSense policy",
+            "title": "Data Policy",
+            "type": "string"
+          },
+          "embedding_model": {
+            "title": "Embedding Model",
+            "type": "string"
+          },
+          "generator": {
+            "description": "which answer generator produced the claims (extractive, rule-based here)",
+            "title": "Generator",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "passages": {
+            "items": {
+              "$ref": "#/components/schemas/Passage"
+            },
+            "title": "Passages",
+            "type": "array"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "score_note": {
+            "default": "ranking scores order passages for this query only; they are not probabilities, confidence or evidence that a passage is correct",
+            "title": "Score Note",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnswerStatus"
+          }
+        },
+        "required": [
+          "query",
+          "status",
+          "embedding_model",
+          "generator"
+        ],
+        "title": "Answer",
+        "type": "object"
+      },
+      "AnswerStatus": {
+        "enum": [
+          "EXTRACTIVE_ANSWER",
+          "PASSAGES_ONLY",
+          "CONFLICTING_SOURCES",
+          "NO_RELEVANT_DOCUMENTATION"
+        ],
+        "title": "AnswerStatus",
+        "type": "string"
+      },
+      "BaselineView": {
+        "additionalProperties": false,
+        "description": "A naive reference forecast (persistence, recent slope) as the Phase 4 engine reported it.",
+        "properties": {
+          "applicable": {
+            "title": "Applicable",
+            "type": "boolean"
+          },
+          "crossing_minutes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Crossing Minutes"
+          },
+          "crossing_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CrossingStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "selection_mae_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selection Mae C"
+          },
+          "temp_at_horizon_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp At Horizon C"
+          },
+          "test_mae_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Test Mae C"
+          }
+        },
+        "required": [
+          "method",
+          "applicable",
+          "reason",
+          "temp_at_horizon_c",
+          "crossing_status",
+          "crossing_minutes",
+          "selection_mae_c",
+          "test_mae_c"
+        ],
+        "title": "BaselineView",
+        "type": "object"
+      },
+      "CaseStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "declaration_status": {
+            "enum": [
+              "NOT_DECLARED",
+              "DECLARED_BY_UPLOADER_NOT_VERIFIED"
+            ],
+            "title": "Declaration Status",
+            "type": "string"
+          },
+          "declared_evidence": {
+            "anyOf": [
+              {
+                "enum": [
+                  "REAL",
+                  "SIMULATED"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Evidence"
+          },
+          "evidence_basis": {
+            "enum": [
+              "ANONYMOUS_UPLOAD",
+              "BUNDLED_SAMPLE"
+            ],
+            "title": "Evidence Basis",
+            "type": "string"
+          },
+          "evidence_class": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "engine evidence class (see ResultProvenance)"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "last_prediction_outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "FORECAST",
+                  "REFUSED"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Prediction Outcome"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/QualityHeadline"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          },
+          "size_bytes": {
+            "title": "Size Bytes",
+            "type": "integer"
+          },
+          "steps": {
+            "$ref": "#/components/schemas/CaseSteps"
+          },
+          "validation_scope": {
+            "$ref": "#/components/schemas/ValidationScope"
+          }
+        },
+        "required": [
+          "case_id",
+          "created_at",
+          "expires_at",
+          "filename",
+          "size_bytes",
+          "sha256",
+          "evidence_class",
+          "evidence_basis",
+          "declared_evidence",
+          "declaration_status",
+          "validation_scope",
+          "quality",
+          "steps",
+          "last_prediction_outcome"
+        ],
+        "title": "CaseStatus",
+        "type": "object"
+      },
+      "CaseSteps": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis": {
+            "$ref": "#/components/schemas/StepState"
+          },
+          "prediction": {
+            "$ref": "#/components/schemas/StepState"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/StepState"
+          }
+        },
+        "required": [
+          "quality",
+          "analysis",
+          "prediction"
+        ],
+        "title": "CaseSteps",
+        "type": "object"
+      },
+      "ChunkFlag": {
+        "enum": [
+          "INVISIBLE_UNICODE_REMOVED",
+          "HIDDEN_TEXT",
+          "INSTRUCTION_PATTERN",
+          "SECRET_REDACTED"
+        ],
+        "title": "ChunkFlag",
+        "type": "string"
+      },
+      "Citation": {
+        "properties": {
+          "chunk_id": {
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "doc_type": {
+            "$ref": "#/components/schemas/DocumentType"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "location": {
+            "title": "Location",
+            "type": "string"
+          },
+          "manufacturer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manufacturer"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "equipment model the document is for, as supplied; None: not stated",
+            "title": "Model"
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revision"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "doc_id",
+          "version",
+          "title",
+          "revision",
+          "doc_type",
+          "chunk_id",
+          "location",
+          "filename"
+        ],
+        "title": "Citation",
+        "type": "object"
+      },
+      "Claim": {
+        "properties": {
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "claim_type": {
+            "$ref": "#/components/schemas/ClaimType"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "source_ids": {
+            "description": "chunk ids, or ColdSense fact/check ids",
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Ids",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_type",
+          "text"
+        ],
+        "title": "Claim",
+        "type": "object"
+      },
+      "ClaimType": {
+        "enum": [
+          "DOCUMENT_FACT",
+          "MODEL_INFERENCE",
+          "SYSTEM_RECOMMENDATION"
+        ],
+        "title": "ClaimType",
+        "type": "string"
+      },
+      "Conflict": {
+        "properties": {
+          "note": {
+            "default": "the sources state different values; neither is preferred without a documented basis (check which revision applies to the equipment)",
+            "title": "Note",
+            "type": "string"
+          },
+          "quantity_unit": {
+            "title": "Quantity Unit",
+            "type": "string"
+          },
+          "statements": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "title": "Statements",
+            "type": "array"
+          }
+        },
+        "required": [
+          "quantity_unit",
+          "statements"
+        ],
+        "title": "Conflict",
+        "type": "object"
+      },
+      "CopilotRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "question": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Question",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "CopilotRequest",
+        "type": "object"
+      },
+      "CrossingIntervalView": {
+        "additionalProperties": false,
+        "properties": {
+          "lower_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Min"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "upper_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper Min"
+          }
+        },
+        "required": [
+          "status",
+          "lower_min",
+          "upper_min"
+        ],
+        "title": "CrossingIntervalView",
+        "type": "object"
+      },
+      "CrossingStatus": {
+        "enum": [
+          "NO_THRESHOLD",
+          "CROSSING_PREDICTED",
+          "ALREADY_CROSSED",
+          "NOT_REACHABLE",
+          "NOT_WITHIN_HORIZON",
+          "INSUFFICIENT_EVIDENCE",
+          "INSUFFICIENT_IDENTIFIABILITY",
+          "MODEL_NOT_APPLICABLE",
+          "MISSING_REQUIRED_INPUT",
+          "INVALID_REQUEST"
+        ],
+        "title": "CrossingStatus",
+        "type": "string"
+      },
+      "CrossingView": {
+        "additionalProperties": false,
+        "properties": {
+          "minutes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minutes"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CrossingStatus"
+          },
+          "time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time"
+          }
+        },
+        "required": [
+          "status",
+          "time",
+          "minutes"
+        ],
+        "title": "CrossingView",
+        "type": "object"
+      },
+      "CsrfToken": {
+        "additionalProperties": false,
+        "properties": {
+          "csrf_token": {
+            "description": "send as X-CSRF-Token on every POST/DELETE; bound to this browser's cs_csrf cookie",
+            "title": "Csrf Token",
+            "type": "string"
+          },
+          "header": {
+            "const": "X-CSRF-Token",
+            "default": "X-CSRF-Token",
+            "title": "Header",
+            "type": "string"
+          }
+        },
+        "required": [
+          "csrf_token",
+          "header"
+        ],
+        "title": "CsrfToken",
+        "type": "object"
+      },
+      "DataQualityReport": {
+        "properties": {
+          "ambient_available": {
+            "title": "Ambient Available",
+            "type": "boolean"
+          },
+          "counts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecordCounts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "coverage_pct": {
+            "description": "share of expected samples present",
+            "title": "Coverage Pct",
+            "type": "number"
+          },
+          "duplicate_conflict_fields": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "per telemetry field, how many excluded duplicates differ in it",
+            "title": "Duplicate Conflict Fields",
+            "type": "object"
+          },
+          "duration_hours": {
+            "title": "Duration Hours",
+            "type": "number"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/EvidenceClass"
+          },
+          "flag_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Flag Counts",
+            "type": "object"
+          },
+          "input": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InputIdentity"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "intervals": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntervalStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "invalid_by_field": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Invalid By Field",
+            "type": "object"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "limits_used": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ValidationLimits"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "longest_gap_min": {
+            "title": "Longest Gap Min",
+            "type": "number"
+          },
+          "malformed_records": {
+            "items": {
+              "$ref": "#/components/schemas/MalformedRecord"
+            },
+            "title": "Malformed Records",
+            "type": "array"
+          },
+          "median_interval_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median Interval S"
+          },
+          "missing_by_field": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Missing By Field",
+            "type": "object"
+          },
+          "n_duplicates": {
+            "title": "N Duplicates",
+            "type": "integer"
+          },
+          "n_duplicates_conflicting": {
+            "default": 0,
+            "title": "N Duplicates Conflicting",
+            "type": "integer"
+          },
+          "n_duplicates_exact": {
+            "default": 0,
+            "title": "N Duplicates Exact",
+            "type": "integer"
+          },
+          "n_gaps": {
+            "title": "N Gaps",
+            "type": "integer"
+          },
+          "n_implausible": {
+            "title": "N Implausible",
+            "type": "integer"
+          },
+          "n_rows_clean": {
+            "title": "N Rows Clean",
+            "type": "integer"
+          },
+          "n_rows_raw": {
+            "title": "N Rows Raw",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "suitable_for_downstream": {
+            "default": false,
+            "description": "False whenever the verdict is REFUSED. True does NOT mean the data is correct; see limitations",
+            "title": "Suitable For Downstream",
+            "type": "boolean"
+          },
+          "temp_max_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp Max C"
+          },
+          "temp_min_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp Min C"
+          },
+          "transformations": {
+            "items": {
+              "$ref": "#/components/schemas/Transformation"
+            },
+            "title": "Transformations",
+            "type": "array"
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          }
+        },
+        "required": [
+          "source",
+          "evidence",
+          "n_rows_raw",
+          "n_rows_clean",
+          "start",
+          "end",
+          "duration_hours",
+          "median_interval_s",
+          "coverage_pct",
+          "n_gaps",
+          "longest_gap_min",
+          "n_implausible",
+          "n_duplicates",
+          "temp_min_c",
+          "temp_max_c",
+          "ambient_available",
+          "issues",
+          "verdict"
+        ],
+        "title": "DataQualityReport",
+        "type": "object"
+      },
+      "DiagnosisStatus": {
+        "enum": [
+          "HYPOTHESES",
+          "NO_FINDING",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "title": "DiagnosisStatus",
+        "type": "string"
+      },
+      "DiagnosisSummary": {
+        "additionalProperties": false,
+        "description": "Phase 6 outcome of this analysis run (details: evidence, next-check and investigation views).",
+        "properties": {
+          "findings": {
+            "title": "Findings",
+            "type": "integer"
+          },
+          "hypotheses": {
+            "title": "Hypotheses",
+            "type": "integer"
+          },
+          "next_best_check": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "the check ranked first by Phase 6: a work priority, not a confidence in any explanation",
+            "title": "Next Best Check"
+          },
+          "next_checks": {
+            "title": "Next Checks",
+            "type": "integer"
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal Reason"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DiagnosisStatus",
+            "description": "HYPOTHESES, NO_FINDING or INSUFFICIENT_EVIDENCE (a refusal)"
+          }
+        },
+        "required": [
+          "status",
+          "refusal_reason",
+          "findings",
+          "hypotheses",
+          "next_checks",
+          "next_best_check"
+        ],
+        "title": "DiagnosisSummary",
+        "type": "object"
+      },
+      "Direction": {
+        "enum": [
+          "UPWARD",
+          "DOWNWARD"
+        ],
+        "title": "Direction",
+        "type": "string"
+      },
+      "DisplaySampling": {
+        "additionalProperties": false,
+        "description": "Display-only thinning of long series; every analysis used every reading.",
+        "properties": {
+          "downsampled": {
+            "title": "Downsampled",
+            "type": "boolean"
+          },
+          "max_points": {
+            "title": "Max Points",
+            "type": "integer"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "points_shown": {
+            "title": "Points Shown",
+            "type": "integer"
+          },
+          "points_total": {
+            "title": "Points Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "downsampled",
+          "method",
+          "points_total",
+          "points_shown",
+          "max_points"
+        ],
+        "title": "DisplaySampling",
+        "type": "object"
+      },
+      "DocumentType": {
+        "description": "Technical documentation only. Operational records (service dates, replaced parts, technician findings,\npost-repair outcomes) are NOT documents: they stay structured records (the event log), never corpus text.",
+        "enum": [
+          "SERVICE_MANUAL",
+          "MAINTENANCE_MANUAL",
+          "TROUBLESHOOTING_GUIDE",
+          "INSTALLATION_MANUAL",
+          "EQUIPMENT_DATASHEET",
+          "SERVICE_BULLETIN",
+          "OTHER_TECHNICAL",
+          "UNSPECIFIED"
+        ],
+        "title": "DocumentType",
+        "type": "string"
+      },
+      "Effort": {
+        "enum": [
+          "EXISTING_RECORDS",
+          "SPOT_CHECK",
+          "SITE_INSPECTION"
+        ],
+        "title": "Effort",
+        "type": "string"
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "default": false,
+            "title": "Retryable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorCode": {
+        "enum": [
+          "SESSION_REQUIRED",
+          "SESSION_INVALID",
+          "SESSION_EXPIRED",
+          "SESSION_REVOKED",
+          "CSRF_ORIGIN_REJECTED",
+          "CSRF_TOKEN_MISSING",
+          "CSRF_TOKEN_INVALID",
+          "CASE_NOT_FOUND",
+          "CASE_EXPIRED",
+          "CASE_LIMIT_REACHED",
+          "UPLOAD_EMPTY",
+          "UPLOAD_TOO_LARGE",
+          "UPLOAD_TYPE_NOT_ALLOWED",
+          "UPLOAD_TOO_MANY_ROWS",
+          "DATA_UNREADABLE",
+          "INVALID_REQUEST",
+          "ANALYSIS_NOT_RUN",
+          "PREDICTION_NOT_RUN",
+          "SAMPLE_NOT_FOUND",
+          "FEATURE_DISABLED",
+          "NOT_AVAILABLE",
+          "BUSY",
+          "RATE_LIMITED",
+          "REQUEST_TOO_LARGE",
+          "REQUEST_TIMEOUT",
+          "FINDING_DRAFT_NOT_FOUND",
+          "FINDING_NOT_READY",
+          "FINDING_CANCELLED",
+          "FINDING_ALREADY_CONFIRMED",
+          "FINDING_CONFIRMATION_INVALID",
+          "FINDING_CONFIRMATION_EXPIRED",
+          "FINDING_CONFIRMATION_REPLAY",
+          "REPORT_NOT_GENERATED",
+          "INTERNAL_ERROR"
+        ],
+        "title": "ErrorCode",
+        "type": "string"
+      },
+      "ErrorEnvelope": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "Event": {
+        "description": "One observed period or change, traceable to the rows that support it.\n\n``observed`` holds values read directly from supporting rows; ``derived``\nholds computed features (fits, durations, ratios). Neither is a cause.",
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "first observation just after the event, if adjacent",
+            "title": "After"
+          },
+          "before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "last observation just before the event, if adjacent",
+            "title": "Before"
+          },
+          "derived": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Derived",
+            "type": "object"
+          },
+          "duration_is_lower_bound": {
+            "description": "True when start or end is censored",
+            "title": "Duration Is Lower Bound",
+            "type": "boolean"
+          },
+          "duration_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "end - start in minutes; None for a single observation",
+            "title": "Duration Min"
+          },
+          "end": {
+            "description": "last supporting observation",
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "end_censored": {
+            "description": "the event may continue after the data shows (log end or gap)",
+            "title": "End Censored",
+            "type": "boolean"
+          },
+          "event_id": {
+            "title": "Event Id",
+            "type": "string"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "evidence class of the underlying data; the classification itself is an interpretation of it"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "n_observations": {
+            "title": "N Observations",
+            "type": "integer"
+          },
+          "observed": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Observed",
+            "type": "object"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "source_lines": {
+            "description": "Phase 2 source_line of every supporting observation",
+            "items": {
+              "type": "integer"
+            },
+            "title": "Source Lines",
+            "type": "array"
+          },
+          "start": {
+            "description": "first supporting observation (time basis: see SegmentationResult)",
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          },
+          "start_censored": {
+            "description": "the event may have begun before the data shows (log start or gap)",
+            "title": "Start Censored",
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventType"
+          }
+        },
+        "required": [
+          "event_id",
+          "type",
+          "start",
+          "end",
+          "duration_min",
+          "duration_is_lower_bound",
+          "start_censored",
+          "end_censored",
+          "n_observations",
+          "source_lines",
+          "rationale",
+          "evidence"
+        ],
+        "title": "Event",
+        "type": "object"
+      },
+      "EventType": {
+        "description": "What an event says about the DATA. None of these is a diagnosis.",
+        "enum": [
+          "DATA_GAP",
+          "INSUFFICIENT_DATA",
+          "TEMP_STABLE",
+          "TEMP_RISING",
+          "TEMP_FALLING",
+          "TEMP_IRREGULAR",
+          "THRESHOLD_EXCURSION",
+          "BRIEF_EXCURSION",
+          "COMPRESSOR_ON",
+          "COMPRESSOR_OFF",
+          "COMPRESSOR_UNKNOWN",
+          "COMPRESSOR_TRANSITION",
+          "COMPRESSOR_CYCLE"
+        ],
+        "title": "EventType",
+        "type": "string"
+      },
+      "EvidenceClass": {
+        "description": "Where a number came from. Never shown without one.",
+        "enum": [
+          "REAL",
+          "SIMULATED",
+          "EXPECTED",
+          "UNVALIDATED"
+        ],
+        "title": "EvidenceClass",
+        "type": "string"
+      },
+      "EvidenceValue": {
+        "description": "What the check's result can do to the assessment, under the rules of this module. Qualitative and defined\nby the rules; it is not an information gain (no probabilities exist to compute one).",
+        "enum": [
+          "RESOLVES_CONFLICT",
+          "DISCRIMINATES",
+          "SUPPORTS_OR_CONTRADICTS",
+          "CORROBORATES",
+          "SUPPORTS_ONLY",
+          "BOUNDS_OBSERVATION"
+        ],
+        "title": "EvidenceValue",
+        "type": "string"
+      },
+      "EvidenceView": {
+        "additionalProperties": false,
+        "description": "Facts, inferences and recommendations kept apart (spec §8): OBSERVED_FACT from the log (Phase 2/3 via Phase 6),\nMODEL_INFERENCE (Phase 6 rule assessments of candidate explanations), SYSTEM_RECOMMENDATION (Phase 6 checks).\nDocument facts need Phase 7 retrieval, which is not exposed: NOT_AVAILABLE.",
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "data_quality_limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Data Quality Limitations",
+            "type": "array"
+          },
+          "data_verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "diagnosis_refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Diagnosis Refusal Reason"
+          },
+          "diagnosis_status": {
+            "$ref": "#/components/schemas/DiagnosisStatus"
+          },
+          "document_facts": {
+            "$ref": "#/components/schemas/NotAvailableBlock"
+          },
+          "findings": {
+            "description": "Phase 6 findings with every explanation's supporting, contradicting, neutral and missing evidence",
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "inference_label": {
+            "const": "MODEL_INFERENCE",
+            "default": "MODEL_INFERENCE",
+            "title": "Inference Label",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "observed_fact_label": {
+            "const": "OBSERVED_FACT",
+            "default": "OBSERVED_FACT",
+            "title": "Observed Fact Label",
+            "type": "string"
+          },
+          "observed_facts": {
+            "items": {
+              "$ref": "#/components/schemas/ObservedFact"
+            },
+            "title": "Observed Facts",
+            "type": "array"
+          },
+          "prediction": {
+            "$ref": "#/components/schemas/PredictionStatusView"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "recommendation_label": {
+            "const": "SYSTEM_RECOMMENDATION",
+            "default": "SYSTEM_RECOMMENDATION",
+            "title": "Recommendation Label",
+            "type": "string"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/NextCheck"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "rules_validation": {
+            "title": "Rules Validation",
+            "type": "string"
+          }
+        },
+        "required": [
+          "case_id",
+          "diagnosis_status",
+          "diagnosis_refusal_reason",
+          "rules_validation",
+          "data_verdict",
+          "prediction",
+          "observed_facts",
+          "observed_fact_label",
+          "document_facts",
+          "findings",
+          "inference_label",
+          "recommendations",
+          "recommendation_label",
+          "data_quality_limitations",
+          "limitations",
+          "provenance"
+        ],
+        "title": "EvidenceView",
+        "type": "object"
+      },
+      "Explanation": {
+        "enum": [
+          "NO_ACTIVE_COOLING",
+          "CAPACITY_SHORTFALL_WHILE_RUNNING",
+          "COOLING_RAN_THROUGHOUT",
+          "HEAT_INGRESS",
+          "PRODUCT_LOADING",
+          "DEFROST",
+          "CONTROL_CHANGE",
+          "RECORDED_INTERVENTION",
+          "SENSOR_NOT_REPRESENTATIVE"
+        ],
+        "title": "Explanation",
+        "type": "string"
+      },
+      "ExplanationAssessment": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Explanation"
+          },
+          "contradicting": {
+            "description": "recorded evidence against it",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contradicting",
+            "type": "array"
+          },
+          "missing": {
+            "description": "evidence that would bear on it, not available",
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing",
+            "type": "array"
+          },
+          "missing_records": {
+            "description": "event-log kinds (input catalogue names) with no usable record for the window",
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing Records",
+            "type": "array"
+          },
+          "neutral": {
+            "description": "assessed, but neither for nor against",
+            "items": {
+              "type": "string"
+            },
+            "title": "Neutral",
+            "type": "array"
+          },
+          "next_check_ids": {
+            "description": "checks that would bear on it",
+            "items": {
+              "type": "string"
+            },
+            "title": "Next Check Ids",
+            "type": "array"
+          },
+          "required_next_check": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "the check this explanation needs next (the first of next_check_ids); always set, and ranked, when it is a hypothesis",
+            "title": "Required Next Check"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting": {
+            "description": "recorded evidence consistent with it",
+            "items": {
+              "type": "string"
+            },
+            "title": "Supporting",
+            "type": "array"
+          }
+        },
+        "required": [
+          "code",
+          "statement"
+        ],
+        "title": "ExplanationAssessment",
+        "type": "object"
+      },
+      "FactSource": {
+        "enum": [
+          "PHASE2_VALIDATION",
+          "PHASE3_EVENT",
+          "EVENT_LOG",
+          "PHASE4_FORECAST",
+          "PHASE5_RELIABILITY",
+          "ROOM_METADATA"
+        ],
+        "title": "FactSource",
+        "type": "string"
+      },
+      "FeatureState": {
+        "enum": [
+          "ENABLED",
+          "FEATURE_DISABLED"
+        ],
+        "title": "FeatureState",
+        "type": "string"
+      },
+      "Finding": {
+        "properties": {
+          "context_fact_ids": {
+            "description": "temperature behaviour and data gaps over the window: observations shown with the finding, never used as evidence",
+            "items": {
+              "type": "string"
+            },
+            "title": "Context Fact Ids",
+            "type": "array"
+          },
+          "event_id": {
+            "title": "Event Id",
+            "type": "string"
+          },
+          "explanations": {
+            "items": {
+              "$ref": "#/components/schemas/ExplanationAssessment"
+            },
+            "title": "Explanations",
+            "type": "array"
+          },
+          "fact_id": {
+            "title": "Fact Id",
+            "type": "string"
+          },
+          "finding_id": {
+            "title": "Finding Id",
+            "type": "string"
+          },
+          "hypothesis_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Hypothesis Ids",
+            "type": "array"
+          },
+          "limit_c": {
+            "title": "Limit C",
+            "type": "number"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "side": {
+            "enum": [
+              "above",
+              "below"
+            ],
+            "title": "Side",
+            "type": "string"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/FindingStatus"
+          },
+          "window_end": {
+            "format": "date-time",
+            "title": "Window End",
+            "type": "string"
+          },
+          "window_start": {
+            "description": "reading before the excursion (or its first reading if censored)",
+            "format": "date-time",
+            "title": "Window Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding_id",
+          "event_id",
+          "fact_id",
+          "side",
+          "limit_c",
+          "window_start",
+          "window_end",
+          "statement",
+          "status",
+          "explanations"
+        ],
+        "title": "Finding",
+        "type": "object"
+      },
+      "FindingConfirmRequest": {
+        "additionalProperties": false,
+        "description": "The token issued with the exact draft, and the outcome the technician explicitly entered (default UNKNOWN).",
+        "properties": {
+          "outcome": {
+            "default": "UNKNOWN",
+            "description": "set only from a value the user entered; PENDING is refused",
+            "enum": [
+              "UNKNOWN",
+              "RESOLVED",
+              "NOT_RESOLVED"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "token": {
+            "description": "the single-use token returned with this draft; never shown by the UI",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ],
+        "title": "FindingConfirmRequest",
+        "type": "object"
+      },
+      "FindingCounts": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed": {
+            "title": "Confirmed",
+            "type": "integer"
+          },
+          "drafts_cancelled": {
+            "title": "Drafts Cancelled",
+            "type": "integer"
+          },
+          "drafts_pending": {
+            "title": "Drafts Pending",
+            "type": "integer"
+          },
+          "outcomes_unknown": {
+            "title": "Outcomes Unknown",
+            "type": "integer"
+          },
+          "outcomes_verified": {
+            "description": "confirmed records with RESOLVED or NOT_RESOLVED",
+            "title": "Outcomes Verified",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "confirmed",
+          "drafts_pending",
+          "drafts_cancelled",
+          "outcomes_unknown",
+          "outcomes_verified"
+        ],
+        "title": "FindingCounts",
+        "type": "object"
+      },
+      "FindingDraftCreated": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "confirmation_token": {
+            "description": "single-use, hash-bound, expiring; returned once, never logged",
+            "title": "Confirmation Token",
+            "type": "string"
+          },
+          "content_hash": {
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "draft_id": {
+            "title": "Draft Id",
+            "type": "string"
+          },
+          "event_window": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Window"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "CANCELLED"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "token_expires_at": {
+            "format": "date-time",
+            "title": "Token Expires At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "draft_id",
+          "asset_id",
+          "statement",
+          "event_window",
+          "content_hash",
+          "created_at",
+          "status",
+          "confirmation_token",
+          "token_expires_at"
+        ],
+        "title": "FindingDraftCreated",
+        "type": "object"
+      },
+      "FindingDraftRequest": {
+        "additionalProperties": false,
+        "description": "The technician's own statement. It is never generated by an LLM and is written only on explicit confirm.",
+        "properties": {
+          "event_window": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "free-text window the technician associates with the observation",
+            "title": "Event Window"
+          },
+          "statement": {
+            "description": "what the technician observed, in their own words; shown verbatim",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "FindingDraftRequest",
+        "type": "object"
+      },
+      "FindingDraftView": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "content_hash": {
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "draft_id": {
+            "title": "Draft Id",
+            "type": "string"
+          },
+          "event_window": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Window"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "CANCELLED"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "draft_id",
+          "asset_id",
+          "statement",
+          "event_window",
+          "content_hash",
+          "created_at",
+          "status"
+        ],
+        "title": "FindingDraftView",
+        "type": "object"
+      },
+      "FindingRecordView": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "confirmation_channel": {
+            "const": "WEB_APPLICATION",
+            "default": "WEB_APPLICATION",
+            "description": "this application's actual confirming channel (the Phase 8 labels predate it)",
+            "title": "Confirmation Channel",
+            "type": "string"
+          },
+          "confirmed_at": {
+            "format": "date-time",
+            "title": "Confirmed At",
+            "type": "string"
+          },
+          "confirmed_via": {
+            "description": "the Phase 8 store's audit label, preserved verbatim",
+            "title": "Confirmed Via",
+            "type": "string"
+          },
+          "content_hash": {
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "event_window": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Window"
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          },
+          "record_id": {
+            "title": "Record Id",
+            "type": "string"
+          },
+          "source": {
+            "description": "the Phase 8 store's source label, preserved verbatim",
+            "title": "Source",
+            "type": "string"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "record_id",
+          "asset_id",
+          "statement",
+          "event_window",
+          "content_hash",
+          "created_at",
+          "confirmed_at",
+          "confirmed_via",
+          "outcome",
+          "source",
+          "confirmation_channel"
+        ],
+        "title": "FindingRecordView",
+        "type": "object"
+      },
+      "FindingStatus": {
+        "enum": [
+          "EVIDENCE_AVAILABLE",
+          "CONFLICTING_EVIDENCE",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "title": "FindingStatus",
+        "type": "string"
+      },
+      "FindingsView": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/FindingCounts"
+          },
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/FindingDraftView"
+            },
+            "title": "Drafts",
+            "type": "array"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "records": {
+            "items": {
+              "$ref": "#/components/schemas/FindingRecordView"
+            },
+            "title": "Records",
+            "type": "array"
+          }
+        },
+        "required": [
+          "case_id",
+          "drafts",
+          "records",
+          "counts",
+          "provenance"
+        ],
+        "title": "FindingsView",
+        "type": "object"
+      },
+      "ForecastQuestion": {
+        "enum": [
+          "NO_COOLING",
+          "CONTINUATION"
+        ],
+        "title": "ForecastQuestion",
+        "type": "string"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "additionalProperties": false,
+        "properties": {
+          "coldsense_version": {
+            "title": "Coldsense Version",
+            "type": "string"
+          },
+          "copilot": {
+            "$ref": "#/components/schemas/FeatureState"
+          },
+          "copilot_reason": {
+            "title": "Copilot Reason",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "coldsense_version",
+          "copilot",
+          "copilot_reason"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "Hypothesis": {
+        "description": "A claim the system or team may test. Never a fact by itself.",
+        "properties": {
+          "alternatives": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Alternatives",
+            "type": "array"
+          },
+          "contradicting_evidence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Contradicting Evidence",
+            "type": "array"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "data_needed": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Data Needed",
+            "type": "array"
+          },
+          "generated_by": {
+            "description": "'team', a model id, or 'llm:<model>'",
+            "title": "Generated By",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "motivating_observation": {
+            "title": "Motivating Observation",
+            "type": "string"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HypothesisStatus",
+            "default": "PROPOSED"
+          },
+          "success_criteria": {
+            "title": "Success Criteria",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Supporting Evidence",
+            "type": "array"
+          },
+          "test": {
+            "title": "Test",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "motivating_observation",
+          "test",
+          "success_criteria",
+          "generated_by"
+        ],
+        "title": "Hypothesis",
+        "type": "object"
+      },
+      "HypothesisStatus": {
+        "enum": [
+          "PROPOSED",
+          "UNDER_TEST",
+          "SUPPORTED",
+          "REJECTED",
+          "INCONCLUSIVE"
+        ],
+        "title": "HypothesisStatus",
+        "type": "string"
+      },
+      "IncidentView": {
+        "additionalProperties": false,
+        "description": "Technician findings for this case: drafts (not history), confirmed records, and the outcome state of each.\nThe records are the Phase 8 trusted-confirmation store's records, copied; nothing is inferred from timing.",
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "confirmed": {
+            "items": {
+              "$ref": "#/components/schemas/FindingRecordView"
+            },
+            "title": "Confirmed",
+            "type": "array"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/FindingCounts"
+          },
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/FindingDraftView"
+            },
+            "title": "Drafts",
+            "type": "array"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "status": {
+            "const": "AVAILABLE",
+            "default": "AVAILABLE",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "case_id",
+          "status",
+          "drafts",
+          "confirmed",
+          "counts",
+          "provenance"
+        ],
+        "title": "IncidentView",
+        "type": "object"
+      },
+      "InputIdentity": {
+        "properties": {
+          "column_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "role -> header in the file",
+            "title": "Column Mapping",
+            "type": "object"
+          },
+          "decimal_separator": {
+            "enum": [
+              ".",
+              ". or ,"
+            ],
+            "title": "Decimal Separator",
+            "type": "string"
+          },
+          "delimiter": {
+            "title": "Delimiter",
+            "type": "string"
+          },
+          "encoding": {
+            "title": "Encoding",
+            "type": "string"
+          },
+          "header": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Header",
+            "type": "array"
+          },
+          "ignored_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Ignored Columns",
+            "type": "array"
+          },
+          "sha256": {
+            "description": "SHA-256 of the bytes read (of the UTF-8 form when given text)",
+            "title": "Sha256",
+            "type": "string"
+          },
+          "size_bytes": {
+            "title": "Size Bytes",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "temperature_unit": {
+            "enum": [
+              "C",
+              "F",
+              "K"
+            ],
+            "title": "Temperature Unit",
+            "type": "string"
+          },
+          "temperature_unit_source": {
+            "enum": [
+              "option",
+              "header",
+              "cells",
+              "assumed"
+            ],
+            "title": "Temperature Unit Source",
+            "type": "string"
+          },
+          "timestamp_format": {
+            "title": "Timestamp Format",
+            "type": "string"
+          },
+          "timestamp_format_source": {
+            "enum": [
+              "option",
+              "iso8601",
+              "detected"
+            ],
+            "title": "Timestamp Format Source",
+            "type": "string"
+          },
+          "timezone_handling": {
+            "title": "Timezone Handling",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "sha256",
+          "size_bytes",
+          "encoding",
+          "delimiter",
+          "decimal_separator",
+          "header",
+          "column_mapping",
+          "ignored_columns",
+          "temperature_unit",
+          "temperature_unit_source",
+          "timestamp_format",
+          "timestamp_format_source",
+          "timezone_handling"
+        ],
+        "title": "InputIdentity",
+        "type": "object"
+      },
+      "IntervalStats": {
+        "properties": {
+          "irregular_pct": {
+            "title": "Irregular Pct",
+            "type": "number"
+          },
+          "longest_gap_min": {
+            "title": "Longest Gap Min",
+            "type": "number"
+          },
+          "max_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max S"
+          },
+          "median_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median S"
+          },
+          "min_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min S"
+          },
+          "n_gaps": {
+            "title": "N Gaps",
+            "type": "integer"
+          },
+          "n_intervals": {
+            "title": "N Intervals",
+            "type": "integer"
+          },
+          "n_irregular": {
+            "title": "N Irregular",
+            "type": "integer"
+          },
+          "n_out_of_order": {
+            "title": "N Out Of Order",
+            "type": "integer"
+          },
+          "p05_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P05 S"
+          },
+          "p95_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P95 S"
+          }
+        },
+        "required": [
+          "n_intervals",
+          "min_s",
+          "p05_s",
+          "median_s",
+          "p95_s",
+          "max_s",
+          "n_irregular",
+          "irregular_pct",
+          "n_gaps",
+          "longest_gap_min",
+          "n_out_of_order"
+        ],
+        "title": "IntervalStats",
+        "type": "object"
+      },
+      "IntervalView": {
+        "additionalProperties": false,
+        "description": "Phase 5 interval at the horizon. Bounds are present only when the interval was emitted (SUPPORTED or\nCONSERVATIVE); otherwise ``status`` says why there is none.",
+        "properties": {
+          "conditional_on": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Conditional On",
+            "type": "array"
+          },
+          "horizon_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Horizon Min"
+          },
+          "lower_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower C"
+          },
+          "nominal_coverage": {
+            "title": "Nominal Coverage",
+            "type": "number"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "upper_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper C"
+          }
+        },
+        "required": [
+          "status",
+          "horizon_min",
+          "nominal_coverage",
+          "lower_c",
+          "upper_c",
+          "conditional_on"
+        ],
+        "title": "IntervalView",
+        "type": "object"
+      },
+      "InvestigationView": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "hypotheses": {
+            "description": "Phase 6 hypothesis objects, unchanged (status PROPOSED)",
+            "items": {
+              "$ref": "#/components/schemas/Hypothesis"
+            },
+            "title": "Hypotheses",
+            "type": "array"
+          },
+          "hypothesis_label": {
+            "const": "MODEL_INFERENCE",
+            "default": "MODEL_INFERENCE",
+            "title": "Hypothesis Label",
+            "type": "string"
+          },
+          "hypothesis_note": {
+            "const": "hypothesis, not a confirmed fault",
+            "default": "hypothesis, not a confirmed fault",
+            "title": "Hypothesis Note",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "next_checks": {
+            "items": {
+              "$ref": "#/components/schemas/NextCheck"
+            },
+            "title": "Next Checks",
+            "type": "array"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "recommendation_label": {
+            "const": "SYSTEM_RECOMMENDATION",
+            "default": "SYSTEM_RECOMMENDATION",
+            "title": "Recommendation Label",
+            "type": "string"
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal Reason"
+          },
+          "rules_validation": {
+            "title": "Rules Validation",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DiagnosisStatus"
+          }
+        },
+        "required": [
+          "case_id",
+          "status",
+          "refusal_reason",
+          "hypotheses",
+          "hypothesis_label",
+          "hypothesis_note",
+          "findings",
+          "next_checks",
+          "recommendation_label",
+          "rules_validation",
+          "limitations",
+          "provenance"
+        ],
+        "title": "InvestigationView",
+        "type": "object"
+      },
+      "Issue": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          }
+        },
+        "required": [
+          "code",
+          "severity",
+          "message"
+        ],
+        "title": "Issue",
+        "type": "object"
+      },
+      "KnowledgeView": {
+        "additionalProperties": false,
+        "description": "A read-only Phase 7 retrieval result. ``status`` distinguishes a working retrieval from a missing index;\nan answer with ``NO_RELEVANT_DOCUMENTATION`` is still a working result (the refusal is the answer).",
+        "properties": {
+          "answer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Answer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "status": {
+            "default": "AVAILABLE",
+            "enum": [
+              "AVAILABLE",
+              "NOT_AVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query",
+          "status",
+          "answer",
+          "reason"
+        ],
+        "title": "KnowledgeView",
+        "type": "object"
+      },
+      "MalformedRecord": {
+        "description": "A row with more fields than the header. It cannot be assigned to columns,\nso it is NOT an observation; its exact source text is kept here instead.",
+        "properties": {
+          "expected_fields": {
+            "title": "Expected Fields",
+            "type": "integer"
+          },
+          "line": {
+            "title": "Line",
+            "type": "integer"
+          },
+          "n_fields": {
+            "title": "N Fields",
+            "type": "integer"
+          },
+          "raw_text": {
+            "title": "Raw Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line",
+          "n_fields",
+          "expected_fields",
+          "raw_text"
+        ],
+        "title": "MalformedRecord",
+        "type": "object"
+      },
+      "Necessity": {
+        "enum": [
+          "NECESSARY_FOR_THIS_QUESTION",
+          "POTENTIAL_IMPROVEMENT",
+          "OPTIONAL_CONTEXT",
+          "FUTURE_CAPABILITY"
+        ],
+        "title": "Necessity",
+        "type": "string"
+      },
+      "NextCheck": {
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "check_id": {
+            "title": "Check Id",
+            "type": "string"
+          },
+          "effort": {
+            "$ref": "#/components/schemas/Effort"
+          },
+          "evidence": {
+            "description": "EVIDENCE: the facts and assessment items that make the check necessary, by fact id",
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "evidence_value": {
+            "$ref": "#/components/schemas/EvidenceValue"
+          },
+          "expected_information": {
+            "description": "EXPECTED INFORMATION: what the result would be and how it would bear on each explanation, by the rules",
+            "items": {
+              "type": "string"
+            },
+            "title": "Expected Information",
+            "type": "array"
+          },
+          "open_items": {
+            "description": "len(resolves): the first ranking key; a count, not a score",
+            "title": "Open Items",
+            "type": "integer"
+          },
+          "phase4_recommendations": {
+            "description": "Phase 4 advice on acquiring the same input; referenced, not restated",
+            "items": {
+              "type": "string"
+            },
+            "title": "Phase4 Recommendations",
+            "type": "array"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "ranking_basis": {
+            "title": "Ranking Basis",
+            "type": "string"
+          },
+          "required_input": {
+            "title": "Required Input",
+            "type": "string"
+          },
+          "resolution_or_duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolution Or Duration"
+          },
+          "resolves": {
+            "description": "finding / explanation pairs (or observation uncertainties) addressed",
+            "items": {
+              "type": "string"
+            },
+            "title": "Resolves",
+            "type": "array"
+          },
+          "safety": {
+            "$ref": "#/components/schemas/Safety"
+          },
+          "safety_note": {
+            "title": "Safety Note",
+            "type": "string"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "why_useful": {
+            "title": "Why Useful",
+            "type": "string"
+          },
+          "windows": {
+            "description": "the excursion windows to look at",
+            "items": {
+              "type": "string"
+            },
+            "title": "Windows",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rank",
+          "check_id",
+          "action",
+          "windows",
+          "required_input",
+          "why_useful",
+          "resolves",
+          "open_items",
+          "effort",
+          "ranking_basis",
+          "evidence_value",
+          "safety",
+          "safety_note"
+        ],
+        "title": "NextCheck",
+        "type": "object"
+      },
+      "NextCheckView": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "checks": {
+            "description": "Phase 6 checks in Phase 6's rank order; ranks are its own, no score",
+            "items": {
+              "$ref": "#/components/schemas/NextCheck"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
+          "label": {
+            "const": "SYSTEM_RECOMMENDATION",
+            "default": "SYSTEM_RECOMMENDATION",
+            "title": "Label",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "next_best_check": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Best Check"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal Reason"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DiagnosisStatus"
+          }
+        },
+        "required": [
+          "case_id",
+          "status",
+          "refusal_reason",
+          "next_best_check",
+          "checks",
+          "label",
+          "limitations",
+          "provenance"
+        ],
+        "title": "NextCheckView",
+        "type": "object"
+      },
+      "NotAvailableBlock": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "status": {
+            "const": "NOT_AVAILABLE",
+            "default": "NOT_AVAILABLE",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "reason"
+        ],
+        "title": "NotAvailableBlock",
+        "type": "object"
+      },
+      "ObservedFact": {
+        "description": "What a record says, with where it comes from. Never an interpretation of cause.",
+        "properties": {
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "evidence class of the underlying data or output"
+          },
+          "fact_id": {
+            "title": "Fact Id",
+            "type": "string"
+          },
+          "kind": {
+            "description": "event type, issue code, record kind or status",
+            "title": "Kind",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "record_provenance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "event-log records: RECORDED_BY_SYSTEM or MANUAL_LOG; room metadata: its stated provenance (e.g. MANUFACTURER_SPECIFICATION)",
+            "title": "Record Provenance"
+          },
+          "source": {
+            "$ref": "#/components/schemas/FactSource"
+          },
+          "source_ids": {
+            "description": "Phase 3 event ids or record references",
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Ids",
+            "type": "array"
+          },
+          "source_lines": {
+            "description": "Phase 2 source lines of the readings",
+            "items": {
+              "type": "integer"
+            },
+            "title": "Source Lines",
+            "type": "array"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fact_id",
+          "source",
+          "kind",
+          "statement",
+          "evidence"
+        ],
+        "title": "ObservedFact",
+        "type": "object"
+      },
+      "ObservedTemperature": {
+        "additionalProperties": false,
+        "properties": {
+          "measured_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Measured At"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "value_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value C"
+          }
+        },
+        "required": [
+          "value_c",
+          "provenance",
+          "measured_at",
+          "note"
+        ],
+        "title": "ObservedTemperature",
+        "type": "object"
+      },
+      "Outcome": {
+        "enum": [
+          "UNKNOWN",
+          "RESOLVED",
+          "NOT_RESOLVED",
+          "PENDING"
+        ],
+        "title": "Outcome",
+        "type": "string"
+      },
+      "Passage": {
+        "properties": {
+          "citation": {
+            "$ref": "#/components/schemas/Citation"
+          },
+          "excerpt": {
+            "description": "the sentences of the passage that contain the most query terms",
+            "title": "Excerpt",
+            "type": "string"
+          },
+          "flags": {
+            "items": {
+              "$ref": "#/components/schemas/ChunkFlag"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "fusion_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "reciprocal-rank fusion score (SEMANTIC, rrf ranking); ranking only",
+            "title": "Fusion Score"
+          },
+          "lexical_score": {
+            "description": "BM25 over the active corpus; ranking only",
+            "title": "Lexical Score",
+            "type": "number"
+          },
+          "matched_terms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Matched Terms",
+            "type": "array"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "relevance_basis": {
+            "description": "which rule admitted the passage: TERM_COVERAGE, SEMANTIC_SIMILARITY, EXACT_IDENTIFIERS",
+            "items": {
+              "type": "string"
+            },
+            "title": "Relevance Basis",
+            "type": "array"
+          },
+          "retrieval_method": {
+            "default": "",
+            "description": "LEXICAL or SEMANTIC, with the store's embedding model id",
+            "title": "Retrieval Method",
+            "type": "string"
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "the passage's heading path",
+            "title": "Section"
+          },
+          "term_coverage": {
+            "description": "IDF-weighted share of the query terms found in the passage",
+            "title": "Term Coverage",
+            "type": "number"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "trust": {
+            "$ref": "#/components/schemas/Trust"
+          },
+          "vector_similarity": {
+            "description": "cosine of the store's embeddings (lexical or semantic); ranking data, not a probability",
+            "title": "Vector Similarity",
+            "type": "number"
+          }
+        },
+        "required": [
+          "rank",
+          "citation",
+          "text",
+          "excerpt",
+          "trust",
+          "vector_similarity",
+          "lexical_score",
+          "term_coverage",
+          "matched_terms"
+        ],
+        "title": "Passage",
+        "type": "object"
+      },
+      "PredictionRefusal": {
+        "additionalProperties": false,
+        "description": "A refused prediction. By construction it has no field for a forecast value (see module docstring).",
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "data_verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "evidence_class": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "class of the result: SIMULATED or EXPECTED, never REAL"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "operating_regime": {
+            "title": "Operating Regime",
+            "type": "string"
+          },
+          "outcome": {
+            "const": "REFUSED",
+            "default": "REFUSED",
+            "title": "Outcome",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "question": {
+            "$ref": "#/components/schemas/ForecastQuestion"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationView"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "refusal": {
+            "$ref": "#/components/schemas/RefusalDetail"
+          },
+          "regime_evidence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Regime Evidence",
+            "type": "array"
+          },
+          "request": {
+            "$ref": "#/components/schemas/PredictionRequest-Output"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "case_id",
+          "request",
+          "data_verdict",
+          "evidence_class",
+          "question",
+          "operating_regime",
+          "regime_evidence",
+          "warnings",
+          "limitations",
+          "recommendations",
+          "provenance",
+          "outcome",
+          "refusal"
+        ],
+        "title": "PredictionRefusal",
+        "type": "object"
+      },
+      "PredictionRequest-Input": {
+        "additionalProperties": false,
+        "properties": {
+          "assess_reliability": {
+            "default": true,
+            "description": "add the Phase 5 reliability assessment (causal view of the log)",
+            "title": "Assess Reliability",
+            "type": "boolean"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/Direction",
+            "default": "UPWARD"
+          },
+          "horizon_min": {
+            "description": "forecast horizon, minutes",
+            "exclusiveMinimum": 0.0,
+            "maximum": 10080.0,
+            "title": "Horizon Min",
+            "type": "number"
+          },
+          "passive_since": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "declared start of a period without active cooling",
+            "title": "Passive Since"
+          },
+          "question": {
+            "$ref": "#/components/schemas/ForecastQuestion",
+            "default": "NO_COOLING"
+          },
+          "threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "°C; a crossing is reported only if set",
+            "title": "Threshold C"
+          }
+        },
+        "required": [
+          "horizon_min"
+        ],
+        "title": "PredictionRequest",
+        "type": "object"
+      },
+      "PredictionRequest-Output": {
+        "additionalProperties": false,
+        "properties": {
+          "assess_reliability": {
+            "default": true,
+            "description": "add the Phase 5 reliability assessment (causal view of the log)",
+            "title": "Assess Reliability",
+            "type": "boolean"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/Direction",
+            "default": "UPWARD"
+          },
+          "horizon_min": {
+            "description": "forecast horizon, minutes",
+            "exclusiveMinimum": 0.0,
+            "maximum": 10080.0,
+            "title": "Horizon Min",
+            "type": "number"
+          },
+          "passive_since": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "declared start of a period without active cooling",
+            "title": "Passive Since"
+          },
+          "question": {
+            "$ref": "#/components/schemas/ForecastQuestion",
+            "default": "NO_COOLING"
+          },
+          "threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "°C; a crossing is reported only if set",
+            "title": "Threshold C"
+          }
+        },
+        "required": [
+          "horizon_min",
+          "threshold_c",
+          "direction",
+          "question",
+          "passive_since",
+          "assess_reliability"
+        ],
+        "title": "PredictionRequest",
+        "type": "object"
+      },
+      "PredictionStatusView": {
+        "additionalProperties": false,
+        "description": "Support/refusal status of the case's latest prediction. A refusal carries its code and reason only.",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "FORECAST",
+              "REFUSED",
+              "NOT_RUN"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "refusal_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RefusalCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal Reason"
+          },
+          "reliability_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReliabilityStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "validation_scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ValidationScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "outcome",
+          "refusal_code",
+          "refusal_reason",
+          "reliability_status",
+          "validation_scope"
+        ],
+        "title": "PredictionStatusView",
+        "type": "object"
+      },
+      "PredictionSuccess": {
+        "additionalProperties": false,
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "baselines": {
+            "description": "baseline comparison from the Phase 4 engine",
+            "items": {
+              "$ref": "#/components/schemas/BaselineView"
+            },
+            "title": "Baselines",
+            "type": "array"
+          },
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "crossing": {
+            "$ref": "#/components/schemas/CrossingView"
+          },
+          "crossing_interval": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CrossingIntervalView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "data_verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "evidence_class": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "class of the result: SIMULATED or EXPECTED, never REAL"
+          },
+          "horizon_min": {
+            "title": "Horizon Min",
+            "type": "number"
+          },
+          "initial_temperature": {
+            "$ref": "#/components/schemas/ObservedTemperature"
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntervalView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "model": {
+            "$ref": "#/components/schemas/SelectedModel"
+          },
+          "operating_regime": {
+            "title": "Operating Regime",
+            "type": "string"
+          },
+          "outcome": {
+            "const": "FORECAST",
+            "default": "FORECAST",
+            "title": "Outcome",
+            "type": "string"
+          },
+          "prediction_start": {
+            "format": "date-time",
+            "title": "Prediction Start",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "question": {
+            "$ref": "#/components/schemas/ForecastQuestion"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationView"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "regime_evidence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Regime Evidence",
+            "type": "array"
+          },
+          "reliability": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReliabilityView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "request": {
+            "$ref": "#/components/schemas/PredictionRequest-Output"
+          },
+          "scenario": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scenario",
+            "type": "array"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThresholdView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trajectory": {
+            "items": {
+              "$ref": "#/components/schemas/TrajectoryPointView"
+            },
+            "minItems": 1,
+            "title": "Trajectory",
+            "type": "array"
+          },
+          "validated_horizon_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validated Horizon Min"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "case_id",
+          "request",
+          "data_verdict",
+          "evidence_class",
+          "question",
+          "operating_regime",
+          "regime_evidence",
+          "warnings",
+          "limitations",
+          "recommendations",
+          "provenance",
+          "outcome",
+          "model",
+          "prediction_start",
+          "horizon_min",
+          "validated_horizon_min",
+          "initial_temperature",
+          "threshold",
+          "crossing",
+          "trajectory",
+          "scenario",
+          "assumptions",
+          "baselines",
+          "interval",
+          "crossing_interval",
+          "reliability"
+        ],
+        "title": "PredictionSuccess",
+        "type": "object"
+      },
+      "Priority": {
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW"
+        ],
+        "title": "Priority",
+        "type": "string"
+      },
+      "Provenance": {
+        "enum": [
+          "OBSERVED",
+          "FITTED",
+          "DERIVED",
+          "PREDICTED",
+          "SIMULATED",
+          "ASSUMED",
+          "UNAVAILABLE"
+        ],
+        "title": "Provenance",
+        "type": "string"
+      },
+      "QualityHeadline": {
+        "additionalProperties": false,
+        "properties": {
+          "blocking_issues": {
+            "title": "Blocking Issues",
+            "type": "integer"
+          },
+          "coverage_pct": {
+            "title": "Coverage Pct",
+            "type": "number"
+          },
+          "duration_hours": {
+            "title": "Duration Hours",
+            "type": "number"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "rows_read": {
+            "title": "Rows Read",
+            "type": "integer"
+          },
+          "rows_usable": {
+            "title": "Rows Usable",
+            "type": "integer"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "suitable_for_analysis": {
+            "title": "Suitable For Analysis",
+            "type": "boolean"
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "warnings": {
+            "title": "Warnings",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "verdict",
+          "suitable_for_analysis",
+          "rows_read",
+          "rows_usable",
+          "start",
+          "end",
+          "duration_hours",
+          "coverage_pct",
+          "blocking_issues",
+          "warnings"
+        ],
+        "title": "QualityHeadline",
+        "type": "object"
+      },
+      "QualityView": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "headline": {
+            "$ref": "#/components/schemas/QualityHeadline"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "report": {
+            "$ref": "#/components/schemas/DataQualityReport",
+            "description": "the full Phase 2 data-quality report, unchanged"
+          }
+        },
+        "required": [
+          "case_id",
+          "headline",
+          "issues",
+          "limitations",
+          "report",
+          "provenance"
+        ],
+        "title": "QualityView",
+        "type": "object"
+      },
+      "RecommendationView": {
+        "additionalProperties": false,
+        "properties": {
+          "acquisition_guidance": {
+            "title": "Acquisition Guidance",
+            "type": "string"
+          },
+          "missing_input": {
+            "title": "Missing Input",
+            "type": "string"
+          },
+          "necessity": {
+            "$ref": "#/components/schemas/Necessity"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/Priority"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "retry_conditions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retry Conditions"
+          }
+        },
+        "required": [
+          "missing_input",
+          "priority",
+          "necessity",
+          "rationale",
+          "acquisition_guidance",
+          "retry_conditions"
+        ],
+        "title": "RecommendationView",
+        "type": "object"
+      },
+      "RecordCounts": {
+        "properties": {
+          "blank_lines": {
+            "title": "Blank Lines",
+            "type": "integer"
+          },
+          "data_rows_read": {
+            "description": "rows that became observations (excludes malformed rows)",
+            "title": "Data Rows Read",
+            "type": "integer"
+          },
+          "malformed_lines": {
+            "description": "file line numbers of all malformed rows",
+            "items": {
+              "type": "integer"
+            },
+            "title": "Malformed Lines",
+            "type": "array"
+          },
+          "rows_excluded": {
+            "title": "Rows Excluded",
+            "type": "integer"
+          },
+          "rows_malformed": {
+            "description": "rows with more fields than the header; NOT observations, kept as raw text in DataQualityReport.malformed_records",
+            "title": "Rows Malformed",
+            "type": "integer"
+          },
+          "rows_short": {
+            "description": "rows with fewer fields than the header; missing fields left empty",
+            "title": "Rows Short",
+            "type": "integer"
+          },
+          "rows_suspicious": {
+            "title": "Rows Suspicious",
+            "type": "integer"
+          },
+          "rows_usable": {
+            "title": "Rows Usable",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "data_rows_read",
+          "rows_malformed",
+          "malformed_lines",
+          "rows_short",
+          "blank_lines",
+          "rows_usable",
+          "rows_excluded",
+          "rows_suspicious"
+        ],
+        "title": "RecordCounts",
+        "type": "object"
+      },
+      "RefusalCode": {
+        "enum": [
+          "INVALID_REQUEST",
+          "INPUT_CONFLICT",
+          "DATA_REFUSED",
+          "MISSING_REQUIRED_INPUT",
+          "MODEL_NOT_APPLICABLE",
+          "INSUFFICIENT_DATA",
+          "INSUFFICIENT_IDENTIFIABILITY",
+          "IMPLAUSIBLE_PARAMETERS",
+          "POOR_FIT",
+          "FIT_FAILED",
+          "INSUFFICIENT_EVIDENCE",
+          "NO_ADEQUATE_MODEL",
+          "NUMERICAL_ERROR"
+        ],
+        "title": "RefusalCode",
+        "type": "string"
+      },
+      "RefusalDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/RefusalCode"
+          },
+          "failed_condition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failed Condition"
+          },
+          "needed_to_retry": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Needed To Retry"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "reason",
+          "failed_condition",
+          "needed_to_retry"
+        ],
+        "title": "RefusalDetail",
+        "type": "object"
+      },
+      "ReliabilityStatus": {
+        "description": "An engineering classification from explicit gates; NOT a probability and not a score.",
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW",
+          "UNSUPPORTED"
+        ],
+        "title": "ReliabilityStatus",
+        "type": "string"
+      },
+      "ReliabilityView": {
+        "additionalProperties": false,
+        "properties": {
+          "gates_failed": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Gates Failed",
+            "type": "array"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "why the status is below HIGH",
+            "title": "Reason"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReliabilityStatus",
+            "description": "rule-based classification; NOT a probability"
+          },
+          "validation_scope": {
+            "$ref": "#/components/schemas/ValidationScope"
+          }
+        },
+        "required": [
+          "status",
+          "validation_scope",
+          "method",
+          "reason",
+          "gates_failed"
+        ],
+        "title": "ReliabilityView",
+        "type": "object"
+      },
+      "ReportView": {
+        "additionalProperties": false,
+        "description": "Built by the Phase 8 ``generate_service_report`` tool from confirmed records only. A refusal has no text.",
+        "properties": {
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "confirmed": {
+            "items": {
+              "$ref": "#/components/schemas/FindingRecordView"
+            },
+            "title": "Confirmed",
+            "type": "array"
+          },
+          "drafts_excluded": {
+            "items": {
+              "$ref": "#/components/schemas/FindingDraftView"
+            },
+            "title": "Drafts Excluded",
+            "type": "array"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "n_confirmed": {
+            "title": "N Confirmed",
+            "type": "integer"
+          },
+          "n_drafts_excluded": {
+            "title": "N Drafts Excluded",
+            "type": "integer"
+          },
+          "numeric_check": {
+            "enum": [
+              "PASSED",
+              "REFUSED"
+            ],
+            "title": "Numeric Check",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "report": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "present only when the numeric check passed; plain text",
+            "title": "Report"
+          },
+          "status": {
+            "enum": [
+              "OK",
+              "REFUSED"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "violations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Violations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "case_id",
+          "status",
+          "report",
+          "n_confirmed",
+          "n_drafts_excluded",
+          "violations",
+          "confirmed",
+          "drafts_excluded",
+          "numeric_check",
+          "generated_at",
+          "provenance"
+        ],
+        "title": "ReportView",
+        "type": "object"
+      },
+      "ResultProvenance": {
+        "additionalProperties": false,
+        "description": "Where every number in a response came from (amendment G: the uploader's declaration is shown separately and\nnever changes the evidence class or the Phase 5 scope).",
+        "properties": {
+          "coldsense_version": {
+            "title": "Coldsense Version",
+            "type": "string"
+          },
+          "computed_at": {
+            "format": "date-time",
+            "title": "Computed At",
+            "type": "string"
+          },
+          "data_evidence_class": {
+            "$ref": "#/components/schemas/EvidenceClass",
+            "description": "the class the engine analysed the data as: UNVALIDATED for every anonymous upload, SIMULATED only for a bundled ColdSense sample"
+          },
+          "declaration_status": {
+            "enum": [
+              "NOT_DECLARED",
+              "DECLARED_BY_UPLOADER_NOT_VERIFIED"
+            ],
+            "title": "Declaration Status",
+            "type": "string"
+          },
+          "declared_evidence": {
+            "anyOf": [
+              {
+                "enum": [
+                  "REAL",
+                  "SIMULATED"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "what the uploader said the data is: declared by uploader, not verified; no effect",
+            "title": "Declared Evidence"
+          },
+          "evidence_basis": {
+            "description": "why the data has that class",
+            "enum": [
+              "ANONYMOUS_UPLOAD",
+              "BUNDLED_SAMPLE"
+            ],
+            "title": "Evidence Basis",
+            "type": "string"
+          },
+          "method": {
+            "description": "which accepted ColdSense stage produced the result",
+            "title": "Method",
+            "type": "string"
+          },
+          "method_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Method Version"
+          },
+          "result_evidence_class": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceClass"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "class of model outputs in this response: SIMULATED for simulated input, otherwise EXPECTED; never REAL. None when the response holds no model output"
+          },
+          "source_filename": {
+            "description": "display name of the uploaded file (sanitised; never used as a path)",
+            "title": "Source Filename",
+            "type": "string"
+          },
+          "source_sha256": {
+            "title": "Source Sha256",
+            "type": "string"
+          },
+          "source_size_bytes": {
+            "title": "Source Size Bytes",
+            "type": "integer"
+          },
+          "validation_scope": {
+            "$ref": "#/components/schemas/ValidationScope",
+            "description": "Phase 5 scope: what any check on this data can speak for"
+          },
+          "validation_scope_source": {
+            "description": "from this result's Phase 5 assessment, or from the Phase 5 evidence-class table (SCOPE_FOR_EVIDENCE) when no assessment ran",
+            "enum": [
+              "PHASE5_ASSESSMENT",
+              "PHASE5_SCOPE_TABLE"
+            ],
+            "title": "Validation Scope Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_evidence_class",
+          "evidence_basis",
+          "declared_evidence",
+          "declaration_status",
+          "result_evidence_class",
+          "source_filename",
+          "source_sha256",
+          "source_size_bytes",
+          "method",
+          "method_version",
+          "validation_scope",
+          "validation_scope_source",
+          "coldsense_version",
+          "computed_at"
+        ],
+        "title": "ResultProvenance",
+        "type": "object"
+      },
+      "Safety": {
+        "description": "Access the check needs: a statement about the check, not about the room.",
+        "enum": [
+          "OFFICE_ONLY",
+          "ROOM_ENTRY",
+          "EQUIPMENT_ACCESS"
+        ],
+        "title": "Safety",
+        "type": "string"
+      },
+      "SampleInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "evidence_class": {
+            "const": "SIMULATED",
+            "default": "SIMULATED",
+            "title": "Evidence Class",
+            "type": "string"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "sample_id": {
+            "title": "Sample Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sample_id",
+          "filename",
+          "description",
+          "evidence_class"
+        ],
+        "title": "SampleInfo",
+        "type": "object"
+      },
+      "SelectedModel": {
+        "additionalProperties": false,
+        "properties": {
+          "fallback_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback Reason"
+          },
+          "forecast_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PHYSICAL or BASELINE",
+            "title": "Forecast Kind"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "selection_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selection Reason"
+          },
+          "solution_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Solution Method"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "solution_method",
+          "forecast_kind",
+          "selection_reason",
+          "fallback_reason"
+        ],
+        "title": "SelectedModel",
+        "type": "object"
+      },
+      "Severity": {
+        "enum": [
+          "INFO",
+          "WARNING",
+          "BLOCKING"
+        ],
+        "title": "Severity",
+        "type": "string"
+      },
+      "StepState": {
+        "enum": [
+          "READY",
+          "REFUSED",
+          "NOT_RUN",
+          "BLOCKED"
+        ],
+        "title": "StepState",
+        "type": "string"
+      },
+      "ThresholdView": {
+        "additionalProperties": false,
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/Direction"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "value_c": {
+            "title": "Value C",
+            "type": "number"
+          }
+        },
+        "required": [
+          "value_c",
+          "direction",
+          "provenance",
+          "note"
+        ],
+        "title": "ThresholdView",
+        "type": "object"
+      },
+      "TimelineGap": {
+        "additionalProperties": false,
+        "properties": {
+          "duration_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Min"
+          },
+          "end": {
+            "description": "first usable reading after the gap",
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "event_id": {
+            "title": "Event Id",
+            "type": "string"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "start": {
+            "description": "last usable reading before the gap",
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_id",
+          "start",
+          "end",
+          "duration_min",
+          "rationale"
+        ],
+        "title": "TimelineGap",
+        "type": "object"
+      },
+      "TimelinePoint": {
+        "additionalProperties": false,
+        "description": "One usable Phase 2 observation (the analysis frame), copied; °C.",
+        "properties": {
+          "ambient_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ambient C"
+          },
+          "compressor_on": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compressor On"
+          },
+          "source_line": {
+            "title": "Source Line",
+            "type": "integer"
+          },
+          "temp_c": {
+            "title": "Temp C",
+            "type": "number"
+          },
+          "ts": {
+            "format": "date-time",
+            "title": "Ts",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ts",
+          "temp_c",
+          "ambient_c",
+          "compressor_on",
+          "source_line"
+        ],
+        "title": "TimelinePoint",
+        "type": "object"
+      },
+      "TimelineRun": {
+        "additionalProperties": false,
+        "description": "Readings between two Phase 3 DATA_GAP events. Runs are never joined: a gap is drawn as a gap.",
+        "properties": {
+          "end": {
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/TimelinePoint"
+            },
+            "title": "Points",
+            "type": "array"
+          },
+          "points_total": {
+            "title": "Points Total",
+            "type": "integer"
+          },
+          "run_index": {
+            "title": "Run Index",
+            "type": "integer"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_index",
+          "start",
+          "end",
+          "points_total",
+          "points"
+        ],
+        "title": "TimelineRun",
+        "type": "object"
+      },
+      "TimelineView": {
+        "additionalProperties": false,
+        "properties": {
+          "ambient_available": {
+            "title": "Ambient Available",
+            "type": "boolean"
+          },
+          "case_id": {
+            "title": "Case Id",
+            "type": "string"
+          },
+          "compressor_recorded": {
+            "title": "Compressor Recorded",
+            "type": "boolean"
+          },
+          "display": {
+            "$ref": "#/components/schemas/DisplaySampling"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "events": {
+            "description": "Phase 3 events, unchanged (trends, excursions, compressor, gaps)",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "gaps": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineGap"
+            },
+            "title": "Gaps",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "lower_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Threshold C"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ResultProvenance"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineRun"
+            },
+            "title": "Runs",
+            "type": "array"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "time_basis": {
+            "title": "Time Basis",
+            "type": "string"
+          },
+          "unit": {
+            "const": "°C",
+            "default": "°C",
+            "title": "Unit",
+            "type": "string"
+          },
+          "upper_threshold_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper Threshold C"
+          }
+        },
+        "required": [
+          "case_id",
+          "unit",
+          "time_basis",
+          "start",
+          "end",
+          "upper_threshold_c",
+          "lower_threshold_c",
+          "ambient_available",
+          "compressor_recorded",
+          "runs",
+          "gaps",
+          "events",
+          "display",
+          "limitations",
+          "provenance"
+        ],
+        "title": "TimelineView",
+        "type": "object"
+      },
+      "TrajectoryPointView": {
+        "additionalProperties": false,
+        "properties": {
+          "minutes": {
+            "title": "Minutes",
+            "type": "number"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "temp_c": {
+            "title": "Temp C",
+            "type": "number"
+          },
+          "ts": {
+            "format": "date-time",
+            "title": "Ts",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ts",
+          "minutes",
+          "temp_c",
+          "provenance"
+        ],
+        "title": "TrajectoryPointView",
+        "type": "object"
+      },
+      "Transformation": {
+        "description": "Anything that changed or reinterpreted a value or the row order.",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "rows_affected": {
+            "title": "Rows Affected",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "code",
+          "description",
+          "rows_affected"
+        ],
+        "title": "Transformation",
+        "type": "object"
+      },
+      "Trust": {
+        "description": "Provenance status. Nothing here is ever 'verified': ColdSense cannot check a manual's correctness.",
+        "enum": [
+          "UNREVIEWED",
+          "FLAGGED"
+        ],
+        "title": "Trust",
+        "type": "string"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "ValidationLimits": {
+        "description": "Measurement assumptions a caller may override for one file (e.g. a\nfreezer). Sufficiency limits are not here: they stay fixed in code.",
+        "properties": {
+          "ambient_max_c": {
+            "default": 70.0,
+            "title": "Ambient Max C",
+            "type": "number"
+          },
+          "ambient_min_c": {
+            "default": -40.0,
+            "title": "Ambient Min C",
+            "type": "number"
+          },
+          "max_step_c_per_min": {
+            "default": 5.0,
+            "title": "Max Step C Per Min",
+            "type": "number"
+          },
+          "plausible_max_c": {
+            "default": 60.0,
+            "title": "Plausible Max C",
+            "type": "number"
+          },
+          "plausible_min_c": {
+            "default": -40.0,
+            "title": "Plausible Min C",
+            "type": "number"
+          },
+          "spike_min_jump_c": {
+            "default": 2.0,
+            "title": "Spike Min Jump C",
+            "type": "number"
+          }
+        },
+        "title": "ValidationLimits",
+        "type": "object"
+      },
+      "ValidationScope": {
+        "description": "What the held-out checks can speak for, set by the input's evidence class (SCOPE_FOR_EVIDENCE).",
+        "enum": [
+          "SIMULATED_ONLY",
+          "REAL_WORLD_UNVALIDATED",
+          "EXPECTED_ONLY",
+          "UNVALIDATED_PROVENANCE",
+          "REAL_WORLD_VALIDATED"
+        ],
+        "title": "ValidationScope",
+        "type": "string"
+      },
+      "Verdict": {
+        "enum": [
+          "USABLE",
+          "LIMITED",
+          "REFUSED"
+        ],
+        "title": "Verdict",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "Evidence-first cold-room decision support. Refusals are results, not errors.",
+    "title": "ColdSense API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/cases": {
+      "post": {
+        "description": "Upload a log (raw CSV body, not multipart: nothing is spooled to disk) and start a case. The data is analysed\nas UNVALIDATED. Runs the Phase 2 data-quality check immediately.",
+        "operationId": "create_case_api_v1_cases_post",
+        "parameters": [
+          {
+            "description": "original file name (display only)",
+            "in": "query",
+            "name": "filename",
+            "required": true,
+            "schema": {
+              "description": "original file name (display only)",
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Filename",
+              "type": "string"
+            }
+          },
+          {
+            "description": "what you say this file is: stored and shown as 'declared by uploader, not verified'; it never changes the evidence class (always UNVALIDATED for uploads) or the Phase 5 scope",
+            "in": "query",
+            "name": "declared_evidence",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "REAL",
+                    "SIMULATED"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "what you say this file is: stored and shown as 'declared by uploader, not verified'; it never changes the evidence class (always UNVALIDATED for uploads) or the Phase 5 scope",
+              "title": "Declared Evidence"
+            }
+          },
+          {
+            "in": "query",
+            "name": "unit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^[CFK]$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Unit"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timezone",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 64,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Timezone"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timestamp_format",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 64,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Timestamp Format"
+            }
+          },
+          {
+            "in": "query",
+            "name": "delimiter",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 4,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Delimiter"
+            }
+          },
+          {
+            "in": "query",
+            "name": "encoding",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 32,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Encoding"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "format": "binary",
+                "type": "string"
+              }
+            },
+            "text/csv": {
+              "schema": {
+                "format": "binary",
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Create Case",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/samples/{sample_id}": {
+      "post": {
+        "description": "Start a case from a bundled, labelled ColdSense SIMULATED sample (a server-side file; no visitor data).",
+        "operationId": "create_sample_case_api_v1_cases_samples__sample_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sample_id",
+            "required": true,
+            "schema": {
+              "title": "Sample Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Create Sample Case",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}": {
+      "delete": {
+        "operationId": "delete_case_api_v1_cases__case_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Case",
+        "tags": [
+          "cases"
+        ]
+      },
+      "get": {
+        "operationId": "get_case_api_v1_cases__case_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Case",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/analysis": {
+      "get": {
+        "operationId": "get_analysis_api_v1_cases__case_id__analysis_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Analysis",
+        "tags": [
+          "cases"
+        ]
+      },
+      "post": {
+        "description": "Phase 3 event segmentation (+ Stage 2: Phase 6 diagnosis) with the limits you set; replaces the previous run.",
+        "operationId": "run_analysis_api_v1_cases__case_id__analysis_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Run Analysis",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/copilot": {
+      "post": {
+        "description": "Technician copilot: the server gate decides. While disabled no LLM provider is constructed, no LLM is called\nand no tool runs, even for a direct API request.",
+        "operationId": "copilot_api_v1_cases__case_id__copilot_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopilotRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Copilot",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/evidence": {
+      "get": {
+        "operationId": "get_evidence_api_v1_cases__case_id__evidence_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Evidence",
+        "tags": [
+          "workspace"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/findings": {
+      "get": {
+        "operationId": "list_findings_api_v1_cases__case_id__findings_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingsView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Findings",
+        "tags": [
+          "findings"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/findings/drafts": {
+      "post": {
+        "description": "Create a PENDING draft from the technician's own statement. A draft is not history; it writes no record.",
+        "operationId": "create_finding_draft_api_v1_cases__case_id__findings_drafts_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindingDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDraftCreated"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Create Finding Draft",
+        "tags": [
+          "findings"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/findings/drafts/{draft_id}/cancel": {
+      "post": {
+        "description": "Cancel a PENDING draft. Nothing is appended to the Phase 8 store and no report content changes.",
+        "operationId": "cancel_finding_api_v1_cases__case_id__findings_drafts__draft_id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "draft_id",
+            "required": true,
+            "schema": {
+              "title": "Draft Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDraftView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Cancel Finding",
+        "tags": [
+          "findings"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/findings/drafts/{draft_id}/confirm": {
+      "post": {
+        "description": "Explicit user confirmation with the single-use token from the draft. This is the only route that appends.",
+        "operationId": "confirm_finding_api_v1_cases__case_id__findings_drafts__draft_id__confirm_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "draft_id",
+            "required": true,
+            "schema": {
+              "title": "Draft Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindingConfirmRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingRecordView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Confirm Finding",
+        "tags": [
+          "findings"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/incident": {
+      "get": {
+        "description": "Drafts, confirmed findings and their outcome state. Read-only; nothing is written by this route.",
+        "operationId": "get_incident_api_v1_cases__case_id__incident_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident",
+        "tags": [
+          "workspace"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/investigation": {
+      "get": {
+        "operationId": "get_investigation_api_v1_cases__case_id__investigation_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestigationView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Investigation",
+        "tags": [
+          "workspace"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/next-check": {
+      "get": {
+        "operationId": "get_next_check_api_v1_cases__case_id__next_check_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NextCheckView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Next Check",
+        "tags": [
+          "workspace"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/prediction": {
+      "get": {
+        "operationId": "get_prediction_api_v1_cases__case_id__prediction_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "mapping": {
+                      "FORECAST": "#/components/schemas/PredictionSuccess",
+                      "REFUSED": "#/components/schemas/PredictionRefusal"
+                    },
+                    "propertyName": "outcome"
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PredictionSuccess"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PredictionRefusal"
+                    }
+                  ],
+                  "title": "Response Get Prediction Api V1 Cases  Case Id  Prediction Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Prediction",
+        "tags": [
+          "cases"
+        ]
+      },
+      "post": {
+        "description": "Phase 4 forecast (+ Phase 5 reliability). A refusal is a normal 200 result with ``outcome: REFUSED``.",
+        "operationId": "create_prediction_api_v1_cases__case_id__prediction_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest-Input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "mapping": {
+                      "FORECAST": "#/components/schemas/PredictionSuccess",
+                      "REFUSED": "#/components/schemas/PredictionRefusal"
+                    },
+                    "propertyName": "outcome"
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PredictionSuccess"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PredictionRefusal"
+                    }
+                  ],
+                  "title": "Response Create Prediction Api V1 Cases  Case Id  Prediction Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Create Prediction",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/quality": {
+      "get": {
+        "operationId": "get_quality_api_v1_cases__case_id__quality_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Quality",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/reports": {
+      "post": {
+        "description": "Compose the report with the Phase 8 builder from confirmed records only; the numeric check can refuse it.",
+        "operationId": "create_report_api_v1_cases__case_id__reports_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Create Report",
+        "tags": [
+          "reports"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/reports/latest": {
+      "get": {
+        "operationId": "get_latest_report_api_v1_cases__case_id__reports_latest_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Latest Report",
+        "tags": [
+          "reports"
+        ]
+      }
+    },
+    "/api/v1/cases/{case_id}/timeline": {
+      "get": {
+        "description": "Usable readings split at Phase 3 data gaps, with the Phase 3 events. Needs POST .../analysis first.",
+        "operationId": "get_timeline_api_v1_cases__case_id__timeline_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "case_id",
+            "required": true,
+            "schema": {
+              "title": "Case Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimelineView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Gone"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Timeline",
+        "tags": [
+          "workspace"
+        ]
+      }
+    },
+    "/api/v1/csrf": {
+      "get": {
+        "description": "Read-only: no server state. Sets (or keeps) the ``cs_csrf`` nonce cookie and returns its token.",
+        "operationId": "csrf_api_v1_csrf_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsrfToken"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Csrf",
+        "tags": [
+          "service"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "description": "The Copilot state comes from the server-side gate; the frontend never decides it.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "service"
+        ]
+      }
+    },
+    "/api/v1/knowledge": {
+      "get": {
+        "description": "Read-only Phase 7 retrieval over the local SQLite knowledge store.\n\nThe retrieval is deliberately separate from diagnosis: a quoted manual passage never changes a refusal or a\nfinding. If the index is missing the response is a clear ``NOT_AVAILABLE`` result, not a 500.",
+        "operationId": "knowledge_api_v1_knowledge_get",
+        "parameters": [
+          {
+            "description": "a technical question; quoted passages only, never instructions",
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "description": "a technical question; quoted passages only, never instructions",
+              "maxLength": 1000,
+              "minLength": 1,
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "description": "maximum cited passages",
+            "in": "query",
+            "name": "k",
+            "required": false,
+            "schema": {
+              "default": 5,
+              "description": "maximum cited passages",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "K",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Knowledge",
+        "tags": [
+          "knowledge"
+        ]
+      }
+    },
+    "/api/v1/samples": {
+      "get": {
+        "operationId": "samples_api_v1_samples_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SampleInfo"
+                  },
+                  "title": "Response Samples Api V1 Samples Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Samples",
+        "tags": [
+          "cases"
+        ]
+      }
+    },
+    "/api/v1/session": {
+      "delete": {
+        "description": "Revoke this session and delete every case it owns, now.",
+        "operationId": "end_session_api_v1_session_delete",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          }
+        },
+        "summary": "End Session",
+        "tags": [
+          "service"
+        ]
+      }
+    }
+  }
+}

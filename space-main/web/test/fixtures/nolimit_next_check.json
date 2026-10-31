@@ -1,0 +1,32 @@
+{
+ "case_id": "case_fixtureNoLimit0000000",
+ "checks": [],
+ "label": "SYSTEM_RECOMMENDATION",
+ "limitations": [
+  "events and facts are observations; every explanation is a hypothesis, never a diagnosis of cause",
+  "no probability, score or confidence is given; hypotheses are listed in a fixed order, not ranked",
+  "absence of a record is never evidence of absence; supplied records are taken as stated, not verified (SIMULATED in a simulated scenario, otherwise UNVALIDATED)",
+  "only sustained excursions beyond the limit you set are diagnosed; brief excursions are reported as facts",
+  "data evidence SIMULATED: statements hold only for these data; UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+  "next checks are ranked as a work priority (relevance, effort, evidence value), not by any confidence in an explanation"
+ ],
+ "next_best_check": null,
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:27.000735Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 3 event segmentation + Phase 6 diagnostics",
+  "method_version": "phase6-diagnostics-2",
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "refusal_reason": "no temperature limit was given (--upper-threshold / --lower-threshold): ColdSense does not decide what temperature is abnormal",
+ "status": "INSUFFICIENT_EVIDENCE"
+}

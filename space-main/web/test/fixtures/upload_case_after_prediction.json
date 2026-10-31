@@ -1,0 +1,31 @@
+{
+ "case_id": "case_fixtureUpload00000000",
+ "created_at": "2026-10-24T14:14:21.579830Z",
+ "declaration_status": "DECLARED_BY_UPLOADER_NOT_VERIFIED",
+ "declared_evidence": "REAL",
+ "evidence_basis": "ANONYMOUS_UPLOAD",
+ "evidence_class": "UNVALIDATED",
+ "expires_at": "2026-10-24T16:14:21.579830Z",
+ "filename": "site_log.csv",
+ "last_prediction_outcome": "FORECAST",
+ "quality": {
+  "blocking_issues": 0,
+  "coverage_pct": 100.0,
+  "duration_hours": 22.0,
+  "end": "2026-10-20T22:00:00",
+  "rows_read": 1321,
+  "rows_usable": 1321,
+  "start": "2026-10-20T00:00:00",
+  "suitable_for_analysis": true,
+  "verdict": "LIMITED",
+  "warnings": 1
+ },
+ "sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+ "size_bytes": 48874,
+ "steps": {
+  "analysis": "READY",
+  "prediction": "READY",
+  "quality": "READY"
+ },
+ "validation_scope": "UNVALIDATED_PROVENANCE"
+}

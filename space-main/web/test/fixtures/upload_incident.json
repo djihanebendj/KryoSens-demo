@@ -1,0 +1,29 @@
+{
+ "case_id": "case_fixtureUpload00000000",
+ "confirmed": [],
+ "counts": {
+  "confirmed": 0,
+  "drafts_cancelled": 0,
+  "drafts_pending": 0,
+  "outcomes_unknown": 0,
+  "outcomes_verified": 0
+ },
+ "drafts": [],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:21.590373Z",
+  "data_evidence_class": "UNVALIDATED",
+  "declaration_status": "DECLARED_BY_UPLOADER_NOT_VERIFIED",
+  "declared_evidence": "REAL",
+  "evidence_basis": "ANONYMOUS_UPLOAD",
+  "method": "Phase 8 trusted-confirmation finding store (technician-entered statements)",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "site_log.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "UNVALIDATED_PROVENANCE",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "status": "AVAILABLE"
+}

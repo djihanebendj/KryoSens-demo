@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coldsense"
+version = "0.1.0"
+description = "Evidence-first engineering decision support, starting with cold-room temperature behaviour"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary - all rights reserved until the team chooses a licence" }
+dependencies = [
+  "pandas>=2.2,<4",
+  "numpy>=1.26,<3",
+  "scipy>=1.11,<2",
+  "pydantic>=2.6,<3",
+  "pydantic-settings>=2.2,<3",
+]
+
+[project.optional-dependencies]
+# Each group is installed only when the phase that needs it begins.
+dev = ["pytest>=8", "ruff>=0.5", "fastapi>=0.110", "httpx>=0.27"]  # API tests import coldsense.app.api
+app = ["streamlit>=1.35", "plotly>=5.20"]  # user interface (later phase)
+api = ["fastapi>=0.110", "uvicorn>=0.29"]  # Phase 9 HTTP service (src/coldsense/app/api)
+knowledge = ["pypdf>=4"]                    # Phase 7: PDF text extraction (TXT, Markdown, DOCX need nothing)
+semantic = ["onnxruntime>=1.17", "tokenizers>=0.15"]  # Phase 7: local bge-small-en-v1.5 embeddings (model files separate)
+# llm = [...]                                # added with the copilot phase, not before
+
+[project.scripts]
+coldsense = "coldsense.app.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"coldsense.knowledge" = ["eval_corpus/*.md", "eval_corpus/*.txt", "eval_corpus/*.json"]
+"coldsense.copilot" = ["hazard_topics.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["experiments", ".*", "node_modules", "web"]   # experiments/ is a separate project
+pythonpath = ["src"]
+addopts = "-ra --strict-markers"
+markers = [
+  "real_data: needs files in data/real/ (skipped when absent; never in CI)",
+  "slow: takes more than a few seconds",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["experiments"]   # a separate project with its own tooling
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = [
+  "E731",   # small lambdas used as local helpers are fine
+  "UP042",  # keep (str, Enum): StrEnum changes str() output, a behaviour change (see DECISIONS D-011)
+]

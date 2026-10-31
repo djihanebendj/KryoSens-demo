@@ -1,0 +1,62 @@
+{
+ "case_id": "case_fixtureForecast000000",
+ "confirmed": [
+  {
+   "asset_id": "case_fixtureForecast000000",
+   "confirmation_channel": "WEB_APPLICATION",
+   "confirmed_at": "2026-10-26T23:39:23.574444Z",
+   "confirmed_via": "trusted CLI confirmation token",
+   "content_hash": "090339dfdff18fb744d03896d505c21722cc2ebf565d8c4bc95328cf5885ee1a",
+   "created_at": "2026-10-26T23:39:23.542297Z",
+   "event_window": "overnight power cut",
+   "outcome": "RESOLVED",
+   "record_id": "finding-0001",
+   "source": "technician via copilot (trusted confirmation)",
+   "statement": "The door seal was worn and the compressor stayed off overnight."
+  }
+ ],
+ "counts": {
+  "confirmed": 1,
+  "drafts_cancelled": 1,
+  "drafts_pending": 1,
+  "outcomes_unknown": 0,
+  "outcomes_verified": 1
+ },
+ "drafts": [
+  {
+   "asset_id": "case_fixtureForecast000000",
+   "content_hash": "19c9a32814e013339d14fb0d21cd2f99fe5e0465d34b9b760e862fdd045023cf",
+   "created_at": "2026-10-26T23:39:23.607971Z",
+   "draft_id": "draft-0002",
+   "event_window": null,
+   "statement": "The room temperature rose while the unit was off.",
+   "status": "PENDING"
+  },
+  {
+   "asset_id": "case_fixtureForecast000000",
+   "content_hash": "9e835f8e32490c096682d5befa22314704ba7d104f113e2b74237b19dcfca210",
+   "created_at": "2026-10-26T23:39:23.639626Z",
+   "draft_id": "draft-0003",
+   "event_window": null,
+   "statement": "A second technician will check the door heater next week.",
+   "status": "CANCELLED"
+  }
+ ],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-26T23:39:23.706184Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 8 trusted-confirmation finding store (technician-entered statements)",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "5d89e496571f832784d092b03565f6d5d79074e51b4fcff0aad0600ed3f4f611",
+  "source_size_bytes": 50196,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "status": "AVAILABLE"
+}

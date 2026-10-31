@@ -1,0 +1,108 @@
+{
+ "case_id": "case_fixtureNoLimit0000000",
+ "data_quality_limitations": [
+  "TIMEZONE_UNKNOWN: timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates.",
+  "SHORT_LOG: log covers 22.0 h; 24 h recommended",
+  "Events describe the data; none is a diagnosis or a cause.",
+  "Segmentation parameters are provisional defaults checked on SIMULATED data only.",
+  "times are local clock time of unknown zone; a clock change would distort durations"
+ ],
+ "data_verdict": "LIMITED",
+ "diagnosis_refusal_reason": "no temperature limit was given (--upper-threshold / --lower-threshold): ColdSense does not decide what temperature is abnormal",
+ "diagnosis_status": "INSUFFICIENT_EVIDENCE",
+ "document_facts": {
+  "reason": "document facts come from Phase 7 retrieval over technical documents, which this application does not expose; no document is attached to a case",
+  "status": "NOT_AVAILABLE"
+ },
+ "findings": [],
+ "inference_label": "MODEL_INFERENCE",
+ "limitations": [
+  "events and facts are observations; every explanation is a hypothesis, never a diagnosis of cause",
+  "no probability, score or confidence is given; hypotheses are listed in a fixed order, not ranked",
+  "absence of a record is never evidence of absence; supplied records are taken as stated, not verified (SIMULATED in a simulated scenario, otherwise UNVALIDATED)",
+  "only sustained excursions beyond the limit you set are diagnosed; brief excursions are reported as facts",
+  "data evidence SIMULATED: statements hold only for these data; UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+  "next checks are ranked as a work priority (relevance, effort, evidence value), not by any confidence in an explanation"
+ ],
+ "observed_fact_label": "OBSERVED_FACT",
+ "observed_facts": [
+  {
+   "end": "2026-10-20T22:00:00",
+   "evidence": "SIMULATED",
+   "fact_id": "O001",
+   "kind": "VERDICT_LIMITED",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE2_VALIDATION",
+   "source_ids": [],
+   "source_lines": [],
+   "start": "2026-10-20T00:00:00",
+   "statement": "validation verdict LIMITED: 1321 usable of 1321 rows, coverage 100.0 %, 0 gap(s)"
+  },
+  {
+   "end": null,
+   "evidence": "SIMULATED",
+   "fact_id": "O002",
+   "kind": "TIMEZONE_UNKNOWN",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE2_VALIDATION",
+   "source_ids": [],
+   "source_lines": [],
+   "start": null,
+   "statement": "timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates."
+  },
+  {
+   "end": null,
+   "evidence": "SIMULATED",
+   "fact_id": "O003",
+   "kind": "SHORT_LOG",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE2_VALIDATION",
+   "source_ids": [],
+   "source_lines": [],
+   "start": null,
+   "statement": "log covers 22.0 h; 24 h recommended"
+  },
+  {
+   "end": null,
+   "evidence": "SIMULATED",
+   "fact_id": "O004",
+   "kind": "COMPRESSOR_RECORD",
+   "limitations": [],
+   "record_provenance": null,
+   "source": "PHASE3_EVENT",
+   "source_ids": [],
+   "source_lines": [],
+   "start": null,
+   "statement": "compressor state: segmented (100.0% of usable rows carry a valid state)"
+  }
+ ],
+ "prediction": {
+  "outcome": "FORECAST",
+  "refusal_code": null,
+  "refusal_reason": null,
+  "reliability_status": "MEDIUM",
+  "validation_scope": "SIMULATED_ONLY"
+ },
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:26.987895Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 3 event segmentation + Phase 6 diagnostics",
+  "method_version": "phase6-diagnostics-2",
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "recommendation_label": "SYSTEM_RECOMMENDATION",
+ "recommendations": [],
+ "rules_validation": "UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis"
+}

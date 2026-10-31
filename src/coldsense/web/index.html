@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ColdSense — Epistemic Thermal Intelligence for Cold Rooms</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="global-nav" role="banner">
+    <div class="global-nav-inner">
+      <a href="#dashboard" class="global-nav-brand" onclick="switchView('dashboard'); return false;">
+        <div class="brand-glyph" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+          </svg>
+        </div>
+        <span>ColdSense</span>
+      </a>
+
+      <ul class="global-nav-links" role="navigation" aria-label="Epistemic Pillars">
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('prediction')">
+            <span class="status-dot"></span>01 Predict
+          </button>
+        </li>
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('evidence')">
+            <span class="status-dot"></span>02 Explain
+          </button>
+        </li>
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('next-best-check')">
+            <span class="status-dot"></span>03 Investigate
+          </button>
+        </li>
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('investigation')">
+            <span class="status-dot"></span>04 Verify
+          </button>
+        </li>
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('copilot')">
+            LangGraph Copilot
+          </button>
+        </li>
+        <li>
+          <button type="button" class="theme-pill-btn" onclick="switchView('reports')">
+            Audit Reports
+          </button>
+        </li>
+      </ul>
+
+      <div class="global-search-wrap">
+        <form id="global-kb-search-form" onsubmit="handleGlobalKbSearch(event)">
+          <input
+            type="search"
+            id="global-kb-search-input"
+            class="rounded-search-input"
+            placeholder="Search manuals (EX-200, gasket)..."
+            aria-label="Search refrigeration technical manuals"
+          />
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="floating-dock-wrapper">
+    <nav class="floating-dock" aria-label="Case & Workflow Controls">
+      <div class="dock-case-chip">
+        <span class="status-dot"></span>
+        <span id="active-case-provenance-label">NO ACTIVE CASE</span>
+        <span id="active-case-title-label" style="color:var(--color-smoke); margin-left:4px;">Select or upload a log</span>
+      </div>
+
+      <div class="section-anchor-nav" id="workflow-anchor-nav" aria-label="11 Application Pages">
+        <button type="button" class="anchor-tab active unlocked" data-view="dashboard" data-step="1" onclick="switchView('dashboard')">
+          <span class="step-dot"></span>Dashboard
+        </button>
+        <button type="button" class="anchor-tab unlocked" data-view="upload" data-step="1" onclick="switchView('upload')">
+          <span class="step-dot"></span>1. Upload
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="data-quality" data-step="2" onclick="switchView('data-quality')">
+          <span class="step-dot"></span>2. Quality
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="timeline" data-step="3" onclick="switchView('timeline')">
+          <span class="step-dot"></span>3. Timeline
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="prediction" data-step="4" onclick="switchView('prediction')">
+          <span class="step-dot"></span>4. Prediction
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="evidence" data-step="5" onclick="switchView('evidence')">
+          <span class="step-dot"></span>5. Evidence
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="next-best-check" data-step="6" onclick="switchView('next-best-check')">
+          <span class="step-dot"></span>6. Next Check
+        </button>
+        <button type="button" class="anchor-tab unlocked" data-view="copilot" data-step="1" onclick="switchView('copilot')">
+          <span class="step-dot"></span>7. Copilot
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="investigation" data-step="8" onclick="switchView('investigation')">
+          <span class="step-dot"></span>8–9. Verify
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="incident" data-step="6" onclick="switchView('incident')">
+          <span class="step-dot"></span>Incident
+        </button>
+        <button type="button" class="anchor-tab locked" data-view="reports" data-step="10" onclick="switchView('reports')">
+          <span class="step-dot"></span>10. Reports
+        </button>
+      </div>
+
+      <div class="dock-actions">
+        <button type="button" class="btn-outlined-cta" style="min-height:36px; padding:6px 14px; font-size:12px;" onclick="launchDemoScenario('corrupted_unreliable')">
+          Test Refusal Gate
+        </button>
+        <button type="button" class="btn-outlined-cta" style="min-height:36px; padding:6px 14px; font-size:12px;" onclick="launchDemoScenario('power_cut')">
+          Load Outage Case
+        </button>
+        <button type="button" class="btn-primary-cta" style="min-height:36px; padding:6px 16px; font-size:12px;" id="btn-run-full-pipeline" onclick="runFullScientificPipeline()">
+          Run 10-Step Pipeline
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <main id="main-content">
+
+    <section id="view-dashboard" class="view-section active">
+      <div class="hero-stage">
+        
+        <div class="announcement-pill">
+          <span class="announcement-dot"></span>
+          <span>ColdSense 3.4 is live — Refreshed for Epistemic Decision Support</span>
+          <svg class="announcement-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+
+        <span class="section-label">THIRDUNI COMPETITION · EPISTEMIC DECISION SUPPORT</span>
+        <h1 class="hero-display-headline">Physics first. Verified by humans.</h1>
+        <p class="hero-subcopy">
+          First-order thermodynamic drift modeling with 95% uncertainty bounds, guarded by a deterministic Reliability Gate, LangGraph hybrid RAG, and cryptographic technician confirmation.
+        </p>
+
+        <div class="hero-cta-group">
+          <button type="button" class="btn-primary-cta" onclick="runFullScientificPipeline()">
+            Run Full 10-Step Pipeline
+          </button>
+          <button type="button" class="btn-outlined-cta" onclick="launchDemoScenario('power_cut')">
+            Load SIMULATED Outage Case
+            <span class="inline-price-badge">180 min</span>
+          </button>
+          <button type="button" class="btn-outlined-cta" onclick="launchDemoScenario('corrupted_unreliable')">
+            Test Refusal Gate Demo
+          </button>
+        </div>
+
+        <div class="hero-showcase-stage">
+          
+          <div class="orbiting-satellites" aria-hidden="true">
+            
+            <div class="satellite-icon satellite-physics" title="First-Order RC Drift Modeling">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h3l3 8 4-16 3 8h5"/>
+              </svg>
+              <span class="satellite-label">τ = 4.04h</span>
+            </div>
+
+            <div class="satellite-icon satellite-copilot" title="LangGraph StateGraph Hybrid RAG">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/>
+                <path d="M7 17l3.5-9M17 17l-3.5-9"/>
+              </svg>
+              <span class="satellite-label">LangGraph</span>
+            </div>
+
+            <div class="satellite-icon satellite-reliability" title="Deterministic Reliability Gate">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span class="satellite-label">Reliability</span>
+            </div>
+
+            <div class="satellite-icon satellite-crypto" title="Single-Use Cryptographic HMAC Token">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span class="satellite-label">SHA-256</span>
+            </div>
+
+            <div class="satellite-icon satellite-sqlite" title="SQLite Trigger-Protected Append-Only Store">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              </svg>
+              <span class="satellite-label">Immutable</span>
+            </div>
+          </div>
+
+          <div class="product-showcase-window">
+            <div class="showcase-window-inner">
+              <div class="window-chrome">
+                <div class="traffic-lights">
+                  <span class="traffic-dot dot-red"></span>
+                  <span class="traffic-dot dot-amber"></span>
+                  <span class="traffic-dot dot-green"></span>
+                </div>
+                <span class="window-title">ColdSense 3.4 — Epistemic Thermal Telemetry · Chamber #1</span>
+                <span class="window-status-pill">ONLINE · 60s Cadence</span>
+              </div>
+
+              <div class="showcase-content-grid">
+                
+                <div class="cutaway-diagram-wrap">
+                  <svg viewBox="0 0 460 260" width="100%" role="img" aria-label="ColdSense Cold-Room Thermodynamic Cutaway">
+                    <rect width="460" height="260" rx="16" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+                    <rect x="20" y="20" width="420" height="220" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+                    
+                    <rect x="40" y="40" width="160" height="34" rx="8" fill="#f9fafb" stroke="#cccccc" stroke-width="1"/>
+                    <line x1="60" y1="48" x2="60" y2="66" stroke="#000000" stroke-width="1.5"/>
+                    <line x1="85" y1="48" x2="85" y2="66" stroke="#000000" stroke-width="1.5"/>
+                    <line x1="110" y1="48" x2="110" y2="66" stroke="#000000" stroke-width="1.5"/>
+                    <line x1="135" y1="48" x2="135" y2="66" stroke="#000000" stroke-width="1.5"/>
+                    <text x="120" y="96" text-anchor="middle" font-size="11" fill="#707070" font-weight="500">EVAPORATOR COIL · τ = 4.04 h</text>
+                    
+                    <rect x="390" y="44" width="8" height="172" rx="4" fill="#0e95ee"/>
+                    <text x="375" y="135" text-anchor="end" font-size="11" font-weight="600" fill="#0e95ee">PERIMETER SEAL</text>
+                    
+                    <text x="40" y="160" font-size="44" font-weight="700" fill="#000000" id="hero-svg-temp">+2.1 °C</text>
+                    <text x="40" y="185" font-size="12" font-weight="600" fill="#b64400" id="hero-svg-badge">SIMULATED TELEMETRY · R² = 0.9997</text>
+                    <text x="40" y="210" font-size="12" fill="#999999">Critical Threshold: 8.0 °C · Ambient: 22.0 °C</text>
+                  </svg>
+                </div>
+
+                <div class="live-telemetry-hud">
+                  <div class="hud-stat-box">
+                    <div class="hud-stat-label">Model Time Constant</div>
+                    <div class="hud-stat-value">4.04 h</div>
+                    <div class="hud-stat-caption">First-order RC drift toward 22 °C ambient</div>
+                  </div>
+                  <div class="hud-stat-box">
+                    <div class="hud-stat-label">Uncertainty Bounds</div>
+                    <div class="hud-stat-value">±0.23 °C</div>
+                    <div class="hud-stat-caption">95% confidence fan vs. naive linear baseline</div>
+                  </div>
+                  <div class="hud-stat-box">
+                    <div class="hud-stat-label">Epistemic Status</div>
+                    <div class="hud-stat-value" style="font-size:20px; color:#b64400;">SIMULATED</div>
+                    <div class="hud-stat-caption">Rule 1: Uploaded claims remain UNVALIDATED</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-capsule">
+            <div>
+              <div class="floating-capsule-title" id="capsule-headline">
+                Ready to inspect cold-room telemetry across 10 sequential epistemic gates.
+              </div>
+              <div class="floating-capsule-sub" id="capsule-subcopy">
+                Hypotheses are template-rendered (Rule 7). Only a human technician with a single-use token can confirm a finding.
+              </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn-outlined-cta" style="min-height:38px; padding:6px 16px; font-size:13px;" onclick="switchView('upload')">
+                Upload Custom File
+              </button>
+              <button type="button" class="btn-primary-cta" style="min-height:38px; padding:6px 18px; font-size:13px;" onclick="runFullScientificPipeline()">
+                Launch Walkthrough
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">ACTIVE WORKSPACE & GUARANTEES</span>
+          <h2 class="section-heading">Every result carries its evidence class.</h2>
+          <p class="section-subcopy">
+            Scientific decision support with explicit boundaries between observed facts, mathematical models, and human physical confirmations.
+          </p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: var(--spacing-64);">
+          <div class="feature-card">
+            <span class="section-label">01 PREDICT</span>
+            <h3 class="card-title-24">First-Order Drift</h3>
+            <p style="font-size:15px; color:var(--color-graphite); line-height:1.5;">
+              Fits thermal time constant τ against ambient temperature with 50% and 95% confidence bands vs. a naive baseline.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="section-label">02 EXPLAIN</span>
+            <h3 class="card-title-24">Reliability Gate</h3>
+            <p style="font-size:15px; color:var(--color-graphite); line-height:1.5;">
+              Refuses to guess when sample count, data gaps, or non-physical trajectories fail validation.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="section-label">03 INVESTIGATE</span>
+            <h3 class="card-title-24">Template Hypotheses</h3>
+            <p style="font-size:15px; color:var(--color-graphite); line-height:1.5;">
+              Generates deterministic hypotheses (Rule 7) and ranked physical Next Best Checks to settle open questions.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="section-label">04 VERIFY</span>
+            <h3 class="card-title-24">Trusted Token</h3>
+            <p style="font-size:15px; color:var(--color-graphite); line-height:1.5;">
+              Single-use HMAC token bound to the SHA-256 record hash. The language model can never confirm a fault.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--spacing-24); flex-wrap:wrap; gap:12px;">
+            <div>
+              <span class="section-label">PRIVATE VISITOR SESSION</span>
+              <h3 class="card-title-24" style="margin-bottom:2px;">Active Cold-Room Cases</h3>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn-outlined-cta" style="min-height:36px; padding:6px 14px; font-size:13px;" onclick="launchDemoScenario('corrupted_unreliable')">
+                + Corrupted Log Case
+              </button>
+              <button type="button" class="btn-primary-cta" style="min-height:36px; padding:6px 16px; font-size:13px;" onclick="launchDemoScenario('power_cut')">
+                + Simulated Outage Case
+              </button>
+            </div>
+          </div>
+
+          <div class="editorial-table-wrap">
+            <table class="editorial-table">
+              <thead>
+                <tr>
+                  <th>Case ID</th>
+                  <th>Title</th>
+                  <th>Evidence Class</th>
+                  <th>User Claim Real</th>
+                  <th>Current Step</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-cases-tbody">
+                <tr><td colspan="7" style="color:var(--color-smoke); text-align:center; padding:32px;">Loading active visitor session cases...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-upload" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 01 OF 10 · INGESTION & PROVENANCE LOCK</span>
+          <h2 class="section-heading">Upload Cold-Room Telemetry.</h2>
+          <p class="section-subcopy">
+            Ingest temperature time series in CSV or JSON format. Under Rule 1, uploaded data runs strictly as UNVALIDATED evidence.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          
+          <div class="feature-card">
+            <form id="case-upload-form" onsubmit="submitUploadCase(event)">
+              <div class="field-group">
+                <label class="field-label" for="upload-title">Case Title / Chamber Identifier</label>
+                <input type="text" id="upload-title" class="input-control" placeholder="e.g. Pharma Cold-Room Alpha (Chamber #3)" required />
+              </div>
+
+              <div class="grid-2" style="margin-bottom:var(--spacing-20);">
+                <div class="field-group">
+                  <label class="field-label" for="upload-format">File Format</label>
+                  <select id="upload-format" class="select-control">
+                    <option value="csv">CSV (timestamp, temp_c)</option>
+                    <option value="json">JSON (readings array)</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="upload-threshold">Critical Temp Threshold (°C)</label>
+                  <input type="number" id="upload-threshold" class="input-control" value="8.0" step="0.1" />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="upload-file">Select Telemetry File</label>
+                <input type="file" id="upload-file" class="input-control" accept=".csv,.json" onchange="handleFileUpload(event)" />
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="upload-raw-content">Or Paste Telemetry Data</label>
+                <textarea id="upload-raw-content" class="textarea-control" placeholder="timestamp,temp_c&#10;2026-10-30T10:00:00Z,2.15&#10;2026-10-30T10:01:00Z,2.18..."></textarea>
+              </div>
+
+              <div class="checkbox-row">
+                <input type="checkbox" id="upload-claim-real" style="margin-top:2px;" />
+                <div>
+                  <label for="upload-claim-real" style="font-weight:600; font-size:13px; color:var(--color-midnight-ink); display:block; cursor:pointer;">
+                    I claim this uploaded file comes from a real physical cold room
+                  </label>
+                  <p style="font-size:12px; color:var(--color-smoke); margin-top:2px;">
+                    Rule 1 Guardrail: Your claim is stored separately for audit provenance. Uploaded telemetry ALWAYS executes as UNVALIDATED evidence.
+                  </p>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <button type="button" class="btn-outlined-cta" onclick="switchView('dashboard')">Cancel</button>
+                <button type="submit" class="btn-primary-cta">Ingest &amp; Advance to Step 2</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="feature-card">
+            <span class="section-label">COMPETITION DEMO PRESETS</span>
+            <h3 class="card-title-24">1-Click Test Scenarios</h3>
+            <p style="font-size:15px; color:var(--color-graphite); margin-bottom:var(--spacing-28); line-height:1.5;">
+              Test the end-to-end scientific pipeline against pre-configured scenarios designed for the ThirdUni benchmark.
+            </p>
+
+            <div class="feature-card-bordered" style="margin-bottom:var(--spacing-20);">
+              <span class="section-label">SCENARIO A · PASSING PATH</span>
+              <h4 style="font-size:17px; font-weight:700; margin-bottom:4px; color:var(--color-midnight-ink);">Simulated Power Cut &amp; Drift (180 min)</h4>
+              <p style="font-size:14px; color:var(--color-graphite); margin-bottom:14px; line-height:1.5;">
+                Physics-consistent exponential thermal drift (τ = 4.04h, R² = 0.9997) crossing critical 8 °C limit at t = 84.7 min.
+              </p>
+              <button type="button" class="btn-primary-cta" style="min-height:38px; padding:6px 18px; font-size:13px;" onclick="launchDemoScenario('power_cut')">
+                Load Passing Demo Case
+              </button>
+            </div>
+
+            <div class="feature-card-bordered">
+              <span class="section-label">SCENARIO B · REFUSAL GATE (RULE 2)</span>
+              <h4 style="font-size:17px; font-weight:700; margin-bottom:4px; color:var(--color-midnight-ink);">Corrupted Telemetry &amp; Sampling Gaps</h4>
+              <p style="font-size:14px; color:var(--color-graphite); margin-bottom:14px; line-height:1.5;">
+                Severe sampling gaps and flatlined points. Tests the deterministic Reliability Gate refusal without guessed curves.
+              </p>
+              <button type="button" class="btn-outlined-cta" style="min-height:38px; padding:6px 18px; font-size:13px;" onclick="launchDemoScenario('corrupted_unreliable')">
+                Load Corrupted Refusal Case
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-data-quality" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 02 OF 10 · TELEMETRY INTEGRITY AUDIT</span>
+          <h2 class="section-heading">Data Quality Scorecard.</h2>
+          <p class="section-subcopy">
+            Evaluates sensor cadence, jitter, gap continuity, and physical range checks [-60 °C, +60 °C].
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="switchView('upload')">← Back to Step 1</button>
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(3, 'timeline')">Advance to Step 3: Timeline →</button>
+          </div>
+        </div>
+
+        <div id="dq-metrics-grid" class="grid-4" style="margin-bottom:var(--spacing-36);">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Run data quality check to view metrics...</p></div>
+        </div>
+
+        <div class="feature-card">
+          <span class="section-label">ANOMALY & GAP REGISTER</span>
+          <h3 class="card-title-24" style="margin-bottom:var(--spacing-16);">Itemized Quality Findings</h3>
+          <div id="dq-issues-container">
+            <div class="feature-card-bordered">
+              <p style="color:var(--color-smoke); font-size:14px;">No anomalies evaluated yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-timeline" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label" id="timeline-provenance-tag">STEP 03 OF 10 · REGIME SEGMENTATION</span>
+          <h2 class="section-heading">Temperature Timeline &amp; Regimes.</h2>
+          <p class="section-subcopy">
+            Continuous trajectory segmented into thermodynamic regimes: Normal Cooling, Power Cut, Door Open, Defrost Cycle.
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="switchView('data-quality')">← Back to Step 2</button>
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(4, 'prediction')">Advance to Step 4: Prediction →</button>
+          </div>
+        </div>
+
+        <div class="chart-stage" style="margin-bottom:var(--spacing-36);">
+          <div id="timeline-svg-container" style="min-height:320px; display:flex; align-items:center; justify-content:center;">
+            <p style="color:var(--color-smoke);">Select a case to render the time-series chart...</p>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span style="width:12px;height:12px;background:#000000;border-radius:2px;"></span> Temperature Curve</span>
+            <span class="legend-item"><span style="width:12px;height:12px;background:#b64400;border-radius:2px;"></span> Critical 8.0 °C Threshold</span>
+            <span class="legend-item"><span style="width:12px;height:12px;background:rgba(230,81,0,0.18);border-radius:2px;"></span> POWER_CUT Excursion</span>
+            <span class="legend-item"><span style="width:12px;height:12px;background:rgba(21,101,192,0.18);border-radius:2px;"></span> DOOR_OPEN Disturbance</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="section-label">DETECTED EXCURSIONS</span>
+          <h3 class="card-title-24" style="margin-bottom:var(--spacing-16);">Segmented Thermal Regimes</h3>
+          <div class="editorial-table-wrap">
+            <table class="editorial-table">
+              <thead>
+                <tr>
+                  <th>Event ID</th>
+                  <th>Regime Type</th>
+                  <th>Start (UTC)</th>
+                  <th>End (UTC)</th>
+                  <th>Duration</th>
+                  <th>Peak Temp</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="timeline-events-tbody">
+                <tr><td colspan="7" style="color:var(--color-smoke); text-align:center; padding:24px;">No events segmented yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-prediction" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 04 OF 10 · FIRST-ORDER RC MODEL &amp; RELIABILITY GATE</span>
+          <h2 class="section-heading">Thermal Drift Forecast.</h2>
+          <p class="section-subcopy">
+            Newtonian cooling model with analytical time constant τ fitting, 95% uncertainty fan, and naive baseline comparison.
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="refitPrediction()">Re-fit Thermal Model</button>
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(5, 'evidence')">Advance to Step 5: Evidence Board →</button>
+          </div>
+        </div>
+
+        <div id="prediction-outcome-container">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Run thermal prediction to plot drift curve...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-evidence" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 05 OF 10 · EPISTEMIC PROVENANCE SEPARATION</span>
+          <h2 class="section-heading">Evidence Board.</h2>
+          <p class="section-subcopy">
+            Rigorous three-column separation of Observed Facts, Model Inferences, and Recommendations with source tracking.
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="switchView('prediction')">← Back to Step 4</button>
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(6, 'next-best-check')">Advance to Step 6: Next Best Check →</button>
+          </div>
+        </div>
+
+        <div id="evidence-columns-container" class="grid-3">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Loading evidence ledger...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-next-best-check" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 06 OF 10 · DETERMINISTIC DIAGNOSTIC GUIDANCE</span>
+          <h2 class="section-heading">Next Best Physical Checks.</h2>
+          <p class="section-subcopy">
+            Template-rendered hypotheses (Rule 7) and ranked physical tests to settle open diagnostic questions.
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="switchView('evidence')">← Back to Step 5</button>
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(8, 'investigation')">Advance to Step 8–9: Verify →</button>
+          </div>
+        </div>
+
+        <div id="nbc-container" class="grid-2">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Generating next best checks...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-copilot" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 07 OF 10 · 6-NODE LANGGRAPH + LANGCHAIN + GEMINI RAG</span>
+          <h2 class="section-heading">Guarded Technician Copilot.</h2>
+          <p class="section-subcopy">
+            Hybrid RRF Vector + BM25 search with deterministic EN/FR Hazard Gates, verbatim quote enforcement, and numeric integrity audit.
+          </p>
+          <div class="section-actions-row">
+            <span id="copilot-gate-badge" class="theme-pill-btn">SERVER GATE: CHECKING...</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          
+          <div class="feature-card">
+            <span class="section-label">ASK MANUALS &amp; ACTIVE CASE</span>
+            <h3 class="card-title-24" style="margin-bottom:var(--spacing-12);">Interactive Copilot Evaluation</h3>
+            <p style="font-size:14px; color:var(--color-graphite); margin-bottom:var(--spacing-20); line-height:1.5;">
+              Select a preset evaluation chip to test grounded manual answers, hazard gates, conflicting sources, or refusals.
+            </p>
+
+            <div class="preset-chips-wrap">
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('gasket')">Gasket Tolerance (Grounded)</button>
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('threshold')">Excursion Limit (8.0 °C)</button>
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('hazard_en')">Test EN Hazard Gate</button>
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('hazard_fr')">Test FR Hazard Gate</button>
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('conflict')">Test Conflict (SB-12 vs Rev B)</button>
+              <button type="button" class="preset-chip" onclick="askCopilotPreset('unanswerable')">Test Unanswerable Refusal</button>
+            </div>
+
+            <form onsubmit="submitCopilotQuery(event)">
+              <div class="field-group">
+                <label class="field-label" for="copilot-query-input">Technician Question</label>
+                <textarea id="copilot-query-input" class="textarea-control" style="min-height:100px;" placeholder="What is the door gasket gap tolerance and paper strip check?"></textarea>
+              </div>
+
+              <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button type="button" class="btn-outlined-cta" onclick="checkKbStatus()">Check KB Status</button>
+                <button type="submit" class="btn-primary-cta">Ask Guarded Copilot</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="feature-card">
+            <span class="section-label">LANGGRAPH STATEGRAPH OUTPUT</span>
+            <h3 class="card-title-24" style="margin-bottom:var(--spacing-16);">Grounded Answer &amp; Citations</h3>
+            <div id="copilot-response-panel">
+              <div class="feature-card-bordered">
+                <p style="color:var(--color-smoke); font-size:14px;">
+                  Submit a query or select a preset chip on the left to inspect the Hazard Gate, verbatim source quotes, and numeric integrity audit.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-investigation" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEPS 08 &amp; 09 OF 10 · CRYPTOGRAPHIC HUMAN VERIFICATION</span>
+          <h2 class="section-heading">Trusted Technician Confirmation.</h2>
+          <p class="section-subcopy">
+            Outcomes remain UNKNOWN until confirmed by a human technician. Staging mints a single-use HMAC-SHA256 token bound to the canonical JSON finding.
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-primary-cta" onclick="advanceStep(10, 'reports')">Advance to Step 10: Generate Audit Report →</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          
+          <div class="feature-card">
+            <span class="section-label">STEP 08 · STAGE EXACT RECORD</span>
+            <h3 class="card-title-24" style="margin-bottom:var(--spacing-16);">1. Record Physical Observation</h3>
+            <form onsubmit="stageCurrentFinding(event)">
+              <div class="field-group">
+                <label class="field-label" for="stage-hypothesis-select">Target Hypothesis</label>
+                <select id="stage-hypothesis-select" class="select-control"></select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="stage-check-select">Physical Inspection Performed</label>
+                <select id="stage-check-select" class="select-control"></select>
+              </div>
+
+              <div class="grid-2">
+                <div class="field-group">
+                  <label class="field-label" for="stage-verdict-select">Technician Verdict</label>
+                  <select id="stage-verdict-select" class="select-control">
+                    <option value="CONFIRMED">CONFIRMED (Physical fault verified on-site)</option>
+                    <option value="REJECTED">REJECTED (Ruled out by physical inspection)</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="stage-tech-id">Technician ID</label>
+                  <input type="text" id="stage-tech-id" class="input-control" value="tech-amina-dz" required />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="stage-observation">On-Site Observation Note</label>
+                <textarea id="stage-observation" class="textarea-control" style="min-height:90px;" required>Inspected main distribution panel Q1: found tripped 3-phase thermal-magnetic breaker and phase-monitor relay alarm code logged during utility voltage sag.</textarea>
+              </div>
+
+              <div style="display:flex; justify-content:flex-end;">
+                <button type="submit" class="btn-primary-cta">Stage Record &amp; Mint Single-Use Token</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="feature-card">
+            <span class="section-label">STEP 09 · TOKEN COMMIT &amp; TAMPER GUARD</span>
+            <h3 class="card-title-24" style="margin-bottom:var(--spacing-16);">2. Verify Hash &amp; Commit Finding</h3>
+            <div id="staged-token-details">
+              <div class="feature-card-bordered" style="margin-bottom:var(--spacing-20);">
+                <p style="color:var(--color-smoke); font-size:14px;">Stage a finding in Step 8 on the left to inspect its SHA-256 record hash and single-use HMAC token.</p>
+              </div>
+            </div>
+
+            <span class="section-label" style="margin-top:var(--spacing-28);">APPEND-ONLY SQLITE FINDINGS LOG</span>
+            <h4 style="font-size:18px; font-weight:700; margin-bottom:var(--spacing-12); color:var(--color-midnight-ink);">
+              Immutable Record (Trigger Protected)
+            </h4>
+            <div id="confirmed-findings-list">
+              <p style="color:var(--color-smoke); font-size:14px;">No findings confirmed yet. All hypotheses remain UNKNOWN.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-incident" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">INCIDENT SUMMARY &amp; AUDIT TIMELINE</span>
+          <h2 class="section-heading">Incident Overview.</h2>
+          <p class="section-subcopy">
+            High-level operational overview summarizing temperature excursions, breach durations, and technician actions.
+          </p>
+        </div>
+
+        <div id="incident-overview-container">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Select a case to view incident summary...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-reports" class="view-section">
+      <div class="section-container">
+        <div class="section-header-centered">
+          <span class="section-label">STEP 10 OF 10 · ZERO OVERCLAIMING AUDIT REPORT</span>
+          <h2 class="section-heading">Confirmed Findings vs. Unconfirmed Drafts.</h2>
+          <p class="section-subcopy">
+            Strict separation between Section 1 (Human-Confirmed Findings) and Section 2 (Unconfirmed Diagnostic Drafts).
+          </p>
+          <div class="section-actions-row">
+            <button type="button" class="btn-outlined-cta" onclick="downloadReportMarkdown()">Download .MD Report</button>
+            <button type="button" class="btn-primary-cta" onclick="printReportPdf()">Print / Export PDF</button>
+          </div>
+        </div>
+
+        <div id="report-view-container">
+          <div class="feature-card"><p style="color:var(--color-smoke);">Generating audit report...</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-banner" class="toast-banner" role="status" aria-live="polite"></div>
+
+  <footer class="editorial-footer">
+    <div class="footer-inner">
+      <div style="font-weight:600; color:var(--color-midnight-ink);">
+        ColdSense (SmartClim) · Epistemic AI-Assisted Decision Support for Refrigeration.
+      </div>
+      <div>
+        Sleeve Style Reference · Pure White Canvas · First-Order Physics Modeling · LangGraph + Gemini Copilot · Cryptographic Confirmation.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

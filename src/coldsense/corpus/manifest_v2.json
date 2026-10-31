@@ -1,0 +1,15 @@
+{"note": "Synthetic evaluation corpus v2: the five v1 documents plus a near-match model (EX-220). Metadata below is supplied for the test; all products are fictional.",
+ "version": "eval-corpus-v2",
+ "documents": [
+  {"file": "ex200-service-manual.md", "doc_id": "ex200-service-manual", "doc_type": "SERVICE_MANUAL",
+   "manufacturer": "Exemplar Refrigeration (fictional)", "model": "EX-200", "revision": "B"},
+  {"file": "ex200-troubleshooting.txt", "doc_id": "ex200-troubleshooting", "doc_type": "TROUBLESHOOTING_GUIDE",
+   "manufacturer": "Exemplar Refrigeration (fictional)", "model": "EX-200", "title": "EX-200 Troubleshooting Guide"},
+  {"file": "ex200-service-bulletin-sb12.md", "doc_id": "ex200-sb12", "doc_type": "SERVICE_BULLETIN",
+   "manufacturer": "Exemplar Refrigeration (fictional)", "model": "EX-200", "revision": "C"},
+  {"file": "tf90-freezer-controller.md", "doc_id": "tf90-controller", "doc_type": "OTHER_TECHNICAL",
+   "manufacturer": "Testline (fictional)", "model": "TF-90"},
+  {"file": "field-note-compromised.md", "doc_id": "field-note", "doc_type": "OTHER_TECHNICAL"},
+  {"file": "ex220-quick-reference.md", "doc_id": "ex220-quick-reference", "doc_type": "OTHER_TECHNICAL",
+   "manufacturer": "Exemplar Refrigeration (fictional)", "model": "EX-220", "revision": "A"}
+ ]}

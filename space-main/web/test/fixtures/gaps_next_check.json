@@ -1,0 +1,202 @@
+{
+ "case_id": "case_fixtureGaps0000000000",
+ "checks": [
+  {
+   "action": "Look up the site's records for these windows (defrost, door_open, equipment_fault, maintenance, product_load, setpoint_change): controller event history, door-contact log, delivery and maintenance logs. Supply what exists as an event log (--events: kind, start, end, provenance)",
+   "check_id": "REVIEW_OPERATIONAL_RECORDS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O008 F1 HEAT_INGRESS: missing: door_open records for the window | product_load records for the window",
+    "O008 F1 DEFROST: missing: defrost records for the window",
+    "O008 F1 CONTROL_CHANGE: missing: setpoint_change records for the window",
+    "O008 F1 RECORDED_INTERVENTION: missing: maintenance records for the window | equipment_fault records for the window",
+    "O009 F2 HEAT_INGRESS: missing: door_open records for the window | product_load records for the window",
+    "O009 F2 DEFROST: missing: defrost records for the window",
+    "O009 F2 CONTROL_CHANGE: missing: setpoint_change records for the window",
+    "O009 F2 RECORDED_INTERVENTION: missing: maintenance records for the window | equipment_fault records for the window",
+    "O010 F3 HEAT_INGRESS: missing: door_open records for the window | product_load records for the window",
+    "O010 F3 DEFROST: missing: defrost records for the window",
+    "O010 F3 CONTROL_CHANGE: missing: setpoint_change records for the window",
+    "O010 F3 RECORDED_INTERVENTION: missing: maintenance records for the window | equipment_fault records for the window"
+   ],
+   "evidence_value": "SUPPORTS_ONLY",
+   "expected_information": [
+    "defrost: a record overlapping a window would support DEFROST",
+    "door_open: a record overlapping a window would support HEAT_INGRESS",
+    "equipment_fault: a record overlapping a window would support RECORDED_INTERVENTION",
+    "maintenance: a record overlapping a window would support RECORDED_INTERVENTION",
+    "product_load: a record overlapping a window would support HEAT_INGRESS",
+    "setpoint_change: a record overlapping a window would support CONTROL_CHANGE",
+    "no record found: neutral; an absence is never evidence against an explanation"
+   ],
+   "open_items": 12,
+   "phase4_recommendations": [],
+   "rank": 1,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "defrost, door_open, equipment_fault, maintenance, product_load, setpoint_change",
+   "resolution_or_duration": "to the minute or finer; each window runs from the reading before the excursion to its end",
+   "resolves": [
+    "F1 HEAT_INGRESS",
+    "F1 DEFROST",
+    "F1 CONTROL_CHANGE",
+    "F1 RECORDED_INTERVENTION",
+    "F2 HEAT_INGRESS",
+    "F2 DEFROST",
+    "F2 CONTROL_CHANGE",
+    "F2 RECORDED_INTERVENTION",
+    "F3 HEAT_INGRESS",
+    "F3 DEFROST",
+    "F3 CONTROL_CHANGE",
+    "F3 RECORDED_INTERVENTION"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "start and end timestamps in the log's time basis (naive local timestamps, time zone unknown; no conversion applied)",
+   "why_useful": "a record in the window supports the matching explanation; without records these explanations cannot be told apart",
+   "windows": [
+    "E0003 (F1): 2026-10-20 00:55 to 2026-10-20 04:59",
+    "E0010 (F2): 2026-10-20 05:45 to 2026-10-20 08:19",
+    "E0016 (F3): 2026-10-20 08:50 to 2026-10-20 12:00"
+   ]
+  },
+  {
+   "action": "Confirm the records that decide these explanations with an independent source for the same windows (controller alarm or event history, BMS export, power records, site log or technician report), and establish whether each record source is complete for the windows",
+   "check_id": "CORROBORATE_RECORDS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O008 F1 NO_ACTIVE_COOLING: for: compressor recorded OFF in all 244 reading(s), lines 58\u2013301",
+    "O008 F1 CAPACITY_SHORTFALL_WHILE_RUNNING: against: compressor recorded OFF in all 244 reading(s), lines 58\u2013301",
+    "O009 F2 NO_ACTIVE_COOLING: for: compressor recorded OFF in all 155 reading(s), lines 302\u2013456",
+    "O009 F2 CAPACITY_SHORTFALL_WHILE_RUNNING: against: compressor recorded OFF in all 155 reading(s), lines 302\u2013456",
+    "O010 F3 NO_ACTIVE_COOLING: for: compressor recorded OFF in all 191 reading(s), lines 457\u2013647",
+    "O010 F3 CAPACITY_SHORTFALL_WHILE_RUNNING: against: compressor recorded OFF in all 191 reading(s), lines 457\u2013647"
+   ],
+   "evidence_value": "CORROBORATES",
+   "expected_information": [
+    "an independent source that agrees: the assessment rests on two sources, and stays a hypothesis",
+    "an independent source that disagrees: a conflict, to be reconciled before anything is concluded",
+    "for the compressor state: a mix of ON and OFF readings stays neutral, whatever its source"
+   ],
+   "open_items": 6,
+   "phase4_recommendations": [],
+   "rank": 2,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "an independent record of the same states or events; the completeness of each record source",
+   "resolution_or_duration": "the excursion windows, to the minute or finer",
+   "resolves": [
+    "F1 NO_ACTIVE_COOLING",
+    "F1 CAPACITY_SHORTFALL_WHILE_RUNNING",
+    "F2 NO_ACTIVE_COOLING",
+    "F2 CAPACITY_SHORTFALL_WHILE_RUNNING",
+    "F3 NO_ACTIVE_COOLING",
+    "F3 CAPACITY_SHORTFALL_WHILE_RUNNING"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "timestamps in the log's time basis (naive local timestamps, time zone unknown; no conversion applied); on/off for states",
+   "why_useful": "an explanation supported or contradicted by one source stays a hypothesis until a second source agrees; only a record known to be complete can show that an event did not happen",
+   "windows": [
+    "E0003 (F1): 2026-10-20 00:55 to 2026-10-20 04:59",
+    "E0010 (F2): 2026-10-20 05:45 to 2026-10-20 08:19",
+    "E0016 (F3): 2026-10-20 08:50 to 2026-10-20 12:00"
+   ]
+  },
+  {
+   "action": "Check whether the logger or BMS still holds the readings missing next to these excursions",
+   "check_id": "RECOVER_MISSING_READINGS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O008 F1: censored: cut off by a gap or the log edge; duration and peak are lower bounds",
+    "O009 F2: censored: cut off by a gap or the log edge; duration and peak are lower bounds",
+    "O010 F3: censored: cut off by a gap or the log edge; duration and peak are lower bounds"
+   ],
+   "evidence_value": "BOUNDS_OBSERVATION",
+   "expected_information": [
+    "the readings missing at the cut-off: the full duration and peak of the excursion, and whether a cut-off excursion is sustained (then diagnosed) or brief (then a fact only)"
+   ],
+   "open_items": 3,
+   "phase4_recommendations": [],
+   "rank": 3,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "room_temperature",
+   "resolution_or_duration": "the log's own sampling interval",
+   "resolves": [
+    "F1 duration and peak (cut off by a gap or the log edge)",
+    "F2 duration and peak (cut off by a gap or the log edge)",
+    "F3 duration and peak (cut off by a gap or the log edge)"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "\u00b0C",
+   "why_useful": "the excursion is cut off by a gap or the log edge, so its duration and peak are lower bounds",
+   "windows": [
+    "E0003 (F1): 2026-10-20 00:55 to 2026-10-20 04:59",
+    "E0010 (F2): 2026-10-20 05:45 to 2026-10-20 08:19",
+    "E0016 (F3): 2026-10-20 08:50 to 2026-10-20 12:00"
+   ]
+  },
+  {
+   "action": "Compare the logger's sensor with a calibrated reference thermometer at the same position, and record the position relative to doors, the evaporator air outlet and heat sources",
+   "check_id": "REFERENCE_READING",
+   "effort": "SPOT_CHECK",
+   "evidence": [
+    "O008 F1 SENSOR_NOT_REPRESENTATIVE: missing: a reference measurement at the sensor position | the analysed sensor's location (metadata)",
+    "O009 F2 SENSOR_NOT_REPRESENTATIVE: missing: a reference measurement at the sensor position | the analysed sensor's location (metadata)",
+    "O010 F3 SENSOR_NOT_REPRESENTATIVE: missing: a reference measurement at the sensor position | the analysed sensor's location (metadata)"
+   ],
+   "evidence_value": "SUPPORTS_OR_CONTRADICTS",
+   "expected_information": [
+    "the difference between the logger and the reference at the same position: larger than their combined stated accuracy supports SENSOR_NOT_REPRESENTATIVE, within it contradicts it",
+    "the sensor's position relative to doors, the evaporator air outlet and heat sources"
+   ],
+   "open_items": 3,
+   "phase4_recommendations": [],
+   "rank": 4,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "calibrated reference thermometer; sensor location (metadata)",
+   "resolution_or_duration": "simultaneous readings at the logger's sampling interval; accuracy as stated on each instrument's calibration certificate",
+   "resolves": [
+    "F1 SENSOR_NOT_REPRESENTATIVE",
+    "F2 SENSOR_NOT_REPRESENTATIVE",
+    "F3 SENSOR_NOT_REPRESENTATIVE"
+   ],
+   "safety": "ROOM_ENTRY",
+   "safety_note": "entering the cold room: follow the site's cold-room entry rules; nothing on the refrigeration equipment is opened",
+   "units": "\u00b0C",
+   "why_useful": "the only check that bears on whether the readings represent the room air",
+   "windows": [
+    "E0003 (F1): 2026-10-20 00:55 to 2026-10-20 04:59",
+    "E0010 (F2): 2026-10-20 05:45 to 2026-10-20 08:19",
+    "E0016 (F3): 2026-10-20 08:50 to 2026-10-20 12:00"
+   ]
+  }
+ ],
+ "label": "SYSTEM_RECOMMENDATION",
+ "limitations": [
+  "events and facts are observations; every explanation is a hypothesis, never a diagnosis of cause",
+  "no probability, score or confidence is given; hypotheses are listed in a fixed order, not ranked",
+  "absence of a record is never evidence of absence; supplied records are taken as stated, not verified (SIMULATED in a simulated scenario, otherwise UNVALIDATED)",
+  "only sustained excursions beyond the limit you set are diagnosed; brief excursions are reported as facts",
+  "data evidence UNVALIDATED: statements hold only for these data; UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+  "next checks are ranked as a work priority (relevance, effort, evidence value), not by any confidence in an explanation"
+ ],
+ "next_best_check": "REVIEW_OPERATIONAL_RECORDS",
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:24.641148Z",
+  "data_evidence_class": "UNVALIDATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "ANONYMOUS_UPLOAD",
+  "method": "Phase 3 event segmentation + Phase 6 diagnostics",
+  "method_version": "phase6-diagnostics-2",
+  "result_evidence_class": null,
+  "source_filename": "gaps_log.csv",
+  "source_sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+  "source_size_bytes": 24490,
+  "validation_scope": "UNVALIDATED_PROVENANCE",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "refusal_reason": null,
+ "status": "HYPOTHESES"
+}

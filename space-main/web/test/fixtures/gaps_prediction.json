@@ -1,0 +1,404 @@
+{
+ "assumptions": [
+  "no active cooling over the fitted segments and over the forecast horizon",
+  "room air behaves as one well-mixed node at the sensor (no stratification, no product lag)",
+  "no unrecorded internal loads (lights, people, defrost heaters, fans) that change over time",
+  "door openings and loading are absent or recorded as disturbances, not modelled",
+  "the ambient sensor measures the space the room exchanges heat with (NOT_VERIFIED from data)",
+  "over the horizon ambient stays at its last measured value unless future_ambient_c is given"
+ ],
+ "baselines": [
+  {
+   "applicable": true,
+   "crossing_minutes": null,
+   "crossing_status": "ALREADY_CROSSED",
+   "method": "persistence",
+   "reason": null,
+   "selection_mae_c": 0.42307692307692335,
+   "temp_at_horizon_c": 23.2,
+   "test_mae_c": 0.24000000000000038
+  },
+  {
+   "applicable": true,
+   "crossing_minutes": null,
+   "crossing_status": "ALREADY_CROSSED",
+   "method": "recent_slope",
+   "reason": null,
+   "selection_mae_c": 0.10417082917082911,
+   "temp_at_horizon_c": 23.435714285714287,
+   "test_mae_c": 0.13339285714285865
+  }
+ ],
+ "case_id": "case_fixtureGaps0000000000",
+ "crossing": {
+  "minutes": null,
+  "status": "ALREADY_CROSSED",
+  "time": null
+ },
+ "crossing_interval": {
+  "lower_min": null,
+  "status": "ALREADY_CROSSED",
+  "upper_min": null
+ },
+ "data_verdict": "LIMITED",
+ "evidence_class": "EXPECTED",
+ "horizon_min": 30.0,
+ "initial_temperature": {
+  "measured_at": "2026-10-20T12:00:00",
+  "note": "usable reading at line 647",
+  "provenance": "OBSERVED",
+  "value_c": 23.2
+ },
+ "interval": {
+  "conditional_on": [
+   "no active cooling from the origin (the question asked)",
+   "held at its last measured value, the same rule the held-out forecasts used",
+   "no unrecorded disturbance beyond those seen in held-out data"
+  ],
+  "horizon_min": 30.0,
+  "lower_c": null,
+  "nominal_coverage": 0.8,
+  "status": "INSUFFICIENT_CALIBRATION_DATA",
+  "upper_c": null
+ },
+ "limitations": [
+  "Answers one question: room-air temperature at the sensor if there is NO active cooling from the origin. It is not a forecast of normal thermostat cycling.",
+  "Parameters are EFFECTIVE values for this room and period; they are not measured physical properties and do not transfer to another room.",
+  "Checked on SIMULATED data only; no real-room accuracy is claimed. Outputs from real logs are EXPECTED, never REAL, until an outcome confirms them.",
+  "No calibrated prediction interval is given (Phase 5). Profile ranges are identifiability checks only.",
+  "Door openings, loading, defrost and internal loads are not modelled (no such inputs); they appear only as unexplained disturbances or as fit error."
+ ],
+ "model": {
+  "fallback_reason": "first_order_measured_ambient was used; more physically informative alternatives: first_order_varying_ambient NOT_APPLICABLE",
+  "forecast_kind": "PHYSICAL",
+  "name": "first_order_measured_ambient",
+  "selection_reason": "held-out MAE at 30 min over 13 common cases: first_order_measured_ambient 0.077 \u00b0C, first_order_fitted_equilibrium 0.077 \u00b0C, recent_slope 0.104 \u00b0C, persistence 0.423 \u00b0C. Selected: the simplest method applicable at the origin within 0.02 \u00b0C of the lowest (first_order_measured_ambient)",
+  "solution_method": "analytic: T(t) = E + (T0 - E) exp(-k t)",
+  "version": "1"
+ },
+ "operating_regime": "PASSIVE",
+ "outcome": "FORECAST",
+ "prediction_start": "2026-10-20T12:00:00",
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:24.590462Z",
+  "data_evidence_class": "UNVALIDATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "ANONYMOUS_UPLOAD",
+  "method": "Phase 4 thermal engine + Phase 5 reliability assessment",
+  "method_version": "thermal-engine-1 / phase5-reliability-3",
+  "result_evidence_class": "EXPECTED",
+  "source_filename": "gaps_log.csv",
+  "source_sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+  "source_size_bytes": 24490,
+  "validation_scope": "UNVALIDATED_PROVENANCE",
+  "validation_scope_source": "PHASE5_ASSESSMENT"
+ },
+ "question": "NO_COOLING",
+ "recommendations": [
+  {
+   "acquisition_guidance": "defrost start/end from the controller or its event log; supply as an event log (kind, start, end, provenance)",
+   "missing_input": "defrost records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without defrost records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "door contact switch on each door (open/close timestamps); supply as an event log (kind, start, end, provenance)",
+   "missing_input": "door_open records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without door open records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "supply metadata: sensor id, column, location, height",
+   "missing_input": "sensor location metadata",
+   "necessity": "OPTIONAL_CONTEXT",
+   "priority": "LOW",
+   "rationale": "the analysed sensor's position is unknown, so what its readings represent cannot be stated",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "electrical power meter on the condensing unit",
+   "missing_input": "cooling_power",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "a binary compressor state gives no power: b stays an effective \u00b0C/min",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "a product-simulant probe and a loading log (mass, entry temperature, time)",
+   "missing_input": "product_temperature and product_load records",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "product thermal mass and loading are absorbed into the effective k and E; they cannot be modelled separately",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "RH sensors inside and in the adjacent space",
+   "missing_input": "relative_humidity",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "latent loads and coil frosting cannot be assessed",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "keep logging through more passive periods (compressor OFF cycles or recorded outages)",
+   "missing_input": "longer passive history",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "MEDIUM",
+   "rationale": "an interval at 80% needs 9 passive periods in each of calibration and evaluation (has 1 and 0); cases and windows inside one period do not count separately",
+   "retry_conditions": ">= 9 passive periods in each of calibration and evaluation"
+  },
+  {
+   "acquisition_guidance": "record more OFF cycles or outages",
+   "missing_input": "more independent passive periods",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "MEDIUM",
+   "rationale": "all held-out evidence comes from too few separate passive periods to separate period-to-period variation from noise",
+   "retry_conditions": ">= 2 periods in each half"
+  },
+  {
+   "acquisition_guidance": "fix the logger issues named",
+   "missing_input": "cleaner logging",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "MEDIUM",
+   "rationale": "material Phase 2 warnings: GAPS",
+   "retry_conditions": "no material warning"
+  },
+  {
+   "acquisition_guidance": "record where the log comes from: REAL only for a physical logger's export, SIMULATED only for generated data",
+   "missing_input": "established data provenance",
+   "necessity": "NECESSARY_FOR_THIS_QUESTION",
+   "priority": "HIGH",
+   "rationale": "the log's origin is unknown (UNVALIDATED), so it is treated neither as measurements nor as a simulation",
+   "retry_conditions": "a log with recorded provenance (REAL or SIMULATED)"
+  }
+ ],
+ "regime_evidence": [
+  "compressor recorded OFF at the origin, continuously for 190.0 min (191 reading(s), lines 457-647)"
+ ],
+ "reliability": {
+  "gates_failed": [
+   "INTERVAL_CALIBRATED",
+   "INDEPENDENT_PERIODS",
+   "DATA_QUALITY",
+   "VALIDATION_SCOPE"
+  ],
+  "method": "rule-based evidence gate (no score): status = most restrictive cap among failed rules",
+  "reason": "INTERVAL_CALIBRATED; INDEPENDENT_PERIODS; DATA_QUALITY; VALIDATION_SCOPE",
+  "status": "MEDIUM",
+  "validation_scope": "UNVALIDATED_PROVENANCE"
+ },
+ "request": {
+  "assess_reliability": true,
+  "direction": "UPWARD",
+  "horizon_min": 30.0,
+  "passive_since": null,
+  "question": "NO_COOLING",
+  "threshold_c": 20.0
+ },
+ "scenario": [
+  "no active cooling from 2026-10-20 12:00:00 for 30 min (ASSUMED scenario)",
+  "equilibrium 25.00 \u00b0C over the horizon (ASSUMED: ambient held at its last measured value 25.00 \u00b0C (OBSERVED at line 647; steady over the last 60 min))"
+ ],
+ "threshold": {
+  "direction": "UPWARD",
+  "note": "set by the user",
+  "provenance": "ASSUMED",
+  "value_c": 20.0
+ },
+ "trajectory": [
+  {
+   "minutes": 0.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.2,
+   "ts": "2026-10-20T12:00:00"
+  },
+  {
+   "minutes": 1.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.205996717832633,
+   "ts": "2026-10-20T12:01:00"
+  },
+  {
+   "minutes": 2.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.2119734575404,
+   "ts": "2026-10-20T12:02:00"
+  },
+  {
+   "minutes": 3.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.217930285680616,
+   "ts": "2026-10-20T12:03:00"
+  },
+  {
+   "minutes": 4.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.223867268588872,
+   "ts": "2026-10-20T12:04:00"
+  },
+  {
+   "minutes": 5.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.229784472379748,
+   "ts": "2026-10-20T12:05:00"
+  },
+  {
+   "minutes": 6.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.235681962947577,
+   "ts": "2026-10-20T12:06:00"
+  },
+  {
+   "minutes": 7.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.24155980596715,
+   "ts": "2026-10-20T12:07:00"
+  },
+  {
+   "minutes": 8.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.247418066894472,
+   "ts": "2026-10-20T12:08:00"
+  },
+  {
+   "minutes": 9.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.253256810967475,
+   "ts": "2026-10-20T12:09:00"
+  },
+  {
+   "minutes": 10.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.259076103206755,
+   "ts": "2026-10-20T12:10:00"
+  },
+  {
+   "minutes": 11.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.264876008416287,
+   "ts": "2026-10-20T12:11:00"
+  },
+  {
+   "minutes": 12.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.270656591184157,
+   "ts": "2026-10-20T12:12:00"
+  },
+  {
+   "minutes": 13.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.276417915883265,
+   "ts": "2026-10-20T12:13:00"
+  },
+  {
+   "minutes": 14.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.28216004667206,
+   "ts": "2026-10-20T12:14:00"
+  },
+  {
+   "minutes": 15.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.287883047495246,
+   "ts": "2026-10-20T12:15:00"
+  },
+  {
+   "minutes": 16.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.29358698208449,
+   "ts": "2026-10-20T12:16:00"
+  },
+  {
+   "minutes": 17.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.299271913959146,
+   "ts": "2026-10-20T12:17:00"
+  },
+  {
+   "minutes": 18.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.304937906426936,
+   "ts": "2026-10-20T12:18:00"
+  },
+  {
+   "minutes": 19.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.310585022584686,
+   "ts": "2026-10-20T12:19:00"
+  },
+  {
+   "minutes": 20.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.316213325319012,
+   "ts": "2026-10-20T12:20:00"
+  },
+  {
+   "minutes": 21.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.32182287730702,
+   "ts": "2026-10-20T12:21:00"
+  },
+  {
+   "minutes": 22.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.327413741017004,
+   "ts": "2026-10-20T12:22:00"
+  },
+  {
+   "minutes": 23.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.33298597870915,
+   "ts": "2026-10-20T12:23:00"
+  },
+  {
+   "minutes": 24.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.33853965243622,
+   "ts": "2026-10-20T12:24:00"
+  },
+  {
+   "minutes": 25.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.34407482404425,
+   "ts": "2026-10-20T12:25:00"
+  },
+  {
+   "minutes": 26.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.34959155517323,
+   "ts": "2026-10-20T12:26:00"
+  },
+  {
+   "minutes": 27.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.3550899072578,
+   "ts": "2026-10-20T12:27:00"
+  },
+  {
+   "minutes": 28.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.360569941527924,
+   "ts": "2026-10-20T12:28:00"
+  },
+  {
+   "minutes": 29.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.36603171900959,
+   "ts": "2026-10-20T12:29:00"
+  },
+  {
+   "minutes": 30.0,
+   "provenance": "PREDICTED",
+   "temp_c": 23.371475300525464,
+   "ts": "2026-10-20T12:30:00"
+  }
+ ],
+ "validated_horizon_min": 30.0,
+ "warnings": []
+}

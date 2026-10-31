@@ -1,0 +1,31 @@
+{
+ "case_id": "case_fixtureGaps0000000000",
+ "created_at": "2026-10-24T14:14:24.033020Z",
+ "declaration_status": "NOT_DECLARED",
+ "declared_evidence": null,
+ "evidence_basis": "ANONYMOUS_UPLOAD",
+ "evidence_class": "UNVALIDATED",
+ "expires_at": "2026-10-24T16:14:24.033020Z",
+ "filename": "gaps_log.csv",
+ "last_prediction_outcome": "FORECAST",
+ "quality": {
+  "blocking_issues": 0,
+  "coverage_pct": 89.6,
+  "duration_hours": 12.0,
+  "end": "2026-10-20T12:00:00",
+  "rows_read": 646,
+  "rows_usable": 646,
+  "start": "2026-10-20T00:00:00",
+  "suitable_for_analysis": true,
+  "verdict": "LIMITED",
+  "warnings": 2
+ },
+ "sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+ "size_bytes": 24490,
+ "steps": {
+  "analysis": "READY",
+  "prediction": "READY",
+  "quality": "READY"
+ },
+ "validation_scope": "UNVALIDATED_PROVENANCE"
+}

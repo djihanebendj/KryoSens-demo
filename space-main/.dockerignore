@@ -1,0 +1,16 @@
+**/.env
+**/.env.*
+**/.venv
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/*.egg-info
+.git
+web/.next
+web/tsconfig.tsbuildinfo
+experiments
+design
+docs/screenshots
+data/real
+data/knowledge

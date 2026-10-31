@@ -1,0 +1,29 @@
+{
+ "case_id": "case_fixtureGaps0000000000",
+ "confirmed": [],
+ "counts": {
+  "confirmed": 0,
+  "drafts_cancelled": 0,
+  "drafts_pending": 0,
+  "outcomes_unknown": 0,
+  "outcomes_verified": 0
+ },
+ "drafts": [],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:24.042658Z",
+  "data_evidence_class": "UNVALIDATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "ANONYMOUS_UPLOAD",
+  "method": "Phase 8 trusted-confirmation finding store (technician-entered statements)",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "gaps_log.csv",
+  "source_sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+  "source_size_bytes": 24490,
+  "validation_scope": "UNVALIDATED_PROVENANCE",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "status": "AVAILABLE"
+}

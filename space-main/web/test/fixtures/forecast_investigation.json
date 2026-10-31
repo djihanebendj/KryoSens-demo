@@ -1,0 +1,482 @@
+{
+ "case_id": "case_fixtureForecast000000",
+ "findings": [
+  {
+   "context_fact_ids": [
+    "O006",
+    "O007",
+    "O008",
+    "O009",
+    "O010"
+   ],
+   "event_id": "E0147",
+   "explanations": [
+    {
+     "code": "NO_ACTIVE_COOLING",
+     "contradicting": [],
+     "missing": [],
+     "missing_records": [],
+     "neutral": [],
+     "next_check_ids": [
+      "CORROBORATE_RECORDS"
+     ],
+     "required_next_check": "CORROBORATE_RECORDS",
+     "statement": "cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+     "supporting": [
+      "compressor recorded OFF in all 279 reading(s), lines 1044\u20131322"
+     ]
+    },
+    {
+     "code": "CAPACITY_SHORTFALL_WHILE_RUNNING",
+     "contradicting": [
+      "compressor recorded OFF in all 279 reading(s), lines 1044\u20131322"
+     ],
+     "missing": [],
+     "missing_records": [],
+     "neutral": [],
+     "next_check_ids": [
+      "CORROBORATE_RECORDS"
+     ],
+     "required_next_check": "CORROBORATE_RECORDS",
+     "statement": "cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+     "supporting": []
+    },
+    {
+     "code": "HEAT_INGRESS",
+     "contradicting": [],
+     "missing": [
+      "door_open records for the window",
+      "product_load records for the window"
+     ],
+     "missing_records": [
+      "door_open",
+      "product_load"
+     ],
+     "neutral": [],
+     "next_check_ids": [
+      "REVIEW_OPERATIONAL_RECORDS"
+     ],
+     "required_next_check": "REVIEW_OPERATIONAL_RECORDS",
+     "statement": "a door opening or product loading added heat",
+     "supporting": []
+    },
+    {
+     "code": "DEFROST",
+     "contradicting": [],
+     "missing": [
+      "defrost records for the window"
+     ],
+     "missing_records": [
+      "defrost"
+     ],
+     "neutral": [],
+     "next_check_ids": [
+      "REVIEW_OPERATIONAL_RECORDS"
+     ],
+     "required_next_check": "REVIEW_OPERATIONAL_RECORDS",
+     "statement": "a defrost cycle raised the temperature",
+     "supporting": []
+    },
+    {
+     "code": "CONTROL_CHANGE",
+     "contradicting": [],
+     "missing": [
+      "setpoint_change records for the window"
+     ],
+     "missing_records": [
+      "setpoint_change"
+     ],
+     "neutral": [],
+     "next_check_ids": [
+      "REVIEW_OPERATIONAL_RECORDS"
+     ],
+     "required_next_check": "REVIEW_OPERATIONAL_RECORDS",
+     "statement": "a setpoint or control change",
+     "supporting": []
+    },
+    {
+     "code": "RECORDED_INTERVENTION",
+     "contradicting": [],
+     "missing": [
+      "maintenance records for the window",
+      "equipment_fault records for the window"
+     ],
+     "missing_records": [
+      "maintenance",
+      "equipment_fault"
+     ],
+     "neutral": [],
+     "next_check_ids": [
+      "REVIEW_OPERATIONAL_RECORDS"
+     ],
+     "required_next_check": "REVIEW_OPERATIONAL_RECORDS",
+     "statement": "maintenance work or a recorded equipment fault coincided with it",
+     "supporting": []
+    },
+    {
+     "code": "SENSOR_NOT_REPRESENTATIVE",
+     "contradicting": [],
+     "missing": [
+      "a reference measurement at the sensor position",
+      "the analysed sensor's location (metadata)"
+     ],
+     "missing_records": [],
+     "neutral": [],
+     "next_check_ids": [
+      "REFERENCE_READING"
+     ],
+     "required_next_check": "REFERENCE_READING",
+     "statement": "the reading does not represent the room air (sensor artefact or position)",
+     "supporting": []
+    }
+   ],
+   "fact_id": "O005",
+   "finding_id": "F1",
+   "hypothesis_ids": [
+    "H-F1-NO_ACTIVE_COOLING",
+    "H-F1-CAPACITY_SHORTFALL_WHILE_RUNNING",
+    "H-F1-HEAT_INGRESS",
+    "H-F1-DEFROST",
+    "H-F1-CONTROL_CHANGE",
+    "H-F1-RECORDED_INTERVENTION",
+    "H-F1-SENSOR_NOT_REPRESENTATIVE"
+   ],
+   "limit_c": 8.0,
+   "limitations": [
+    "censored: cut off by a gap or the log edge; duration and peak are lower bounds"
+   ],
+   "side": "above",
+   "statement": "E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "status": "EVIDENCE_AVAILABLE",
+   "window_end": "2026-10-20T22:00:00",
+   "window_start": "2026-10-20T17:21:00"
+  }
+ ],
+ "hypotheses": [
+  {
+   "alternatives": [
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "DEFROST: a defrost cycle raised the temperature",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-NO_ACTIVE_COOLING",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+   "status": "PROPOSED",
+   "success_criteria": "supported if the compressor was not running, or the unit had no power, from the reading before the excursion to its end; refuted if it was running throughout that window",
+   "supporting_evidence": [
+    "compressor recorded OFF in all 279 reading(s), lines 1044\u20131322"
+   ],
+   "test": "next check CORROBORATE_RECORDS: check the compressor run history (controller, BMS) and power records for the window: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "DEFROST: a defrost cycle raised the temperature",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [
+    "compressor recorded OFF in all 279 reading(s), lines 1044\u20131322"
+   ],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-CAPACITY_SHORTFALL_WHILE_RUNNING",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+   "status": "PROPOSED",
+   "success_criteria": "supported if the compressor ran throughout the window and an inspection or measurement shows reduced cooling; refuted if it was off throughout the window; a mixed record bears on neither",
+   "supporting_evidence": [],
+   "test": "next check CORROBORATE_RECORDS: check the compressor run history for the window; if it ran throughout, inspect the refrigeration unit: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "DEFROST: a defrost cycle raised the temperature",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [
+    "door_open records for the window",
+    "product_load records for the window"
+   ],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-HEAT_INGRESS",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: a door opening or product loading added heat",
+   "status": "PROPOSED",
+   "success_criteria": "supported if a door opening or loading is recorded between the reading before the excursion and its end; refuted only by a complete, system-recorded door and loading record showing none",
+   "supporting_evidence": [],
+   "test": "next check REVIEW_OPERATIONAL_RECORDS: look up door and loading records for the window: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [
+    "defrost records for the window"
+   ],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-DEFROST",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: a defrost cycle raised the temperature",
+   "status": "PROPOSED",
+   "success_criteria": "supported if a defrost is recorded in the window; refuted if a complete controller history shows none",
+   "supporting_evidence": [],
+   "test": "next check REVIEW_OPERATIONAL_RECORDS: look up the controller's defrost history for the window: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "DEFROST: a defrost cycle raised the temperature",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [
+    "setpoint_change records for the window"
+   ],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-CONTROL_CHANGE",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: a setpoint or control change",
+   "status": "PROPOSED",
+   "success_criteria": "supported if a setpoint or control change is recorded in the window; refuted if the controller's change history shows none",
+   "supporting_evidence": [],
+   "test": "next check REVIEW_OPERATIONAL_RECORDS: look up setpoint and controller-setting changes for the window: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "DEFROST: a defrost cycle raised the temperature",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "SENSOR_NOT_REPRESENTATIVE: the reading does not represent the room air (sensor artefact or position)"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [
+    "maintenance records for the window",
+    "equipment_fault records for the window"
+   ],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-RECORDED_INTERVENTION",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: maintenance work or a recorded equipment fault coincided with it",
+   "status": "PROPOSED",
+   "success_criteria": "supported if maintenance or a fault is recorded in the window; refuted if complete records show none",
+   "supporting_evidence": [],
+   "test": "next check REVIEW_OPERATIONAL_RECORDS: look up maintenance and fault records for the window: 2026-10-20 17:21 to 2026-10-20 22:00"
+  },
+  {
+   "alternatives": [
+    "NO_ACTIVE_COOLING: cooling was not running while the temperature was above the limit (8.0 \u00b0C)",
+    "CAPACITY_SHORTFALL_WHILE_RUNNING: cooling was running but did not hold the temperature below the limit (8.0 \u00b0C)",
+    "HEAT_INGRESS: a door opening or product loading added heat",
+    "DEFROST: a defrost cycle raised the temperature",
+    "CONTROL_CHANGE: a setpoint or control change",
+    "RECORDED_INTERVENTION: maintenance work or a recorded equipment fault coincided with it"
+   ],
+   "contradicting_evidence": [],
+   "created_at": "2026-10-20T22:00:00",
+   "data_needed": [
+    "a reference measurement at the sensor position",
+    "the analysed sensor's location (metadata)"
+   ],
+   "generated_by": "rules:phase6-diagnostics-2",
+   "id": "H-F1-SENSOR_NOT_REPRESENTATIVE",
+   "motivating_observation": "O005 E0147: 279 reading(s), lines 1044\u20131322 above 8.0 \u00b0C from 2026-10-20 17:22 to 2026-10-20 22:00 (peak 18.3 \u00b0C)",
+   "statement": "E0147: the reading does not represent the room air (sensor artefact or position)",
+   "status": "PROPOSED",
+   "success_criteria": "supported if the two disagree by more than their combined stated accuracy; refuted if they agree",
+   "supporting_evidence": [],
+   "test": "next check REFERENCE_READING: compare the logger's sensor with a calibrated reference thermometer at the same position: 2026-10-20 17:21 to 2026-10-20 22:00"
+  }
+ ],
+ "hypothesis_label": "MODEL_INFERENCE",
+ "hypothesis_note": "hypothesis, not a confirmed fault",
+ "limitations": [
+  "events and facts are observations; every explanation is a hypothesis, never a diagnosis of cause",
+  "no probability, score or confidence is given; hypotheses are listed in a fixed order, not ranked",
+  "absence of a record is never evidence of absence; supplied records are taken as stated, not verified (SIMULATED in a simulated scenario, otherwise UNVALIDATED)",
+  "only sustained excursions beyond the limit you set are diagnosed; brief excursions are reported as facts",
+  "data evidence SIMULATED: statements hold only for these data; UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+  "next checks are ranked as a work priority (relevance, effort, evidence value), not by any confidence in an explanation"
+ ],
+ "next_checks": [
+  {
+   "action": "Look up the site's records for these windows (defrost, door_open, equipment_fault, maintenance, product_load, setpoint_change): controller event history, door-contact log, delivery and maintenance logs. Supply what exists as an event log (--events: kind, start, end, provenance)",
+   "check_id": "REVIEW_OPERATIONAL_RECORDS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O005 F1 HEAT_INGRESS: missing: door_open records for the window | product_load records for the window",
+    "O005 F1 DEFROST: missing: defrost records for the window",
+    "O005 F1 CONTROL_CHANGE: missing: setpoint_change records for the window",
+    "O005 F1 RECORDED_INTERVENTION: missing: maintenance records for the window | equipment_fault records for the window"
+   ],
+   "evidence_value": "SUPPORTS_ONLY",
+   "expected_information": [
+    "defrost: a record overlapping a window would support DEFROST",
+    "door_open: a record overlapping a window would support HEAT_INGRESS",
+    "equipment_fault: a record overlapping a window would support RECORDED_INTERVENTION",
+    "maintenance: a record overlapping a window would support RECORDED_INTERVENTION",
+    "product_load: a record overlapping a window would support HEAT_INGRESS",
+    "setpoint_change: a record overlapping a window would support CONTROL_CHANGE",
+    "no record found: neutral; an absence is never evidence against an explanation"
+   ],
+   "open_items": 4,
+   "phase4_recommendations": [],
+   "rank": 1,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "defrost, door_open, equipment_fault, maintenance, product_load, setpoint_change",
+   "resolution_or_duration": "to the minute or finer; each window runs from the reading before the excursion to its end",
+   "resolves": [
+    "F1 HEAT_INGRESS",
+    "F1 DEFROST",
+    "F1 CONTROL_CHANGE",
+    "F1 RECORDED_INTERVENTION"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "start and end timestamps in the log's time basis (naive local timestamps, time zone unknown; no conversion applied)",
+   "why_useful": "a record in the window supports the matching explanation; without records these explanations cannot be told apart",
+   "windows": [
+    "E0147 (F1): 2026-10-20 17:21 to 2026-10-20 22:00"
+   ]
+  },
+  {
+   "action": "Confirm the records that decide these explanations with an independent source for the same windows (controller alarm or event history, BMS export, power records, site log or technician report), and establish whether each record source is complete for the windows",
+   "check_id": "CORROBORATE_RECORDS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O005 F1 NO_ACTIVE_COOLING: for: compressor recorded OFF in all 279 reading(s), lines 1044\u20131322",
+    "O005 F1 CAPACITY_SHORTFALL_WHILE_RUNNING: against: compressor recorded OFF in all 279 reading(s), lines 1044\u20131322"
+   ],
+   "evidence_value": "CORROBORATES",
+   "expected_information": [
+    "an independent source that agrees: the assessment rests on two sources, and stays a hypothesis",
+    "an independent source that disagrees: a conflict, to be reconciled before anything is concluded",
+    "for the compressor state: a mix of ON and OFF readings stays neutral, whatever its source"
+   ],
+   "open_items": 2,
+   "phase4_recommendations": [],
+   "rank": 2,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "an independent record of the same states or events; the completeness of each record source",
+   "resolution_or_duration": "the excursion windows, to the minute or finer",
+   "resolves": [
+    "F1 NO_ACTIVE_COOLING",
+    "F1 CAPACITY_SHORTFALL_WHILE_RUNNING"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "timestamps in the log's time basis (naive local timestamps, time zone unknown; no conversion applied); on/off for states",
+   "why_useful": "an explanation supported or contradicted by one source stays a hypothesis until a second source agrees; only a record known to be complete can show that an event did not happen",
+   "windows": [
+    "E0147 (F1): 2026-10-20 17:21 to 2026-10-20 22:00"
+   ]
+  },
+  {
+   "action": "Check whether the logger or BMS still holds the readings missing next to these excursions",
+   "check_id": "RECOVER_MISSING_READINGS",
+   "effort": "EXISTING_RECORDS",
+   "evidence": [
+    "O005 F1: censored: cut off by a gap or the log edge; duration and peak are lower bounds"
+   ],
+   "evidence_value": "BOUNDS_OBSERVATION",
+   "expected_information": [
+    "the readings missing at the cut-off: the full duration and peak of the excursion, and whether a cut-off excursion is sustained (then diagnosed) or brief (then a fact only)"
+   ],
+   "open_items": 1,
+   "phase4_recommendations": [],
+   "rank": 3,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "room_temperature",
+   "resolution_or_duration": "the log's own sampling interval",
+   "resolves": [
+    "F1 duration and peak (cut off by a gap or the log edge)"
+   ],
+   "safety": "OFFICE_ONLY",
+   "safety_note": "records and files only; no site access",
+   "units": "\u00b0C",
+   "why_useful": "the excursion is cut off by a gap or the log edge, so its duration and peak are lower bounds",
+   "windows": [
+    "E0147 (F1): 2026-10-20 17:21 to 2026-10-20 22:00"
+   ]
+  },
+  {
+   "action": "Compare the logger's sensor with a calibrated reference thermometer at the same position, and record the position relative to doors, the evaporator air outlet and heat sources",
+   "check_id": "REFERENCE_READING",
+   "effort": "SPOT_CHECK",
+   "evidence": [
+    "O005 F1 SENSOR_NOT_REPRESENTATIVE: missing: a reference measurement at the sensor position | the analysed sensor's location (metadata)"
+   ],
+   "evidence_value": "SUPPORTS_OR_CONTRADICTS",
+   "expected_information": [
+    "the difference between the logger and the reference at the same position: larger than their combined stated accuracy supports SENSOR_NOT_REPRESENTATIVE, within it contradicts it",
+    "the sensor's position relative to doors, the evaporator air outlet and heat sources"
+   ],
+   "open_items": 1,
+   "phase4_recommendations": [],
+   "rank": 4,
+   "ranking_basis": "rule: relevance (more unresolved finding/explanation items first), then feasibility (less effort: existing records, spot check, site inspection), then evidence value (RESOLVES_CONFLICT > DISCRIMINATES > SUPPORTS_OR_CONTRADICTS > CORROBORATES > SUPPORTS_ONLY > BOUNDS_OBSERVATION), then check id; a work priority, not a confidence in any explanation",
+   "required_input": "calibrated reference thermometer; sensor location (metadata)",
+   "resolution_or_duration": "simultaneous readings at the logger's sampling interval; accuracy as stated on each instrument's calibration certificate",
+   "resolves": [
+    "F1 SENSOR_NOT_REPRESENTATIVE"
+   ],
+   "safety": "ROOM_ENTRY",
+   "safety_note": "entering the cold room: follow the site's cold-room entry rules; nothing on the refrigeration equipment is opened",
+   "units": "\u00b0C",
+   "why_useful": "the only check that bears on whether the readings represent the room air",
+   "windows": [
+    "E0147 (F1): 2026-10-20 17:21 to 2026-10-20 22:00"
+   ]
+  }
+ ],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:20.912681Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 3 event segmentation + Phase 6 diagnostics",
+  "method_version": "phase6-diagnostics-2",
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_power_cut_22h_1min.csv",
+  "source_sha256": "77920bea55a2a32b4c3e369005e68fe3fc9eccc85e30d2f184734933d2af134c",
+  "source_size_bytes": 48874,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "recommendation_label": "SYSTEM_RECOMMENDATION",
+ "refusal_reason": null,
+ "rules_validation": "UNVALIDATED: the rules were checked on SIMULATED logs only; no real fault outcome has been compared with them, and every explanation is a hypothesis, not a diagnosis",
+ "status": "HYPOTHESES"
+}

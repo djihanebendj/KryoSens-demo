@@ -1,0 +1,107 @@
+{
+ "case_id": "case_fixtureRefusal0000000",
+ "data_verdict": "USABLE",
+ "evidence_class": "SIMULATED",
+ "limitations": [
+  "Answers one question: room-air temperature at the sensor if there is NO active cooling from the origin. It is not a forecast of normal thermostat cycling.",
+  "Parameters are EFFECTIVE values for this room and period; they are not measured physical properties and do not transfer to another room.",
+  "Checked on SIMULATED data only; no real-room accuracy is claimed. Outputs from real logs are EXPECTED, never REAL, until an outcome confirms them.",
+  "No calibrated prediction interval is given (Phase 5). Profile ranges are identifiability checks only.",
+  "Door openings, loading, defrost and internal loads are not modelled (no such inputs); they appear only as unexplained disturbances or as fit error."
+ ],
+ "operating_regime": "UNKNOWN",
+ "outcome": "REFUSED",
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:21.378340Z",
+  "data_evidence_class": "SIMULATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "BUNDLED_SAMPLE",
+  "method": "Phase 4 thermal engine + Phase 5 reliability assessment",
+  "method_version": "thermal-engine-1 / phase5-reliability-3",
+  "result_evidence_class": null,
+  "source_filename": "SIMULATED_coldroom_24h_1min.csv",
+  "source_sha256": "565d8a57c413689ed493db7fee5a0aa628467a4218153f0eca6b3c711176f150",
+  "source_size_bytes": 49598,
+  "validation_scope": "SIMULATED_ONLY",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "question": "NO_COOLING",
+ "recommendations": [
+  {
+   "acquisition_guidance": "log the compressor run signal from the controller output, a dry contact or a current clamp, on the same logger clock; or supply an event log of power interruptions (start, end); or state passive_since",
+   "missing_input": "compressor_state or power_interruption records",
+   "necessity": "NECESSARY_FOR_THIS_QUESTION",
+   "priority": "HIGH",
+   "rationale": "the no-cooling question needs evidence of periods without active cooling; a temperature shape is never accepted as that evidence",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "defrost start/end from the controller or its event log; supply as an event log (kind, start, end, provenance)",
+   "missing_input": "defrost records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without defrost records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "door contact switch on each door (open/close timestamps); supply as an event log (kind, start, end, provenance)",
+   "missing_input": "door_open records",
+   "necessity": "POTENTIAL_IMPROVEMENT",
+   "priority": "LOW",
+   "rationale": "without door open records such disturbances cannot be separated from the room's own behaviour and are never attributed to a cause",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "supply metadata: sensor id, column, location, height",
+   "missing_input": "sensor location metadata",
+   "necessity": "OPTIONAL_CONTEXT",
+   "priority": "LOW",
+   "rationale": "the analysed sensor's position is unknown, so what its readings represent cannot be stated",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "a product-simulant probe and a loading log (mass, entry temperature, time)",
+   "missing_input": "product_temperature and product_load records",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "product thermal mass and loading are absorbed into the effective k and E; they cannot be modelled separately",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "RH sensors inside and in the adjacent space",
+   "missing_input": "relative_humidity",
+   "necessity": "FUTURE_CAPABILITY",
+   "priority": "LOW",
+   "rationale": "latent loads and coil frosting cannot be assessed",
+   "retry_conditions": null
+  },
+  {
+   "acquisition_guidance": "see the Phase 4 recommendations",
+   "missing_input": "evidence asked for by the Phase 4 refusal",
+   "necessity": "NECESSARY_FOR_THIS_QUESTION",
+   "priority": "HIGH",
+   "rationale": "Phase 4 refused (MISSING_REQUIRED_INPUT); nothing can be assessed without a forecast",
+   "retry_conditions": "a compressor_state column with recorded OFF periods, or passive_since (--passive-since) declaring when cooling stopped"
+  }
+ ],
+ "refusal": {
+  "code": "MISSING_REQUIRED_INPUT",
+  "failed_condition": "operating-regime evidence for a passive period",
+  "needed_to_retry": "a compressor_state column with recorded OFF periods, or passive_since (--passive-since) declaring when cooling stopped",
+  "reason": "there is no evidence of any period without active cooling; the physical models need one"
+ },
+ "regime_evidence": [
+  "no compressor_state column and no declared passive period: the regime is not known"
+ ],
+ "request": {
+  "assess_reliability": true,
+  "direction": "UPWARD",
+  "horizon_min": 60.0,
+  "passive_since": null,
+  "question": "NO_COOLING",
+  "threshold_c": 8.0
+ },
+ "warnings": []
+}

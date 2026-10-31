@@ -1,0 +1,174 @@
+{
+ "case_id": "case_fixtureGaps0000000000",
+ "headline": {
+  "blocking_issues": 0,
+  "coverage_pct": 89.6,
+  "duration_hours": 12.0,
+  "end": "2026-10-20T12:00:00",
+  "rows_read": 646,
+  "rows_usable": 646,
+  "start": "2026-10-20T00:00:00",
+  "suitable_for_analysis": true,
+  "verdict": "LIMITED",
+  "warnings": 2
+ },
+ "issues": [
+  {
+   "code": "TIMEZONE_UNKNOWN",
+   "message": "timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates.",
+   "severity": "INFO"
+  },
+  {
+   "code": "SHORT_LOG",
+   "message": "log covers 12.0 h; 24 h recommended",
+   "severity": "WARNING"
+  },
+  {
+   "code": "GAPS",
+   "message": "2 gaps; longest 46 min. Segments crossing a gap are excluded.",
+   "severity": "WARNING"
+  }
+ ],
+ "limitations": [
+  "Validation checks the file's internal consistency only. It cannot confirm sensor calibration, sensor placement, or that the log comes from the unit it is said to come from.",
+  "Air temperature at the sensor is not product-core temperature.",
+  "Provenance not declared: results from this file are UNVALIDATED.",
+  "Time zone unknown: intervals assume the logger clock never changed.",
+  "compressor_state is validated and carried, but not used by analysis yet."
+ ],
+ "provenance": {
+  "coldsense_version": "0.1.0",
+  "computed_at": "2026-10-24T14:14:24.042658Z",
+  "data_evidence_class": "UNVALIDATED",
+  "declaration_status": "NOT_DECLARED",
+  "declared_evidence": null,
+  "evidence_basis": "ANONYMOUS_UPLOAD",
+  "method": "Phase 2 ingestion and data validation",
+  "method_version": null,
+  "result_evidence_class": null,
+  "source_filename": "gaps_log.csv",
+  "source_sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+  "source_size_bytes": 24490,
+  "validation_scope": "UNVALIDATED_PROVENANCE",
+  "validation_scope_source": "PHASE5_SCOPE_TABLE"
+ },
+ "report": {
+  "ambient_available": true,
+  "counts": {
+   "blank_lines": 0,
+   "data_rows_read": 646,
+   "malformed_lines": [],
+   "rows_excluded": 0,
+   "rows_malformed": 0,
+   "rows_short": 0,
+   "rows_suspicious": 0,
+   "rows_usable": 646
+  },
+  "coverage_pct": 89.6,
+  "duplicate_conflict_fields": {},
+  "duration_hours": 12.0,
+  "end": "2026-10-20T12:00:00",
+  "evidence": "UNVALIDATED",
+  "flag_counts": {},
+  "input": {
+   "column_mapping": {
+    "ambient_temperature": "ambient_c",
+    "compressor_state": "compressor_state",
+    "temperature": "temp_c",
+    "timestamp": "ts"
+   },
+   "decimal_separator": ".",
+   "delimiter": ",",
+   "encoding": "utf-8",
+   "header": [
+    "ts",
+    "temp_c",
+    "ambient_c",
+    "compressor_state"
+   ],
+   "ignored_columns": [],
+   "sha256": "32c7dd1805db826d7c5b360b9fba0e8d7045040cbd0c7c11175d5db159192666",
+   "size_bytes": 24490,
+   "source": "gaps_log.csv",
+   "temperature_unit": "C",
+   "temperature_unit_source": "header",
+   "timestamp_format": "ISO8601",
+   "timestamp_format_source": "iso8601",
+   "timezone_handling": "naive local timestamps, time zone unknown; no conversion applied"
+  },
+  "intervals": {
+   "irregular_pct": 0.31,
+   "longest_gap_min": 46.0,
+   "max_s": 2760.0,
+   "median_s": 60.0,
+   "min_s": 60.0,
+   "n_gaps": 2,
+   "n_intervals": 645,
+   "n_irregular": 2,
+   "n_out_of_order": 0,
+   "p05_s": 60.0,
+   "p95_s": 60.0
+  },
+  "invalid_by_field": {
+   "ambient_temperature": 0,
+   "compressor_state": 0,
+   "temperature": 0,
+   "timestamp": 0
+  },
+  "issues": [
+   {
+    "code": "TIMEZONE_UNKNOWN",
+    "message": "timestamps have no time zone; treated as local clock time with no conversion. Clock changes in the log would appear as gaps or duplicates.",
+    "severity": "INFO"
+   },
+   {
+    "code": "SHORT_LOG",
+    "message": "log covers 12.0 h; 24 h recommended",
+    "severity": "WARNING"
+   },
+   {
+    "code": "GAPS",
+    "message": "2 gaps; longest 46 min. Segments crossing a gap are excluded.",
+    "severity": "WARNING"
+   }
+  ],
+  "limitations": [
+   "Validation checks the file's internal consistency only. It cannot confirm sensor calibration, sensor placement, or that the log comes from the unit it is said to come from.",
+   "Air temperature at the sensor is not product-core temperature.",
+   "Provenance not declared: results from this file are UNVALIDATED.",
+   "Time zone unknown: intervals assume the logger clock never changed.",
+   "compressor_state is validated and carried, but not used by analysis yet."
+  ],
+  "limits_used": {
+   "ambient_max_c": 70.0,
+   "ambient_min_c": -40.0,
+   "max_step_c_per_min": 5.0,
+   "plausible_max_c": 60.0,
+   "plausible_min_c": -40.0,
+   "spike_min_jump_c": 2.0
+  },
+  "longest_gap_min": 46.0,
+  "malformed_records": [],
+  "median_interval_s": 60.0,
+  "missing_by_field": {
+   "ambient_temperature": 0,
+   "compressor_state": 0,
+   "temperature": 0,
+   "timestamp": 0
+  },
+  "n_duplicates": 0,
+  "n_duplicates_conflicting": 0,
+  "n_duplicates_exact": 0,
+  "n_gaps": 2,
+  "n_implausible": 0,
+  "n_rows_clean": 646,
+  "n_rows_raw": 646,
+  "source": "gaps_log.csv",
+  "start": "2026-10-20T00:00:00",
+  "suitable_for_downstream": true,
+  "temp_max_c": 23.3,
+  "temp_min_c": 4.5,
+  "transformations": [],
+  "verdict": "LIMITED"
+ }
+}
